@@ -7,6 +7,9 @@ Page({
   data: {
   },
   onLoad() {
+    wx.navigateTo({
+      url: "../indoor/indoor"
+    })
     authorize.useUserInfo({
       success: () => {
         this.init();
@@ -19,5 +22,10 @@ Page({
   init() {
     const userId = wx.getStorageSync("golfUserInfo");
     console.log("success to useUserInfo", userId);
+  },
+  goIntro() {
+    wx.navigateTo({
+      url: "../intro/intro"
+    })
   }
 })

@@ -1,4 +1,5 @@
 const util = require('../../utils/util');
+const request = require('../request/request');
 
 function getUserInfo() {
   return  new Promise((resolve, reject) => {
@@ -26,7 +27,7 @@ function login() {
   })
 }
 
-function getOpenId() {
+function getOpenId(obj) {
    // 获取code
    login().then((res) => {
       // 获取openid
@@ -39,7 +40,7 @@ function getOpenId() {
       const openId = JSON.parse(res).openid;
       wx.setStorageSync(util.data.openIdStorage, openId);
       // 获取用户信息
-		  useUserInfo();
+		  checkUserInfo(obj);
    })
 }
 
@@ -57,7 +58,7 @@ function openSetting() {
 }
 
 function checkUserInfo(obj) {
-  if (wx.getStorageSync(util.data.userInfoStorage)) {
+  if (wx.getStorageSync("userInfoRefused")) {
     // 打开授权设置
     openSetting().then((res) => {
       if (res.authSetting["scope.userInfo"]) {
@@ -66,7 +67,7 @@ function checkUserInfo(obj) {
         obj.fail();
       }
     }).then(res => {
-      obj.success();
+      getUserInfoSuccess(res.userInfo, obj);
     }, error => {
       obj.fail();
     });
@@ -74,8 +75,7 @@ function checkUserInfo(obj) {
   } else {
     // 获取用户信息
     getUserInfo().then((res) => {
-      wx.setStorageSync(util.data.userInfoStorage, res);
-      obj.success();
+      getUserInfoSuccess(res.userInfo, obj);
     }, (error) => {
       obj.fail();
       wx.setStorageSync("userInfoRefused", true);
@@ -84,14 +84,16 @@ function checkUserInfo(obj) {
 }
 
 function useUserInfo(obj) {
-  if (wx.getStorageSync(util.data.userInfoStorage)) {
+  if (wx.getStorageSync(util.data.userIdStorage)) {
     obj.success();
-  } else {
+  } else if (wx.getStorageSync(util.data.openIdStorage)){
     checkUserInfo(obj);
+  } else {
+    getOpenId(obj);
   }
 }
 
-function getUserInfoSuccess(obj, userInfo) {
+function getUserInfoSuccess(userInfo, obj) {
 	// 保存用户信息
 	const data = {
 		wxpublic_id: util.data.appid,
@@ -100,11 +102,11 @@ function getUserInfoSuccess(obj, userInfo) {
 		avatarUrl: userInfo.avatarUrl,
 	}
 	// 获取userid
-	request.SaveUserInfo(data).then(res => {
-		wx.setStorageSync(userIdStorage, res.data)
-		wx.removeStorageSync(openIdStorage)
-		wx.removeStorageSync('userInfoRefused')
-		obj.success();
+	 request.saveUserInfo(data).then(res => {
+		 wx.setStorageSync(util.data.userIdStorage, res.data)
+		 wx.removeStorageSync(util.data.openIdStorage);
+		 wx.removeStorageSync('userInfoRefused')
+		 obj.success();
 	})
 }
 

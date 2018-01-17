@@ -13,7 +13,7 @@ function loading() {
 				duration: 100000
 			})
 		}
-	},
+}
 
 function hideLoading() {
 		if (wx.showLoading) {
@@ -21,7 +21,7 @@ function hideLoading() {
 		} else {
 			wx.hideToast()
 		}
-	},
+}
 
 function formatDate(time) {
     var arr = time.split(/[-T:\/\s]/);
@@ -29,7 +29,7 @@ function formatDate(time) {
     return date;
 }
 
-formatTime(date) {
+function formatTime(date) {
 		var year = date.getFullYear()
 		var month = date.getMonth() + 1
 		var day = date.getDate()
@@ -48,10 +48,10 @@ const formatNumber = n => {
 
 function request(url, dataObj, method) {
   loading();
-  return new Promise((resolv, reject) => {
+  return new Promise((resolve, reject) => {
     wx.request({
-      url: url.indexOf("https://") ? url : data.host + url,
-      dataObj,
+      url: url.indexOf("https://") > -1 ? url : data.host + url,
+      data: dataObj,
       method,
       header: { 'content-type': 'application/x-www-form-urlencoded;charset=utf-8' },
       success: (res) => {
@@ -66,6 +66,12 @@ function request(url, dataObj, method) {
   });
 }
 
+function navigateBack() {
+  wx.navigateBack({
+    delta: 1
+  })
+}
+
 function get(url, dataObj) {
   return request(url, dataObj, 'GET');
 }
@@ -75,6 +81,7 @@ function post(url, dataObj) {
 }
 
 module.exports = {
+	navigateBack,
   data,
   get,
   post,

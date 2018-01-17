@@ -1,0 +1,18 @@
+<!--pages/baike/baike.wxml-->
+<view class="header">
+    <view class="i-back icon" bindtap="goBack">
+        <image src="{{img}}i-back.png"></image>
+    </view>
+    <text>展会攻略</text>
+    <view class="i-search icon" bindtap="goList">
+        <image src="../../images/home.png"></image>
+    </view>
+</view>
+<view class="listContainer">
+    <view bindtap="goNews" data-id="{{item.id}}" data-title="{{item.baike_type}}" data-image="{{item.nameimage}}" data-idx="{{index}}" class="item"  wx:for="{{question_list}}" wx:key="index">
+        <view class="itemContent">
+            <image class="itemPic" src="https://www.korjo.cn/{{item.nameimage}}" mode="widthFix"></image>
+            <view class="itemTitle"><text>{{item.baike_type}}</text></view>
+        </view>
+    </view>
+</view>

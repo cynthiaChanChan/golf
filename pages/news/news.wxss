@@ -1,0 +1,160 @@
+/* pages/news/news.wxss */
+@import "../../dist/wxParse/wxParse.wxss";
+
+page {
+}
+
+.page {
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    width: 100%;
+    height: 86rpx;
+    background-color: #7cbd27;
+    color: #fff;
+    text-align: center;
+}
+
+.header text {
+    font-size: 34rpx;
+    line-height: 86rpx;
+}
+
+.header .icon {
+    position: absolute;
+    top: 0;
+    padding: 20rpx 40rpx;
+}
+
+.header .icon image {
+    width: 46rpx;
+    height: 46rpx;
+}
+
+.header .i-back {
+    left: 0;
+}
+
+.header .i-search, .header .i-home {
+    right: 0;
+}
+
+.page .content {
+    padding-top: 86rpx;
+}
+
+.page .news_list {
+}
+
+.news_list .li {
+    padding: 20rpx 30rpx;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.news_list .li .title {
+    position: relative;
+    color: rgb(1,90,212);
+    font-size: 28rpx;
+    line-height: 30rpx;
+}
+
+
+.news_list .li .desc {
+    position: relative;
+    margin: 20rpx 0;
+}
+
+.news_list .li .desc .info {
+    margin-left: 130rpx;
+    color: #2d2d2d;
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    height: 90rpx;
+    font-size: 25rpx;
+    line-height: 30rpx;
+    word-break: break-all;
+}
+
+.news_list .li .desc .smallPic {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    left: 0;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 30%;
+    box-shadow: 2px 2px 4px #ccc;
+}
+
+.content .load_tip {
+    position: relative;
+    padding: 10px 0;
+    color: #2d2d2d;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+}
+
+.content .load_tip::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border-radius: 50%;
+    border: 2px solid #d6d6d6;
+    border-bottom-color: transparent;
+    vertical-align: top;
+    -webkit-animation: rotate 0.75s linear infinite;
+    animation: rotate 0.75s linear infinite;
+}
+
+@-webkit-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    50% {
+        -webkit-transform: rotate(160deg);
+        transform: rotate(160deg);
+    }
+
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    50% {
+        -webkit-transform: rotate(160deg);
+        transform: rotate(160deg);
+    }
+
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+
+
+/*如果只有一个结果的提示图片*/
+#noMore {
+    width: 50%;
+    margin-top: 20%;
+}

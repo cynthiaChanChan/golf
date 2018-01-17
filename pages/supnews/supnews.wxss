@@ -1,0 +1,143 @@
+page {
+    background-color:rgb(243,243,243);
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    width: 100%;
+    height: 86rpx;
+    background-color: #7cbd27;
+    color: #fff;
+    text-align: center;
+}
+
+.header text {
+    font-size: 34rpx;
+    line-height: 86rpx;
+}
+
+.header .icon {
+    position: absolute;
+    top: 0;
+    padding: 20rpx 40rpx;
+}
+
+.header .icon image {
+    width: 46rpx;
+    height: 46rpx;
+}
+
+.header .i-back {
+    left: 0;
+}
+
+.header .i-search, .header .i-home {
+    right: 0;
+}
+
+.page .content {
+    padding-top: 86rpx;
+}
+
+
+.page .content .news_list {
+    padding: 20rpx;
+}
+
+.page .content .news_list .li {
+    width: 50%;
+    height: 208rpx;
+    margin-bottom: 15rpx;
+    display: inline-block;
+    position: relative;
+}
+
+.page .content .news_list .li image {
+    width: 95%;
+    height: 208rpx;
+    box-shadow: 1px 1px 1px #ccc;
+}
+
+.page .content .news_list .li .h3 {
+    word-break:keep-all; 
+    white-space:nowrap;
+    background-color: rgba(0, 0, 0, .2);
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    min-width: 55%;
+    text-align: center;
+    font-size: 29rpx;
+    padding: 30rpx 4rpx;
+    border: 4rpx solid rgb(225,225,225);
+}
+
+.content .load_tip {
+    position: relative;
+    padding: 10px 0;
+    color: #2d2d2d;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+}
+
+.content .load_tip::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border-radius: 50%;
+    border: 2px solid #d6d6d6;
+    border-bottom-color: transparent;
+    vertical-align: top;
+    -webkit-animation: rotate 0.75s linear infinite;
+    animation: rotate 0.75s linear infinite;
+}
+
+@-webkit-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    50% {
+        -webkit-transform: rotate(160deg);
+        transform: rotate(160deg);
+    }
+
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    50% {
+        -webkit-transform: rotate(160deg);
+        transform: rotate(160deg);
+    }
+
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+
+
+/*如果只有一个结果的提示图片*/
+#noMore {
+    width: 50%;
+    margin-top: 20%;
+}

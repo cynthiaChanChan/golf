@@ -1,0 +1,32 @@
+<!--pages/news/news.wxml-->
+<import src="../../wxParse/wxParse.wxml" />
+<view class="page">
+    <view class="header">
+        <view class="i-back icon" bindtap="goBack">
+            <image src="{{img}}i-back.png"></image>
+        </view>
+        <text>{{title}}</text>
+        <view class="i-search icon" bindtap="goSearch">
+            <image src="../../images/home.png"></image>
+        </view>
+    </view>
+    <scroll-view scroll-y="true" style="height: {{height}}px" bindscrolltolower="load">
+        <view class="content">
+            <view class="news_list">
+                <view class="li" wx:for="{{replyTemArray}}" wx:key="{{index}}" data-id="{{news_list[index].id}}" bindtap="goArticle">
+                    <view class="title">
+                        <template is="wxParse" data="{{wxParseData:item}}" />
+                    </view>
+                    <view class="desc clearfix">
+                        <image class="smallPic" src="https://www.korjo.cn/{{news_list[index].shareimage || itemImage}}" mode="aspectFill"></image>
+                        <view class="info">
+                            {{news_list[index].content}}
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="load_tip" hidden="{{isHide}}">加载中...</view>
+            <image wx:if="{{isOnlyOne}}" id="noMore" src="https://www.korjo.cn/xcx/mosquitoImg/no.png" mode="widthFix"></image>
+        </view>
+    </scroll-view>
+</view>

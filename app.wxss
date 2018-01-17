@@ -1,11 +1,22 @@
-/**app.wxss**/
+/**app colors
+greenish blue: #12898a;
+**/
+page, input {
+    font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+}
+
+input {
+    min-height: auto;
+}
+
 image {
    width: 0;
    height: 0;
+   display: block;
 }
 
-view {
-	box-sizing: border-box;
+view, input, checkbox, textarea {
+    box-sizing: border-box;
 }
 
 .clearfix:after {
@@ -14,6 +25,10 @@ view {
     display: block;
     height: 0;
     clear: both;
+}
+
+view[hidden] {
+    display: none !important;
 }
 
 .lightbox{

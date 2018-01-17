@@ -1,0 +1,57 @@
+.page {
+  letter-spacing: 1px;
+  background-color: #f9f9f9;
+}
+
+.title, .subtitle {
+  color: #12898a;
+}
+
+.title {
+  font-size: 35rpx;
+  text-align: center;
+  padding: 20rpx 0 10rpx 0;
+}
+
+.content {
+  padding: 30rpx 30rpx 90rpx 30rpx;
+}
+
+.content .wrapper {
+  margin: 30rpx 0;
+}
+
+.content .subtitle {
+  font-size: 32rpx;
+  padding-bottom: 10rpx;
+}
+
+.content .answer {
+  font-size: 28rpx;
+  line-height: 2;
+  color: #626262;
+  padding-left: 30rpx;
+}
+
+.footer {
+  background-color: #f9f9f9;
+  position: fixed;
+  bottom: 0rpx;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  padding: 0 30rpx 20rpx 30rpx;
+}
+
+.footer .button {
+  box-shadow: 0 0 6px 2px #dcdcdc;
+  width: 100%;
+  line-height: 1;
+  padding: 25rpx 0;
+  color: #12898a;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 35rpx;
+  border-radius: 10rpx;
+  background-color: #f9f9f9;
+}
