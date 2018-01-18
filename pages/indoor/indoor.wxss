@@ -1,1 +1,30 @@
+@import "/dist/tabbar/index.wxss";
+.banner {
+  width: 100%;
+}
 
+.labelWrapper {
+  height: 60rpx;
+  padding: 0 40rpx;
+  border-top: 3px solid #f3f3f3;
+}
+
+.labelWrapper .li {
+  width: 33.33%;
+  display: inline-block;
+  font-size: 27rpx;
+  line-height: 1;
+  text-align: center;
+}
+
+.labelWrapper .li .icon {
+  width: 37rpx;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
+.labelWrapper .li .text {
+  vertical-align: middle;
+  display: inline-block;
+}

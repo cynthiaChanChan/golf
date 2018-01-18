@@ -1,0 +1,9 @@
+<template name="tabbar">
+    <view class="tabbar">
+        <view class="tab {{item.active?'active':''}}" wx:for="{{tabs}}" wx:key="{{index}}" data-open-type="reLaunch" data-page="{{item.page}}" bindtap="goPage">
+            <image src="{{item.img}}"></image>
+            <text>{{item.text}}</text>
+            <button open-type="contact" session-from="17" wx:if="{{item.text=='客服'}}" catchtap="noop">客服</button>
+        </view>
+    </view>
+</template>

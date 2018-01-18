@@ -1,0 +1,5 @@
+<import src='/dist/tabbar/index.wxml' />
+<template is="tabbar" data="{{..._tabbar_}}" />
+<view class="page">
+
+</view>

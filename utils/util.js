@@ -72,6 +72,28 @@ function navigateBack() {
   })
 }
 
+function goPage(e) {
+	const data = e.currentTarget.dataset,
+		{page, openType = 'navigate'} = data,
+		param = data.param ? `${data.param}` : '',
+		url = `/pages/${page}/${page}${param}`,
+		obj = {
+			navigate() {
+				wx.navigateTo({ url })
+			},
+			redirect() {
+				wx.redirectTo({ url })
+			},
+			reLaunch() {
+				wx.reLaunch({ url })
+			},
+			back() {
+				wx.navigateBack({ delta: 1 })
+			}
+		};
+	obj[openType]();
+}
+
 function get(url, dataObj) {
   return request(url, dataObj, 'GET');
 }
@@ -89,5 +111,6 @@ module.exports = {
   formatDate,
   loading,
   hideLoading,
-  formatTime
+  formatTime,
+	goPage
 }

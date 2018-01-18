@@ -1,3 +1,13 @@
-<view class="page">
-
+<import src='/dist/tabbar/index.wxml' />
+<template is="tabbar" data="{{..._tabbar_}}" />
+<view class="container">
+  <image class="banner" src="{{img}}banner.jpg" mode="widthFix"></image>
+  <view class="labelWrapper">
+    <view class="li" bindtap="checkList" data-index="{{index}}" wx:for="{{listArray}}" wx:key="index">
+      <view class="liWrapper">
+        <image class="icon" src="../../images/{{item.icon}}.png" mode="widthFix"></image>
+        <view class="text">{{item.title}}</view>
+      </view>
+    </view>
+  </view>
 </view>
