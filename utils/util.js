@@ -102,15 +102,65 @@ function post(url, dataObj) {
   return request(url, dataObj, 'POST');
 }
 
+function checkList(index, listArray, listActiveIdx) {
+	listArray[index].active = 'active';
+	listArray[listActiveIdx].active = '';
+	listActiveIdx = index;
+	return {listArray, listActiveIdx};
+}
+
+function checkDaysOfMonth(mm, yyyy) {
+    var daysofmonth;
+    if ((mm == 4) || (mm ==6) || (mm ==9) || (mm == 11)){
+        daysofmonth = 30;
+    } else {
+        daysofmonth = 31;
+        if (mm == 2){
+            if (yyyy/4 - parseInt(yyyy/4, 10) != 0){
+                daysofmonth = 28;
+            } else {
+                if (yyyy/100 - parseInt(yyyy/100, 10) != 0) {
+                    daysofmonth = 29;
+                }else{
+                    if (yyyy/400 - parseInt(yyyy/400, 10) != 0) {
+                        daysofmonth = 28;
+                    }else{
+                        daysofmonth = 29;
+                    }
+                }
+            }
+        }
+    }
+    return daysofmonth;
+}
+
+function weeksCount(year, month_number) {
+  var firstOfMonth = new Date(year, month_number - 1, 1);
+  var day = firstOfMonth.getDay() || 6;
+  day = day === 1 ? 0 : day;
+  if (day) { day-- }
+  var diff = 7 - day;
+  var lastOfMonth = new Date(year, month_number, 0);
+  var lastDate = lastOfMonth.getDate();
+  if (lastOfMonth.getDay() === 1) {
+  	diff--;
+  }
+  var result = Math.ceil((lastDate - diff) / 7);
+  return result + 1;
+};
+
 module.exports = {
 	navigateBack,
-  data,
-  get,
-  post,
-  formatNumber,
-  formatDate,
-  loading,
-  hideLoading,
-  formatTime,
-	goPage
+  	data,
+  	get,
+  	post,
+  	formatNumber,
+  	formatDate,
+  	loading,
+  	hideLoading,
+  	formatTime,
+	goPage,
+	checkList,
+	checkDaysOfMonth,
+	weeksCount
 }

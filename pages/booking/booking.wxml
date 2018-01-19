@@ -1,0 +1,28 @@
+<import src='/dist/tabbar/index.wxml' />
+<template is="tabbar" data="{{..._tabbar_}}" />
+<view class="container">
+    <view id="calender-wrapper">
+        <view id="calender-title" class="clearfix">
+            <view id="date" class="item">
+                <view class="arrow left" hidden="{{isLeftHidden}}" data-dir="left" bindtap="chooseDate"><image src="../../images/pre.png" mode="widthFix"></image></view>
+                <view class="time">{{date}}</view>
+                <view class="arrow right" hidden="{{isRightHidden}}" data-dir="right" bindtap="chooseDate"><image src="../../images/next.png" mode="widthFix"></image></view>
+            </view>
+        </view>
+        <view class="week">
+            <view class="list" wx:for="{{weekList}}" wx:key="{{index}}">
+                <view class="weekday">{{item.title}}</view>
+                <view class="num {{item.mark}}">{{item.num}}</view>
+            </view>
+        </view>
+        <view class="courses">
+            <view class="course" wx:for="{{coursesList}}" wx:key="{{index}}">
+                <image src="../../images/available.png" mode="widthFix"></image>
+                <view class="clock">09:00</view>
+                <view class="teacher">李教练</view>
+            </view>
+        </view>
+        <view class="clearfooter"></view>
+    </view>
+</view>
+<view class="hint"><text>温馨提示：请提前一天预约，至少提前2小时取消预约\n灰色表示预约已满，深绿色表示可以预约，请选择时间进行预约操作</text></view>

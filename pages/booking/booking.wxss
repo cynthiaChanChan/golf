@@ -1,0 +1,155 @@
+@import "/dist/tabbar/index.wxss";
+page {
+	height: 100%;
+}
+
+.container {
+	position: relative;
+	min-height: 100%;
+	background-color: #f4f4f4;
+	margin-bottom: -200rpx;
+}
+
+/*日历标题部分*/
+#calender-wrapper #calender-title {
+	box-sizing: border-box;
+	color: #a194a8;
+	background-color: #12898a;
+	font-size: 28rpx;
+	height: 90rpx;
+}
+
+#calender-wrapper #calender-title .item {
+	margin: 0 auto;
+}
+
+#calender-wrapper #calender-title #date {
+	position: relative;
+	text-align: center;
+	width: 65%;
+	color: #fff;
+	font-size: 33rpx;
+	height: 90rpx;
+}
+
+#calender-wrapper #calender-title #date .time {
+	text-align: center;
+	line-height: 90rpx;
+}
+
+#calender-wrapper #calender-title #date .arrow {
+	width: 20%;
+	position: absolute;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+#calender-wrapper #calender-title #date .left {
+	left: 0;
+}
+
+#calender-wrapper #calender-title #date .right {
+	right: 0;
+}
+
+#calender-wrapper #calender-title #date image {
+	width: 35rpx;
+	margin: 0 auto;
+}
+
+/*  日历周部分*/
+.week {
+	padding: 20rpx 20rpx 40rpx 20rpx;
+	display: flex;
+	display: -webkit-flex;
+	justify-content: space-around;
+	-webkit-justify-content: space-around;
+	background-color: #fff;
+	border-bottom: 1px solid #d6d6d5;
+}
+
+.week .list {
+	text-align: center;
+	font-size: 32rpx;
+}
+
+.week .list .num {
+	font-size: 33rpx;
+	margin-top: 40rpx;
+	display: flex;
+	display: -webkit-flex;
+	justify-content: center;
+	-webkit-justify-content: center;
+	align-items:center;
+	-webkit-align-items:center;
+    color: #b6b6b6;
+	width: 65rpx;
+	height: 65rpx;
+	border-radius: 50%;
+	border: 1px solid #d6d6d6;
+}
+
+.week .list .num.today {
+	border-color: #12898a;
+}
+
+/*  课程部分*/
+.courses {
+	padding: 10rpx 25rpx 40rpx 25rpx;
+	display: flex;
+	display: -webkit-flex;
+	flex-flow: wrap;
+	-webkit-flex-flow: wrap;
+	justify-content: space-between;
+	-webkit-justify-content: space-between;
+}
+
+.courses .course {
+	position: relative;
+	width: 161rpx;
+	height: 163rpx;
+	/* border: 1px solid #f9f8f8; */
+	background-color: #fff;
+	border: 1px solid #cacaca;
+	border-radius: 10rpx;
+	margin-bottom: 10rpx;
+	text-align: center;
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;
+	-webkit-flex-direction: column;
+	justify-content: center;
+	-webkit-justify-content: center;
+}
+
+.courses .course image {
+	width: 60%;
+	position: absolute;
+	left: -2px;
+	top: -1px;
+}
+
+.courses .course .clock {
+	color: #101a27;
+	font-size: 35rpx;
+}
+
+.courses .course .teacher {
+	color: #626262;
+	font-size: 32rpx;
+}
+
+.clearfooter {
+	height: 200rpx;
+	clear: both;
+}
+
+.hint {
+	position: relative;
+	height: 200rpx;
+	text-align: center;
+	color: #101a27;
+	font-size: 24rpx;
+	background-color:#f4f4f4;
+}

@@ -4,12 +4,12 @@
 }
 
 .labelWrapper {
-  height: 60rpx;
   padding: 0 40rpx;
   border-top: 3px solid #f3f3f3;
 }
 
 .labelWrapper .li {
+  margin-top: 20rpx;
   width: 33.33%;
   display: inline-block;
   font-size: 27rpx;
@@ -24,7 +24,21 @@
   margin-right: 2px;
 }
 
+.labelWrapper .li .triangle {
+  margin: 15rpx auto;
+  width: 20rpx;
+  visibility: hidden;
+}
+
 .labelWrapper .li .text {
   vertical-align: middle;
   display: inline-block;
+}
+
+.labelWrapper .li.active .triangle {
+    visibility: visible;
+}
+
+.labelWrapper .li.active .text {
+    color: #12898a;
 }

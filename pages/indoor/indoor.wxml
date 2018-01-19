@@ -3,10 +3,11 @@
 <view class="container">
   <image class="banner" src="{{img}}banner.jpg" mode="widthFix"></image>
   <view class="labelWrapper">
-    <view class="li" bindtap="checkList" data-index="{{index}}" wx:for="{{listArray}}" wx:key="index">
+    <view class="li {{item.active}}" bindtap="checkList" data-index="{{index}}" wx:for="{{listArray}}" wx:key="index">
       <view class="liWrapper">
-        <image class="icon" src="../../images/{{item.icon}}.png" mode="widthFix"></image>
+        <image class="icon" src="../../images/{{item.icon}}{{item.active ? '-active' : ''}}.png" mode="widthFix"></image>
         <view class="text">{{item.title}}</view>
+        <image class="triangle" src="../../images/triangle.png" mode="widthFix"></image>
       </view>
     </view>
   </view>

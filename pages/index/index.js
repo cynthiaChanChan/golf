@@ -8,7 +8,7 @@ Page({
   },
   onLoad() {
     wx.navigateTo({
-      url: "../indoor/indoor"
+      url: "../booking/booking"
     })
     authorize.useUserInfo({
       success: () => {
