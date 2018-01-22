@@ -87,6 +87,9 @@ page {
 	width: 65rpx;
 	height: 65rpx;
 	border-radius: 50%;
+}
+
+.week .list .num.border {
 	border: 1px solid #d6d6d6;
 }
 
@@ -152,4 +155,77 @@ page {
 	color: #101a27;
 	font-size: 24rpx;
 	background-color:#f4f4f4;
+}
+
+.lightbox {
+	padding: 70rpx 5%;
+}
+
+.lightbox .box {
+	background-color: #fff;
+	border-radius: 15rpx;
+}
+
+.lightbox .box .boxTitle {
+	letter-spacing: 3px;
+	position: relative;
+	height: 105rpx;
+	line-height: 105rpx;
+	font-size: 37rpx;
+	text-align: center;
+	color: #fff;
+	background-color: #12898a;
+}
+
+.lightbox .box .boxTitle .remove {
+	width: 45rpx;
+	position: absolute;
+	right: 30rpx;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.lightbox .box .courseDate {
+	line-height: 1;
+	padding: 35rpx 0;
+	text-align: center;
+	font-size: 37rpx;
+	color: #40425d;
+	background: #ecf5f8;
+}
+
+.lightbox .box .content{
+	margin-left: 13%;
+	color: #40425d;
+	font-size: 35rpx;
+}
+
+.lightbox .box .content .item {
+	margin-top: 35rpx;
+}
+
+.lightbox .box .buttons {
+	padding: 120rpx 11% 70rpx;
+	font-size: 35rpx;
+}
+
+.lightbox .box .buttons .button {
+	text-align: center;
+	border: 1px solid #12898a;
+	line-height: 1;
+	padding: 20rpx 0;
+	width: 48%;
+	border-radius: 15rpx;
+}
+
+.lightbox .box .buttons .button:first-of-type {
+	float: left;
+	color: #12898a;
+}
+
+.lightbox .box .buttons .button:nth-of-type(2) {
+	float: right;
+	background-color: #12898a;
+	color: #fff;
 }

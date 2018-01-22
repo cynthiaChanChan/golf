@@ -26,6 +26,7 @@ function hideLoading() {
 function formatDate(time) {
     var arr = time.split(/[-T:\/\s]/);
     var date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
+	console.log("formatDate", date);
     return date;
 }
 
@@ -149,6 +150,17 @@ function weeksCount(year, month_number) {
   return result + 1;
 };
 
+function templateList() {
+	const arr = ["一", "二", "三", "四", "五", "六", "日"];
+	const templateList = [];
+	arr.forEach(function(ele) {
+		templateList.push({
+			title: ele
+		})
+	});
+	return templateList;
+}
+
 module.exports = {
 	navigateBack,
   	data,
@@ -162,5 +174,6 @@ module.exports = {
 	goPage,
 	checkList,
 	checkDaysOfMonth,
-	weeksCount
+	weeksCount,
+	templateList
 }

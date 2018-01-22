@@ -8,7 +8,7 @@ Page({
   },
   onLoad() {
     wx.navigateTo({
-      url: "../booking/booking"
+      url: "../eventslist/eventslist"
     })
     authorize.useUserInfo({
       success: () => {

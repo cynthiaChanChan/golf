@@ -1,0 +1,50 @@
+@import "/dist/tabbar/index.wxss";
+page {
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    background: bottom 120rpx center/cover url("https://www.korjo.cn/xcx/golfImg/events_bg.jpg") fixed no-repeat;
+}
+
+.container .shadow {
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,.4);
+}
+
+.container .shadow .golfer {
+    padding-top: 70rpx;
+    width: 80rpx;
+    margin: 0 auto 5rpx;
+}
+
+.container .shadow .title {
+    line-height: 1.5;
+    font-weight: bold;
+    font-size: 50rpx;
+    color: #fff;
+    margin-bottom: 30rpx;
+}
+
+.container .shadow .eventsLists {
+    letter-spacing: 1px;
+    color: #fff;
+    font-size: 40rpx;
+}
+
+.container .shadow .eventsLists .list {
+    width: 55%;
+    margin: 0 auto;
+    border-bottom: 1px solid #fff;
+    padding: 60rpx 0 10rpx;
+}
+
+.container .shadow .eventsLists .list .listName {
+    background: center right 12% /15rpx auto url("https://www.korjo.cn/xcx/golfImg/triangle-left.png") no-repeat;
+}

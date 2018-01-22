@@ -4,7 +4,8 @@
     "pages/intro/intro",
     "pages/indoor/indoor",
     "pages/booking/booking",
-    "pages/personal/personal"
+    "pages/personal/personal",
+    "pages/eventslist/eventslist"
   ],
   "window":{
     "backgroundTextStyle":"light",

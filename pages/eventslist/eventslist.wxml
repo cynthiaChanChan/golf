@@ -1,0 +1,14 @@
+<import src='/dist/tabbar/index.wxml' />
+<template is="tabbar" data="{{..._tabbar_}}" />
+<view class="container">
+    <view class="shadow">
+        <image class="golfer" src="../../images/golfer.png" mode="widthFix"></image>
+        <view class="title"><text>2018年中国高尔夫球\n比赛时间表</text></view>
+        <view class="eventsLists">
+            <view class="list"><view class="listName">男子职业比赛</view></view>
+            <view class="list"><view class="listName">男子职业比赛</view></view>
+            <view class="list"><view class="listName">男子职业比赛</view></view>
+            <view class="list"><view class="listName">男子职业比赛</view></view>
+        </view>
+    </view>
+</view>
