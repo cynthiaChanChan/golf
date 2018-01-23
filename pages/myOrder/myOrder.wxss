@@ -1,0 +1,97 @@
+@import "/dist/dialog/index.wxss";
+
+page {
+    background-color: #f3f3f3;
+}
+
+.list .li {
+    background-color: #fff;
+    margin-top: 13rpx;
+}
+
+.list .li:nth-child(1) {
+    margin-top: 0;
+}
+
+.list .li .liWrapper {
+    font-size: 26rpx;
+    position: relative;
+    line-height: 80rpx;
+    height: 80rpx;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.li .timeWrapper {
+    height: 100%;
+    background: center left 30rpx /38rpx auto url("https://www.korjo.cn/xcx/golfImg/i-note-b.png")  no-repeat;
+}
+
+.li .timeWrapper .text {
+    margin-left: 70rpx;
+}
+
+.li .status {
+    padding-left: 20rpx;
+    line-height: 45rpx;
+    height: 45rpx;
+    position: absolute;
+    top: 50%;
+    right: 30rpx;
+    color: #12898a;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    border-left: 1px solid #999;
+}
+
+.li .content {
+    padding: 10rpx 30rpx;
+}
+
+.li .content .item{
+    line-height: 1.5;
+    color: #40425d;
+    font-size: 28rpx;
+}
+
+.li .hint {
+    color: #12898a;
+    text-align: center;
+    font-size: 25rpx;
+    padding-bottom: 10rpx;
+}
+
+.li .code {
+    height: 85rpx;
+    line-height: 85rpx;
+    color: #40425d;
+    font-size: 32rpx;
+    text-align: center;
+    background-color: #ecf5fb;
+}
+
+.li .cancelWrapper {
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    -webkit-align-items: center;
+    padding-left: 30rpx;
+    position: relative;
+    height: 95rpx;
+    font-size: 24rpx;
+    color: #12898a;
+}
+
+.li .cancelWrapper .button {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 30rpx;
+    text-align: center;
+    font-size: 25rpx;
+    line-height: 1;
+    padding: 15rpx 0;
+    width: 150rpx;
+    border: 1px solid #12898a;
+}

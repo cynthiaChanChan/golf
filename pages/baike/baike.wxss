@@ -1,1 +1,26 @@
-/* pages/baike/baike.wxss */
+@import "/dist/tabbar/index.wxss";
+.banner {
+  width: 100%;
+}
+
+.listContainer {
+    padding: 0 2% 30rpx;
+}
+
+.listContainer .itemWrapper {
+  width: 25%;
+  display: inline-block;
+  font-size: 25rpx;
+  color: #6a6a6a;
+  text-align: center;
+  line-height: 1.8;
+  margin-top: 40rpx;
+}
+
+.listContainer .itemWrapper .item .thumbnail {
+  width: 150rpx;
+  height: 150rpx;
+  margin: 0 auto;
+  box-shadow: 0px 0px 7px 0px rgba(14, 5, 10, 0.16);
+  border-radius: 20%;
+}

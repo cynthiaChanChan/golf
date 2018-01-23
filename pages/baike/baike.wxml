@@ -1,18 +1,13 @@
-<!--pages/baike/baike.wxml-->
-<view class="header">
-    <view class="i-back icon" bindtap="goBack">
-        <image src="{{img}}i-back.png"></image>
-    </view>
-    <text>展会攻略</text>
-    <view class="i-search icon" bindtap="goList">
-        <image src="../../images/home.png"></image>
-    </view>
-</view>
-<view class="listContainer">
-    <view bindtap="goNews" data-id="{{item.id}}" data-title="{{item.baike_type}}" data-image="{{item.nameimage}}" data-idx="{{index}}" class="item"  wx:for="{{question_list}}" wx:key="index">
-        <view class="itemContent">
-            <image class="itemPic" src="https://www.korjo.cn/{{item.nameimage}}" mode="widthFix"></image>
-            <view class="itemTitle"><text>{{item.baike_type}}</text></view>
+<import src='/dist/tabbar/index.wxml' />
+<template is="tabbar" data="{{..._tabbar_}}" />
+<view class="container">
+  <image class="banner" src="{{img}}baike_bg.png" mode="widthFix"></image>
+  <view class="listContainer">
+        <view class="itemWrapper" wx:for="{{question_list}}" wx:key="index">
+            <view bindtap="goNews" data-id="{{item.id}}" data-title="{{item.baike_type}}" data-image="{{item.nameimage}}" data-idx="{{index}}" class="item">
+                <image class="thumbnail" src="../../images/pic01.png" mode="aspectFill"></image>
+                <view class="itemTitle"><text>{{item.baike_type}}</text></view>
+            </view>
         </view>
-    </view>
+  </view>
 </view>

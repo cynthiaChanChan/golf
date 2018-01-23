@@ -5,7 +5,12 @@
     "pages/indoor/indoor",
     "pages/booking/booking",
     "pages/personal/personal",
-    "pages/eventslist/eventslist"
+    "pages/eventslist/eventslist",
+    "pages/list/list",
+    "pages/myOrder/myOrder",
+    "pages/userInfo/userInfo",
+    "pages/comments/comments",
+    "pages/baike/baike"
   ],
   "window":{
     "backgroundTextStyle":"light",

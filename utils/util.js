@@ -23,6 +23,18 @@ function hideLoading() {
 		}
 }
 
+function alert(content, callback) {
+	// 提示弹层
+	wx.showModal({
+		title: '提示',
+		content,
+		showCancel: false,
+		success: function (res) {
+			callback && callback()
+		}
+	})
+}
+
 function formatDate(time) {
     var arr = time.split(/[-T:\/\s]/);
     var date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
@@ -34,12 +46,17 @@ function formatTime(date) {
 		var year = date.getFullYear()
 		var month = date.getMonth() + 1
 		var day = date.getDate()
-
 		var hour = date.getHours()
 		var minute = date.getMinutes()
 		var second = date.getSeconds()
-
 		return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+}
+
+function getYyMmDd(date) {
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+	return `${year}-${month}-${day}`;
 }
 
 const formatNumber = n => {
@@ -168,8 +185,10 @@ module.exports = {
   	post,
   	formatNumber,
   	formatDate,
+	getYyMmDd,
   	loading,
   	hideLoading,
+	alert,
   	formatTime,
 	goPage,
 	checkList,

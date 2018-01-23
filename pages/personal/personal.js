@@ -1,10 +1,51 @@
 const util = require("../../utils/util");
 const {Tabbar} = require("../../dist/tabbar/index");
+const {authorize} = require('../../dist/authorize/authorize');
+const request = require('../../dist/request/request');
 Page({
-  data: {
-    _tabbar_: {}
-  },
-  onLoad() {
-    new Tabbar();
-  }
+    data: {
+        img: util.data.img,
+        _tabbar_: {},
+        list: [{
+            icon: 'i-note-b',
+            text: '我的预约',
+            page: 'myOrder',
+        },{
+            icon: 'i-card-b',
+            text: '个人信息',
+            page: 'userInfo',
+        }, {
+            icon: 'i-edit',
+            text: '意见反馈',
+            page: 'comments',
+        }]
+    },
+    onLoad() {
+        new Tabbar();
+        authorize.useUserInfo({
+            success: () => {
+                this.setInfo();
+            },
+            fail: () => {
+                $.alert('获取不到您的个人信息！');
+            }
+        })
+    },
+    setInfo() {
+        const userid = wx.getStorageSync(util.data.userIdStorage);
+        const res = {
+            username: "outlierjiang",
+            headImgUrl: "https://wx.qlogo.cn/mmopen/vi_32/NmM5sLoagCjBibgKg1GRwiawY9jXdCiaVoTGIC4HcajJRF7RbXswyEhwCNhMSNkFbKgd4NKMGibD5bs8zicDmFUdXFQ/0"
+        }
+        if (res.username) {
+			res.wxname = res.username
+			res.photo = res.headImgUrl
+		}
+		this.setData({ info: res })
+    },
+    turnOnMessage(e) {
+        this.setData({
+            isTurnOn: e.detail.value
+        })
+    }
 })

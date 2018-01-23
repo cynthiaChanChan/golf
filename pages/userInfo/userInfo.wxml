@@ -1,0 +1,71 @@
+<view class='page'>
+    <form bindsubmit="formSubmit">
+        <view class='list'>
+            <view class='li'>
+                <view class='li-l'>头像</view>
+                <view class='li-r'>
+                    <image src='{{info.photo}}' bindtap="selectImg"></image>
+                    <view class='arrow-right'></view>
+                </view>
+            </view>
+            <view class='li'>
+                <view class='li-l'>昵称</view>
+                <view class='li-r'>
+                    <input type='text' name="username" value='{{info.wxname}}'></input>
+                    <view class='arrow-right'></view>
+                </view>
+            </view>
+            <view class='li'>
+                <view class='li-l'>性别</view>
+                <view class='li-r'>
+                    <picker bindchange="sexChange" value="{{sex.idx}}" range="{{sex.arr}}">
+                        <view>{{sex.value}}</view>
+                    </picker>
+                    <view class='arrow-right'></view>
+                </view>
+            </view>
+            <view class='li'>
+                <view class='li-l'>出生日期</view>
+                <view class='li-r'>
+                    <picker mode="date" bindchange="dateChange" value="{{date}}">
+                        <view>{{date}}</view>
+                    </picker>
+                    <view class='arrow-right'></view>
+                </view>
+            </view>
+            <view class='li'>
+                <view class='li-l'>联系人*</view>
+                <view class='li-r'>
+                    <label>
+                        <input type='text' name="contactname" value='{{info.contact}}'></input>
+                    </label>
+                </view>
+            </view>
+            <view class='li'>
+                <view class='li-l'>联系电话*</view>
+                <view class='li-r'>
+                    <label>
+                        <input type='number' name="phone" maxlength='11' value='{{info.phone}}'></input>
+                    </label>
+                </view>
+            </view>
+            <view class='li'>
+                <view class='li-l'>邮箱地址</view>
+                <view class='li-r'>
+                    <label>
+                        <input type='text' name="email" value='{{info.email}}'></input>
+                    </label>
+                </view>
+            </view>
+            <view class='li'>
+                <view class='li-l'>微信ID</view>
+                <view class='li-r'>
+                    <label>
+                        <input type='text' name="wx_id" value='{{info.weixin_id}}'></input>
+                    </label>
+                </view>
+            </view>
+        </view>
+        <button formType="submit" class='btn_save'>保存修改</button>
+    </form>
+</view>

@@ -1,1 +1,128 @@
 @import "/dist/tabbar/index.wxss";
+page {
+    background-color: #f3f3f3;
+}
+
+.page {
+    padding-bottom: 150rpx;
+}
+
+.hd {
+    padding-top: 60rpx;
+    padding-bottom: 40rpx;
+    background-color: #12898a;
+    color: #fff;
+    font-size: 30rpx;
+    line-height: 40rpx;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.hd image {
+    width: 150rpx;
+    height: 150rpx;
+    margin: 0 auto 10rpx;
+    border-radius: 50%;
+}
+
+.list .li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 110rpx;
+    margin-top: 10rpx;
+    padding-left: 60rpx;
+    padding-right: 40rpx;
+    background-color: #fff;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.list .li:nth-child(1) {
+    margin-top: 0;
+}
+
+.list .li image {
+    width: 40rpx;
+    margin-right: 25rpx;
+}
+
+.list .li .p {
+    flex: 1;
+    font-size: 30rpx;
+    line-height: 40rpx;
+}
+
+.list .li .arrow-right {
+    width: 8px;
+    height: 8px;
+    border-width: 1px 1px 0 0;
+    border-color: #5e5e5e;
+    border-style: solid;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.list .alarm {
+    position: relative;
+    margin-top: 10rpx;
+    padding-left: 60rpx;
+    padding-right: 40rpx;
+    background-color: #fff;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.list .alarm image {
+    padding-top: 25rpx;
+    display: inline-block;
+    vertical-align:middle;
+    width: 40rpx;
+    margin-right: 25rpx;
+}
+
+.list .alarm .p {
+    padding-top: 25rpx;
+    display: inline-block;
+    vertical-align:middle;
+    font-size: 30rpx;
+    line-height: 40rpx;
+}
+
+.list .alarm .more {
+    font-size: 24rpx;
+    color:#626262;
+    padding-bottom: 25rpx;
+    margin-top: 10rpx;
+}
+
+.list .alarm switch {
+    position: absolute;
+    top: 15rpx;
+    right: 30rpx;
+}
+
+wx-switch .wx-switch-input {
+  width: 94rpx;
+  height: 52rpx;
+  margin-right: 0;
+  border: 2rpx solid #DFDFDF;
+  outline: 0;
+  border-radius: 27rpx;
+}
+wx-switch .wx-switch-input:before {
+  width: 90rpx;
+  height: 46rpx;
+  border-radius: 23rpx;
+}
+wx-switch .wx-switch-input:after {
+  width: 46rpx;
+  height: 46rpx;
+  border-radius: 23rpx;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.4);
+}
+
+wx-switch .wx-switch-input.wx-switch-input-checked:after {
+  -webkit-transform: translateX(44rpx);
+          transform: translateX(44rpx);
+}

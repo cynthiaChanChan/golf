@@ -1,6 +1,3 @@
-//index.js
-//获取应用实例
-const app = getApp();
 const util = require("../../utils/util");
 const {authorize} = require('../../dist/authorize/authorize');
 Page({
@@ -8,7 +5,7 @@ Page({
   },
   onLoad() {
     wx.navigateTo({
-      url: "../eventslist/eventslist"
+      url: "../userInfo/userInfo"
     })
     authorize.useUserInfo({
       success: () => {

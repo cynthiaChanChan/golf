@@ -1,0 +1,190 @@
+@import "/dist/tabbar/index.wxss";
+
+#calender-wrapper {
+	background-color: #fff;
+	position: relative;
+}
+/*日历标题部分*/
+#calender-wrapper #calender-title {
+	box-sizing: border-box;
+	background-color: #12898a;
+	font-size: 28rpx;
+	height: 90rpx;
+}
+
+#calender-wrapper #calender-title .eventTitle {
+	letter-spacing: 1px;
+	font-size: 37rpx;
+	color: #fff;
+	float: left;
+	line-height: 90rpx;
+	padding-left: 5%;
+}
+
+#calender-wrapper #calender-title #date {
+	float: right;
+	position: relative;
+	text-align: center;
+	width: 60%;
+	color: #fff;
+	font-size: 33rpx;
+	height: 90rpx;
+}
+
+#calender-wrapper #calender-title #date .time {
+	text-align: center;
+	line-height: 90rpx;
+}
+
+#calender-wrapper #calender-title #date .arrow {
+	width: 20%;
+	position: absolute;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+#calender-wrapper #calender-title #date .left {
+	left: 0;
+}
+
+#calender-wrapper #calender-title #date .right {
+	right: 0;
+}
+
+#calender-wrapper #calender-title #date image {
+	width: 35rpx;
+	margin: 0 auto;
+}
+
+/*sun---sat*/
+#calender-wrapper #days {
+	padding: 25rpx 2%;
+	font-size: 29rpx;
+	text-align: center;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+#calender-wrapper #days .weekday {
+	line-height: 1;
+	width: 14.2%;
+	display: inline-block;
+}
+
+#calender-wrapper #month {
+	padding: 0 2%;
+}
+
+#calender-wrapper #month .day {
+	font-size: 30rpx;
+	color: #909090;
+	box-sizing: border-box;
+	position: relative;
+	text-align: center;
+	width: 14.28%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+#calender-wrapper #month .day:nth-of-type(7n+7) {
+	border-right: none;
+}
+
+#calender-wrapper #month .day .num {
+	height: 80rpx;
+	padding: 10rpx 0;
+	position: relative;
+}
+
+#calender-wrapper #month .day .num .numText{
+	line-height: 70rpx;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	width: 70rpx;
+	height: 70rpx;
+	text-align: center;
+	display: inline-block;
+	border-radius: 50%;
+}
+
+#calender-wrapper #month .day .num.theDay .numText{
+	color: #fff;
+	background-color: #12898a;
+}
+
+#calender-wrapper #month .day .num.choosen .numText{
+	color: #fff;
+	background-color: rgba(0,0,0,.3);
+}
+
+#calender-wrapper #month .day .num .marked {
+	position: absolute;
+	bottom: 10rpx;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+    background-color: #12898a;
+    width: 20rpx;
+    height: 20rpx;
+    border-radius: 50%;
+}
+
+.event_desc {
+	background-color: #e9f9f9;
+	border-top: 1px solid #9ecfcf;
+	border-bottom: 1px solid #9ecfcf;
+}
+
+.event_desc .golfer {
+	width: 85rpx;
+	margin: 20rpx 20rpx 20rpx 5%;
+}
+
+.info {
+	padding: 30rpx;
+	text-align: center;
+	color: #101a27;
+	font-size: 24rpx;
+}
+
+.info .circle {
+	display: inline-block;
+	vertical-align: middle;
+	border: 1px solid #12898a;
+	border-radius: 50%;
+	width: 23rpx;
+	height: 23rpx;
+	margin-right: 6rpx;
+}
+
+.info .subtitle {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.info .gameInfo {
+	line-height: 1.5;
+	width: 67%;
+	margin: 0 auto;
+}
+
+.info .gameInfo .icon {
+	display: inline-block;
+	vertical-align: middle;
+	width: 19rpx;
+}
+
+.info .gameInfo text {
+	vertical-align: middle;
+}
+
+.info .gameInfo .item:nth-of-type(odd) {
+	float: left;
+}
+
+.info .gameInfo .item:nth-of-type(even) {
+	float: right;
+}

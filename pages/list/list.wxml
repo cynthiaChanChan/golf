@@ -1,0 +1,62 @@
+<import src='/dist/tabbar/index.wxml' />
+<template is="tabbar" data="{{..._tabbar_}}" />
+<view id="calender-wrapper">
+	<view id="calender-title" class="clearfix">
+	    <view class="eventTitle">男子职业比赛</view>
+		<view id="date">
+			<view class="arrow left" hidden="{{isLeftHidden}}" data-dir="left" bindtap="chooseDate"><image src="../../images/pre.png" mode="widthFix"></image></view>
+			<view class="time">2018年1月</view>
+			<view class="arrow right" hidden="{{isRightHidden}}" data-dir="right" bindtap="chooseDate"><image src="../../images/next.png" mode="widthFix"></image></view>
+		</view>
+	</view>
+	<view id="days">
+		<view class="weekday">日</view>
+		<view class="weekday">一</view>
+		<view class="weekday">二</view>
+		<view class="weekday">三</view>
+		<view class="weekday">四</view>
+		<view class="weekday">五</view>
+		<view class="weekday">六</view>
+	</view>
+	<view id="calender-content">
+		<view id="month">
+			<view class="day" wx:for="{{allDays}}" wx:key="id">
+				<view class="num {{item.theDay}} {{item.choosen}}">
+					<view class="numText" data-index="{{index}}" bindtap="goList">{{item.id}}</view>
+					<view class="marked" wx:if="{{item.marked}}"></view>
+				</view>
+			</view>
+		</view>
+	</view>
+</view>
+<view class="event_desc">
+	<image class="golfer" src="../../images/icon_golfer.png" mode="widthFix"></image>
+</view>
+<view class="info">
+	<view class="titleWrapper">
+		<view class="circle"></view>
+		<view class="subtitle">日期为有比赛日期，点击查看具体比赛内容</view>
+	</view>
+	<view class="gameInfo clearfix">
+		<view class="item">
+			<text space="nbsp">美巡赛用 “ </text>
+			<image class="icon" src="../../images/icon_ame.png" mode="widthFix"></image>
+			<text space="nbsp"> ” 表示</text>
+		</view>
+		<view class="item">
+			<text space="nbsp">欧巡赛用 “ </text>
+			<image class="icon" src="../../images/icon_eur.png" mode="widthFix"></image>
+			<text space="nbsp"> ” 表示</text>
+		</view>
+		<view class="item">
+			<text space="nbsp">中巡赛用 “ </text>
+			<image class="icon" src="../../images/icon_chi.png" mode="widthFix"></image>
+			<text space="nbsp"> ” 表示</text>
+		</view>
+		<view class="item">
+			<text space="nbsp">亚巡赛用 “ </text>
+			<image class="icon" src="../../images/icon_asia.png" mode="widthFix"></image>
+			<text space="nbsp"> ” 表示</text>
+		</view>
+	</view>
+</view>

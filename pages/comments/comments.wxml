@@ -1,0 +1,17 @@
+<view class='page'>
+    <form bindsubmit="formSubmit">
+        <view class='row'>
+            <text>留言人：</text>
+            <input name="username" value='{{val}}' />
+        </view>
+        <view class='row'>
+            <text>联系电话：</text>
+            <input name="phone" type='number' value='{{val}}' />
+        </view>
+        <view class='row'>
+            <text>反馈内容：</text>
+            <textarea name="content" value='{{val}}'></textarea>
+        </view>
+        <button formType="submit" class='btn_submit'>提 交</button>
+    </form>
+</view>

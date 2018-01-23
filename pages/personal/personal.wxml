@@ -1,5 +1,27 @@
 <import src='/dist/tabbar/index.wxml' />
 <template is="tabbar" data="{{..._tabbar_}}" />
-<view class="page">
-
+<view class='page'>
+    <view class='hd'>
+        <image src='{{info.photo}}'></image>
+        <text>{{info.wxname}}</text>
+    </view>
+    <view class='bd'>
+        <view class='list'>
+            <view class='li' wx:for="{{list}}" wx:key="{{index}}" data-page='{{item.page}}' bindtap='goPage'>
+                <image src='{{img}}{{item.icon}}.png' mode='widthFix'></image>
+                <view class='p'>
+                    <text>{{item.text}}</text>
+                </view>
+                <view class='arrow-right'></view>
+            </view>
+            <view class='alarm'>
+                <image src='../../images/i-alarm.png' mode='widthFix'></image>
+                <view class='p'>
+                    <text>提醒开启状态</text>
+                </view>
+                <switch bindchange="turnOnMessage" color="#12898a" checked="true"></switch>
+                <view class="more">开启提醒后，微信可接收到预约成功，取消预约等消息通知。</view>
+            </view>
+        </view>
+    </view>
 </view>
