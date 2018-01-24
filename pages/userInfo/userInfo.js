@@ -1,7 +1,6 @@
 const util = require("../../utils/util");
 const {authorize} = require('../../dist/authorize/authorize');
 const request = require('../../dist/request/request');
-const {Dialog} = require('../../dist/dialog/index');
 Page({
 	data: {
 		img: util.data.img,

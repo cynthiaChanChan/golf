@@ -178,6 +178,41 @@ function templateList() {
 	return templateList;
 }
 
+function each(object, callback) {
+	var name, i = 0,
+		length = object.length,
+		isObj = length === undefined
+
+	if (isObj) {
+		for (name in object) {
+			if (callback.call(object[name], name, object[name]) === false) {
+				break
+			}
+		}
+	} else {
+		for (var value = object[0]; i < length && callback.call(value, i, value) !== false; value = object[++i]) { }
+	}
+	return object
+}
+
+function getText(str) {
+    // html提取纯文本
+    // return str.replace(/<\/?div.*?>|<\/?section.*?>|<\/?p.*?>|<img.*?>|<br.*?\/>|&nbsp;|<\/?span.*?>|<\/?a.*?>|<\/?em.*?>|<\/?strong.*?>|<\/?ul.*?>|<\/?li.*?>|<\/?dl.*?>|<\/?dt.*?>|<\/?dd.*?>|<\/?b.*?>|<\/?h\d.*?>/gi, '').replace(/&#39;/ig, "'")
+    return str.replace(/&#39;/ig, "'").replace(/<\/?[^>]*>|&[^;]*;/ig, '')
+}
+
+function url2abs(str) {
+    // img链接转换为绝对路径
+    return str.replace(/<img.*?src="\//gi, '<img src="https://www.korjo.cn//').replace(/&#39;/gi, "'").replace(/<video.*?src="\//gi, '<video src="https://www.korjo.cn//').replace(/<source.*?<\/video>/, "</video>");
+}
+
+function extend(target, options) {
+	for (let name in options) {
+		target[name] = options[name]
+	}
+	return target
+}
+
 module.exports = {
 	navigateBack,
   	data,
@@ -194,5 +229,9 @@ module.exports = {
 	checkList,
 	checkDaysOfMonth,
 	weeksCount,
-	templateList
+	templateList,
+	each,
+	url2abs,
+	getText,
+	extend
 }

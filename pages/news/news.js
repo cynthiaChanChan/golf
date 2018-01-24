@@ -1,11 +1,12 @@
 // pages/news/news.js
-var $ = require('../../utils/common.js')
-var WxParse = require('../../wxParse/wxParse.js');
+const util = require("../../utils/util");
+const {Tabbar} = require("../../dist/tabbar/index");
+const request = require("../../dist/request/request");
+const WxParse = require('../../dist/wxParse/wxParse.js');
 Page({
     data: {
-        img: getApp().globalData.img,
-        img1: 'https://www.korjo.cn/',
-        title: '',
+        img: util.data.img,
+        host: util.data.host,
         height: '',
         id: 0,
         news_list: [],
@@ -22,7 +23,9 @@ Page({
         wx.getSystemInfo({
             success: function (res) {
                 _this.setData({
-                    title: options.title,
+                    header: {
+                        title: options.title
+                    },
                     height: res.windowHeight,
                     id: options.id
                 })
@@ -39,11 +42,11 @@ Page({
                 isHide: false
             })
             var pgnu = _this.data.pgnu + 1
-            _this.GetBaikeFQAList(pgnu, function (result) {
+            request.GetBaikeFQAList(_this.data.id, pgnu, 10).then((result) => {
                 var isOnlyOne = false;
-                var data = result.data
+                var data = result.data;
                 for (var i = 0; i < data.length; i++) {
-                    data[i].content = $.getText(data[i].content)
+                    data[i].content = util.getText(data[i].content)
                 }
                 var isLoad = true
                 if (data.length < 10) {
@@ -61,7 +64,7 @@ Page({
                     isLoad: isLoad
                 })
                 var replyArr = []
-                $.each(_this.data.news_list, (i, v) => {
+                util.each(_this.data.news_list, (i, v) => {
                     replyArr.push(v.title)
                 })
                 for (let i = 0; i < replyArr.length; i++) {
@@ -84,26 +87,15 @@ Page({
         // 跳到下一页
         var data = e.currentTarget.dataset
         wx.navigateTo({
-            url: `/pages/article/article?title=${this.data.title}&id=${data.id}`
+            url: `/pages/article/article?title=${this.data.header.title}&id=${data.id}`
         })
     },
     goBack: function () {
-        getApp().goBack()
+        util.navigateBack()
     },
-    goSearch: function () {
-        getApp().goHome()
-    },
-    /**
-     * 接口
-     */
-    GetBaikeFQAList: function (pgnu, callback) {
-        // 列表接口
-        $.get('KorjoApi/GetBaikeFQAList', {
-            baiketype: this.data.id,
-            pgnu: pgnu,
-            pgsize: 10
-        }, function (result) {
-            callback(result)
+    goHome: function () {
+        wx.reLaunch({
+            url: '../index/index'
         })
     }
 })

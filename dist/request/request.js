@@ -28,8 +28,38 @@ function upload(filePath) {
 	});
 }
 
+function GetBaikeTypeList(id) {
+	// 百科一级分类接口
+	return util.get('/KorjoApi/GetBaikeTypeAndImageList', { projectid: id });
+}
+
+function GetBaikeTypeByParentID(parentid) {
+    // 子分类接口
+    return util.get('/KorjoApi/GetBaikeTypeByParentID', { parentid });
+}
+
+function GetBaikeFQAList(id, pgnu, pgsize) {
+    // 列表接口
+    return util.get('/KorjoApi/GetBaikeFQAList', {
+        baiketype: id,
+        pgnu,
+        pgsize
+    });
+}
+
+function GetBaikeFQAInfo(id) {
+	// 文章接口
+	return util.get('/KorjoApi/GetBaikeFQAInfo', {
+		id: id
+	});
+}
+
 module.exports = {
-  GetSessionKey,
-  saveUserInfo,
-	upload
+    GetSessionKey,
+    saveUserInfo,
+	upload,
+	GetBaikeTypeList,
+	GetBaikeTypeByParentID,
+	GetBaikeFQAList,
+	GetBaikeFQAInfo
 }

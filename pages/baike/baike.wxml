@@ -5,7 +5,7 @@
   <view class="listContainer">
         <view class="itemWrapper" wx:for="{{question_list}}" wx:key="index">
             <view bindtap="goNews" data-id="{{item.id}}" data-title="{{item.baike_type}}" data-image="{{item.nameimage}}" data-idx="{{index}}" class="item">
-                <image class="thumbnail" src="../../images/pic01.png" mode="aspectFill"></image>
+                <image class="thumbnail" src="{{host}}{{item.nameimage}}" mode="aspectFill"></image>
                 <view class="itemTitle"><text>{{item.baike_type}}</text></view>
             </view>
         </view>

@@ -1,14 +1,7 @@
 <view class="page">
-    <view class="header">
-        <view class="i-back icon" bindtap="goBack">
-            <image src="{{img}}i-back.png"></image>
-        </view>
-        <text>{{title}}</text>
-        <view class="i-search icon" bindtap="goSearch">
-            <image src="../../images/home.png"></image>
-        </view>
-    </view>
+    <import src='/dist/header/header.wxml' />
     <scroll-view scroll-y="true" style="height: {{height}}px" bindscrolltolower="load">
+        <template is="header" data="{{...header}}"/>
         <view class="content">
             <view class="news_list">
                 <view class="li" wx:for="{{news_list}}" wx:key="{{index}}" data-image="{{item.nameimage}}" data-id="{{item.id}}" data-title="{{item.baike_type}}" data-idx="{{index}}" bindtap="goNext">

@@ -1,9 +1,12 @@
 // pages/article/article.js
-var $ = require('../../utils/common.js')
-var WxParse = require('../../wxParse/wxParse.js');
+const WxParse = require('../../dist/wxParse/wxParse.js');
+const util = require("../../utils/util");
+const {Tabbar} = require("../../dist/tabbar/index");
+const request = require("../../dist/request/request");
 Page({
     data: {
-        img: getApp().globalData.img,
+        img: util.data.img,
+        host: util.data.host,
         id: 0,
         title: '',
         content: ''
@@ -11,14 +14,16 @@ Page({
     onLoad: function(options) {
         // 页面初始化 options为页面跳转所带来的参数
         var _this = this;
-        _this.GetBaikeFQAInfo(options.id, function(result) {
-            _this.pageTitle = $.getText(result.title);
+        request.GetBaikeFQAInfo(options.id).then((result) => {
+            _this.pageTitle = util.getText(result.title);
             _this.setData({
-                title: options.title,
+                header: {
+                    title: options.title
+                },
                 id: options.id,
-                content: $.url2abs(result.content)
+                content: util.url2abs(result.content)
             })
-            var article = $.url2abs(result.content);
+            var article = util.url2abs(result.content);
             /**
              * WxParse.wxParse(bindName , type, data, target,imagePadding)
              * 1.bindName绑定的数据名(必填)
@@ -36,7 +41,7 @@ Page({
         const that = this;
         return {
            title: that.pageTitle,
-           path: "/pages/result/result?id=" + that.id + "&share=y",
+           path: "/pages/article/article?id=" + that.data.id + "&title=" + that.data.header.title,
            success: function(res) {
            },
            fail: function(res) {
@@ -44,21 +49,12 @@ Page({
            }
         }
     },
-    goBack: function() {
-        getApp().goBack()
+    goBack: function () {
+        util.navigateBack()
     },
-    goSearch: function() {
-        getApp().goHome()
-    },
-    /**
-     * 接口
-     */
-    GetBaikeFQAInfo: function(id, callback) {
-        // 文章接口
-        $.get('KorjoApi/GetBaikeFQAInfo', {
-            id: id
-        }, function(result) {
-            callback(result)
+    goHome: function () {
+        wx.reLaunch({
+            url: '../index/index'
         })
     }
 })

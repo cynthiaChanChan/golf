@@ -82,7 +82,7 @@ button::after {
     width: 40%;
     height: 80rpx;
     margin: 40rpx auto;
-    background: #5b7b88;
+    background: #12898a;
     color: #fff;
     font-size: 30rpx;
     line-height: 80rpx;

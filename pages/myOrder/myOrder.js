@@ -1,8 +1,7 @@
 const util = require("../../utils/util");
 const {authorize} = require('../../dist/authorize/authorize');
 const request = require('../../dist/request/request');
-const {Dialog} = require('../../dist/dialog/index');
-Page(Object.assign({}, Dialog, {
+Page(Object.assign({}, {
 	data: {
 		img: util.data.img,
 		_tabbar_: {},
@@ -12,6 +11,7 @@ Page(Object.assign({}, Dialog, {
 			'2': { text: '已完成', showBtn: true, btn: '删除订单' },
 			'3': { text: '已取消', showBtn: false },
 		},
+		isHintHidden: true
 	},
 	onLoad(options) {
 		// 授权
@@ -58,4 +58,9 @@ Page(Object.assign({}, Dialog, {
 			util.log('cancel')
 		})
 	},
+	hideLightBox() {
+		this.setData({
+			isHintHidden: true
+		})
+	}
 }))

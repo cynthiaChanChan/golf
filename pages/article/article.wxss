@@ -1,50 +1,16 @@
 /* pages/article/article.wxss */
 @import "../../dist/wxParse/wxParse.wxss";
-
+@import "../../dist/header/header.wxss";
 page {
   padding-top: 86rpx;
 }
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99;
-  width: 100%;
-  height: 86rpx;
-  background-color: #7cbd27;
-  color: #fff;
-  text-align: center;
-}
 
-.header text {
-  font-size: 34rpx;
-  line-height: 86rpx;
-}
-
-.header .icon {
-  position: absolute;
-  top: 0;
-  padding: 20rpx 40rpx;
-}
-
-.header .icon image {
-  width: 46rpx;
-  height: 46rpx;
-}
-
-.header .i-back {
-  left: 0;
-}
-
-.header .i-search, .header .i-home {
-  right: 0;
-}
 .content {
   padding: 0 40rpx;
 }
 
 .content .title {
-  margin-top: 10rpx;
+  margin: 10rpx 0;
   text-align: center;
   font-size: 32rpx;
   line-height: 42rpx;
@@ -65,8 +31,4 @@ page {
 .content .detail video {
   margin: 40rpx 0;
   width: 100%;
-}
-
-.detail .wxParse-br {
-  height: 1em;
 }

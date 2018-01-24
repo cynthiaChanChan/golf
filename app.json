@@ -10,7 +10,12 @@
     "pages/myOrder/myOrder",
     "pages/userInfo/userInfo",
     "pages/comments/comments",
-    "pages/baike/baike"
+    "pages/baike/baike",
+    "pages/article/article",
+    "pages/supnews/supnews",
+    "pages/news/news",
+    "pages/teacherlogin/teacherlogin",
+    "pages/cms/cms"
   ],
   "window":{
     "backgroundTextStyle":"light",

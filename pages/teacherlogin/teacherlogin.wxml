@@ -1,0 +1,14 @@
+<view class="page">
+  <image class="logo" src="../../images/logo.png" mode="widthFix"></image>
+  <view class="title"><text space="ensp">学员预约 随时管理</text></view>
+  <view class="button">点击登录</view>
+  <view class="intro" bindtap="goIntro">粉我吧科技出品</view>
+</view>
+<view class="lightbox" hidden="{{isHintHidden}}">
+    <view class="box">
+        <image class="icon" src="{{img}}i-teacher.png" mode="widthFix"></image>
+        <view class="inputWrapper"><input maxlength="12" bindinput="userInput" value="{{userInput}}" placeholder="用户名"/></view>
+		<view class="inputWrapper"><input maxlength="12" bindinput="passwordInput" value="{{passwordInput}}" placeholder="密码" value="{{phoneInput}}"/></view>
+        <view bindtap="login" class="login">登录</view>
+    </view>
+</view>

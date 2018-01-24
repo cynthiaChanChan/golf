@@ -22,10 +22,13 @@
     </view>
     <view class="li">
       <view class="liWrapper">
-        <image class="icon" src="../../images/info.png" mode="widthFix"></image>
+        <image class="icon" src="../../images/info.png" mode="widthFix" bindtap="goBaike"></image>
         <view class="subtitle">走进高球</view>
       </view>
     </view>
   </view>
-  <view class="intro" bindtap="goIntro">粉我吧科技出品</view>
+  <view class="bottom">
+    <text class="goLogin" bindtap="goTeacherlogin">教练员登录</text>
+    <text class="intro" bindtap="goIntro">粉我吧科技出品</text>
+  </view>
 </view>

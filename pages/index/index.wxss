@@ -47,17 +47,20 @@ page {
 
 .ul .li .liWrapper .icon {
   margin: 0 auto;
-  width: 85%;
-  border-radius: 50%;
+  width: 90%;
   margin-bottom: 6rpx;
 }
 
-.intro {
-  width: 100%;
-  left: 0;
-  position: absolute;
-  bottom: 40rpx;
-  color: #3f4a0b;
-  font-size: 30rpx;
-  text-decoration: underline;
+.bottom {
+    width: 100%;
+    left: 0;
+    position: absolute;
+    bottom: 40rpx;
+    color: #3f4a0b;
+    font-size: 30rpx;
+    text-decoration: underline;
+}
+
+.bottom .intro {
+    margin-left: 30rpx;
 }

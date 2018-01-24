@@ -1,0 +1,93 @@
+/**index.wxss**/
+page {
+  height: 100%;
+  width: 100%;
+}
+.page {
+  position: relative;
+  text-align: center;
+  padding: 15% 5% 0;
+  width: 100%;
+  height: 100%;
+  background: bottom /cover url("https://www.korjo.cn/xcx/golfImg/cmsbg.jpg") fixed no-repeat;
+}
+
+.logo {
+  width: 35%;
+  margin: 0 auto;
+}
+
+.title {
+  color: #101a27;
+  letter-spacing: 2rpx;
+  font-size: 38rpx;
+  font-weight: bold;
+  margin-top: 30rpx;
+}
+
+.button {
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    font-size: 31rpx;
+    padding: 16rpx 0;
+    width: 35%;
+    border-radius: 13rpx;
+    background-color: rgba(0,0,0,.4);
+    bottom: 100rpx;
+    color: #fff;
+    border: 3rpx solid #fff;
+}
+
+.intro {
+  width: 100%;
+  left: 0;
+  position: absolute;
+  bottom: 40rpx;
+  color: #fff;
+  font-size: 30rpx;
+  text-decoration: underline;
+}
+
+.box {
+    padding: 70rpx 0 50rpx;
+    line-height: 1.8;
+    text-align: center;
+    background-color: #fff;
+    width: 70%;
+    margin: 25% auto 5%;
+    border-radius: 10rpx;
+}
+
+.box .icon {
+    width: 28%;
+    margin: 0 auto 60rpx;
+}
+
+.box .inputWrapper {
+    width: 75%;
+    margin: 0 auto 40rpx;
+}
+
+.box input {
+    color: #12898a;
+	text-align: center;
+	font-size: 32rpx;
+	width: 100%;
+    border-bottom: 1px solid #aaa;
+}
+
+.box input:nth-of-type(2) {
+	margin: 30rpx auto 0 auto;
+}
+
+.box .login {
+    line-height: 1;
+    width: 53%;
+    padding: 17rpx 0;
+    margin: 40rpx auto 0;
+    font-size: 31rpx;
+    color: #12898a;
+    border: 1px solid #12898a;
+}

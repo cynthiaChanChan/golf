@@ -1,19 +1,12 @@
 <!--pages/article/article.wxml-->
-<import src="../../wxParse/wxParse.wxml" />
+<import src="../../dist/wxParse/wxParse.wxml" />
+<import src='/dist/header/header.wxml' />
 <view class="page">
-  <view class="header">
-    <view class="i-back icon" bindtap="goBack">
-      <image src="{{img}}i-back.png"></image>
-    </view>
-    <text>{{title}}</text>
-    <view class="i-search icon" bindtap="goSearch">
-        <image src="../../images/home.png"></image>
-    </view>
-  </view>
+  <template is="header" data="{{...header}}"/>
   <view class="content">
     <view class="title">
       <!-- {{subTitle}} -->
-      <template is="wxParse" data="{{wxParseData:title1.nodes}}" /> 
+      <template is="wxParse" data="{{wxParseData:title1.nodes}}" />
     </view>
     <view class="detail">
       <template is="wxParse" data="{{wxParseData:article.nodes}}" />

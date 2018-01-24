@@ -1,9 +1,10 @@
-const $ = require('../../utils/common.js')
+const util = require("../../utils/util");
+const {Tabbar} = require("../../dist/tabbar/index");
+const request = require("../../dist/request/request");
 Page({
     data: {
-        img: getApp().globalData.img,
-        img1: 'https://www.korjo.cn/',
-        title: '',
+        img: util.data.img,
+        host: util.data.host,
         height: '',
         id: 0,
         news_list: [],
@@ -16,7 +17,7 @@ Page({
         const _this = this
         wx.getSystemInfo({
             success(res) {
-                $.extend(_this.data, options)
+                util.extend(_this.data, options)
                 _this.data.height = res.windowHeight
                 _this.load()
             }
@@ -24,14 +25,16 @@ Page({
     },
     load() {
         const _this = this
-        this.GetBaikeTypeByParentID(this.data.id, (result) => {
+        request.GetBaikeTypeByParentID(this.data.id).then((result) => {
             var isOnlyOne = false;
             if (result.length <= 2) {
                isOnlyOne = true;
             }
             _this.setData({
                 isOnlyOne: isOnlyOne,
-                title: this.data.title,
+                header: {
+                    title: this.data.title,
+                },
                 news_list: result
             })
         })
@@ -51,29 +54,12 @@ Page({
             url: url
         })
     },
-    goBack() {
-        getApp().goBack()
+    goBack: function () {
+        util.navigateBack()
     },
-    goSearch() {
-        getApp().goHome()
-    },
-    /**
-     * 接口
-     */
-    GetBaikeTypeByParentID(id, callback) {
-        // 子分类接口
-        $.get('KorjoApi/GetBaikeTypeByParentID', {
-            parentid: id
-        }, callback)
-    },
-    GetBaikeFQAList(pgnu, callback) {
-        // 列表接口
-        $.get('KorjoApi/GetBaikeFQAList', {
-            baiketype: this.data.id,
-            pgnu: pgnu,
-            pgsize: 10
-        }, (result) => {
-            callback(result)
+    goHome: function () {
+        wx.reLaunch({
+            url: '../index/index'
         })
     }
 })
