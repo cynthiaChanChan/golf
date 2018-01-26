@@ -1,4 +1,5 @@
 @import "/dist/tabbar/index.wxss";
+@import "../../dist/wxParse/wxParse.wxss";
 .banner {
   width: 100%;
 }
@@ -25,7 +26,7 @@
 }
 
 .labelWrapper .li .triangle {
-  margin: 15rpx auto;
+  margin: 15rpx auto 10rpx;
   width: 20rpx;
   visibility: hidden;
 }
@@ -41,4 +42,42 @@
 
 .labelWrapper .li.active .text {
     color: #12898a;
+}
+
+.contentContainer {
+  position: relative;
+  padding: 0 40rpx 120rpx;
+}
+
+.mainContent .introImg {
+  width: 100%;
+  margin: 0 auto 20rpx;
+  box-shadow: 2px 2px 4px #ccc;
+}
+
+.mainContent video {
+  width: 100%;
+  margin: 0 auto 20rpx;
+  display: block;
+}
+
+.mainContent {
+  word-break: break-all;
+}
+
+.mainContent .content{
+  color: #666;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  word-break: break-all;
+}
+
+.mainContent .content image{
+  margin: 10rpx auto;
+  width: 100%;
+}
+
+.mainContent .content video {
+  margin: 40rpx 0;
+  width: 100%;
 }

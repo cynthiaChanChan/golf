@@ -1,231 +1,157 @@
-@import "/dist/tabbar/index.wxss";
+@import "/pages/booking/booking.wxss";
 page {
 	height: 100%;
 }
 
 .container {
-	position: relative;
-	min-height: 100%;
-	background-color: #f4f4f4;
-	margin-bottom: -200rpx;
+	margin-bottom: -100rpx;
 }
 
-/*日历标题部分*/
-#calender-wrapper #calender-title {
-	box-sizing: border-box;
-	color: #a194a8;
-	background-color: #12898a;
-	font-size: 28rpx;
-	height: 90rpx;
-}
-
-#calender-wrapper #calender-title .item {
-	margin: 0 auto;
-}
-
-#calender-wrapper #calender-title #date {
-	position: relative;
+.container .courseWrapper .course {
 	text-align: center;
-	width: 65%;
-	color: #fff;
-	font-size: 33rpx;
-	height: 90rpx;
+	display: block;
 }
 
-#calender-wrapper #calender-title #date .time {
-	text-align: center;
-	line-height: 90rpx;
+.container .courseWrapper .course .clock {
+	margin-top: 30%;
 }
 
-#calender-wrapper #calender-title #date .arrow {
-	width: 20%;
-	position: absolute;
-	top: 50%;
-	-webkit-transform: translateY(-50%);
-	transform: translateY(-50%);
-}
-
-#calender-wrapper #calender-title #date .left {
-	left: 0;
-}
-
-#calender-wrapper #calender-title #date .right {
-	right: 0;
-}
-
-#calender-wrapper #calender-title #date image {
-	width: 35rpx;
-	margin: 0 auto;
-}
-
-/*  日历周部分*/
-.week {
-	padding: 20rpx 20rpx 40rpx 20rpx;
-	display: flex;
-	display: -webkit-flex;
-	justify-content: space-around;
-	-webkit-justify-content: space-around;
-	background-color: #fff;
-	border-bottom: 1px solid #d6d6d5;
-}
-
-.week .list {
-	text-align: center;
-	font-size: 32rpx;
-}
-
-.week .list .num {
-	font-size: 33rpx;
-	margin-top: 40rpx;
-	display: flex;
-	display: -webkit-flex;
-	justify-content: center;
-	-webkit-justify-content: center;
-	align-items:center;
-	-webkit-align-items:center;
-    color: #b6b6b6;
-	width: 65rpx;
-	height: 65rpx;
+.container .course .avatar {
+	width: 50rpx;
+	height: 50rpx;
 	border-radius: 50%;
+	display: inline-block;
 }
 
-.week .list .num.border {
-	border: 1px solid #d6d6d6;
-}
-
-.week .list .num.today {
-	border-color: #12898a;
-}
-
-/*  课程部分*/
-.courses {
-	padding: 10rpx 25rpx 40rpx 25rpx;
-	display: flex;
-	display: -webkit-flex;
-	flex-flow: wrap;
-	-webkit-flex-flow: wrap;
-	justify-content: space-between;
-	-webkit-justify-content: space-between;
-}
-
-.courses .course {
-	position: relative;
-	width: 161rpx;
-	height: 163rpx;
-	/* border: 1px solid #f9f8f8; */
-	background-color: #fff;
-	border: 1px solid #cacaca;
-	border-radius: 10rpx;
-	margin-bottom: 10rpx;
-	text-align: center;
-	display: flex;
-	display: -webkit-flex;
-	flex-direction: column;
-	-webkit-flex-direction: column;
-	justify-content: center;
-	-webkit-justify-content: center;
-}
-
-.courses .course image {
-	width: 60%;
-	position: absolute;
-	left: -2px;
-	top: -1px;
-}
-
-.courses .course .clock {
-	color: #101a27;
-	font-size: 35rpx;
-}
-
-.courses .course .teacher {
-	color: #626262;
-	font-size: 32rpx;
+.container .course .avatar:nth-child(4) {
+	margin-left: 10rpx;
 }
 
 .clearfooter {
-	height: 200rpx;
-	clear: both;
+	height: 100rpx;
+}
+
+.header {
+	line-height: 95rpx;
+	height: 95rpx;
+	display: flex;
+	display: -webkit-flex;
+	justify-content: space-between;
+	background-color: #fff;
+}
+
+.header .left {
+	font-size: 33rpx;
+	color: #12898a;
+	padding-left: 40rpx;
+}
+
+.header .right {
+	font-size: 26rpx;
+	color: #626262;
+	padding: 0 40rpx;
 }
 
 .hint {
-	position: relative;
-	height: 200rpx;
-	text-align: center;
-	color: #101a27;
-	font-size: 24rpx;
-	background-color:#f4f4f4;
+	height: 100rpx;
 }
 
 .lightbox {
-	padding: 70rpx 5%;
+	padding: 80rpx 5%;
 }
 
 .lightbox .box {
-	background-color: #fff;
-	border-radius: 15rpx;
-}
-
-.lightbox .box .boxTitle {
-	letter-spacing: 3px;
 	position: relative;
-	height: 105rpx;
-	line-height: 105rpx;
-	font-size: 37rpx;
-	text-align: center;
-	color: #fff;
-	background-color: #12898a;
+	height: 78%;
 }
 
-.lightbox .box .boxTitle .remove {
-	width: 45rpx;
+.lightbox .box .courseDate {
+	font-size: 30rpx;
+	text-align: left;
+	padding-left: 55rpx;
+	line-height: 1.5;
+}
+
+.lightbox .box .content {
+	margin-left: 0;
+	font-size: 30rpx;
+}
+
+.lightbox .box .content .list {
+	position: relative;
+	height: 80rpx;
+	line-height: 80rpx;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.lightbox .box .content .list .li {
+	display: inline-block;
+	width: 30%;
+	text-align: center;
+}
+
+.lightbox .box .content .list .call {
+	line-height: 1;
+	font-size: 25rpx;
+	color: #12898a;
+	border: 1px solid #12898a;
 	position: absolute;
 	right: 30rpx;
 	top: 50%;
 	-webkit-transform: translateY(-50%);
 	transform: translateY(-50%);
+	padding: 13rpx 33rpx;
 }
 
-.lightbox .box .courseDate {
-	line-height: 1;
-	padding: 35rpx 0;
-	text-align: center;
-	font-size: 37rpx;
-	color: #40425d;
-	background: #ecf5f8;
-}
-
-.lightbox .box .content{
-	margin-left: 13%;
-	color: #40425d;
-	font-size: 35rpx;
-}
-
-.lightbox .box .content .item {
-	margin-top: 35rpx;
-}
-
-.lightbox .box .buttons {
-	padding: 120rpx 11% 70rpx;
-	font-size: 35rpx;
-}
-
-.lightbox .box .buttons .button {
-	text-align: center;
+.lightbox .box .callBox {
+	border-radius: 30rpx;
+	padding: 70rpx 40rpx 15rpx;
+	background-color: #fff;
+	width: 80%;
+	position: absolute;
+	left: 50%;
+	top: 25%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+	color: #000;
 	border: 1px solid #12898a;
+	text-align: center;
+}
+
+.lightbox .box .callBox .phoneNumber {
+	border-bottom: 1px solid #000;
+	line-height: 2;
+}
+
+.lightbox .box .callBox .choices {
+	font-size: 30rpx;
 	line-height: 1;
-	padding: 20rpx 0;
-	width: 48%;
+}
+
+.lightbox .box .callBox .choices .choice {
+	width: 50%;
+	display: inline-block;
+	margin: 40rpx 0;
+	padding: 15rpx 0;
+}
+
+.lightbox .box .callBox .choices .choice:first-child {
+	border-right: 1px solid #000;
+}
+
+.box .button {
+	position: absolute;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+	bottom: 50rpx;
+	font-size: 32rpx;
+	padding: 22rpx 0;
 	border-radius: 15rpx;
-}
-
-.lightbox .box .buttons .button:first-of-type {
-	float: left;
-	color: #12898a;
-}
-
-.lightbox .box .buttons .button:nth-of-type(2) {
-	float: right;
+	line-height: 1;
+	text-align: center;
 	background-color: #12898a;
 	color: #fff;
+	width: 38%;
+	margin: 0 auto;
 }

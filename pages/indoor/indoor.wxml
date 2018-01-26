@@ -1,14 +1,26 @@
 <import src='/dist/tabbar/index.wxml' />
+<import src="../../dist/wxParse/wxParse.wxml" />
 <template is="tabbar" data="{{..._tabbar_}}" />
 <view class="container">
-  <image class="banner" src="{{img}}banner.jpg" mode="widthFix"></image>
-  <view class="labelWrapper">
-    <view class="li {{item.active}}" bindtap="checkList" data-index="{{index}}" wx:for="{{listArray}}" wx:key="index">
-      <view class="liWrapper">
-        <image class="icon" src="../../images/{{item.icon}}{{item.active ? '-active' : ''}}.png" mode="widthFix"></image>
-        <view class="text">{{item.title}}</view>
-        <image class="triangle" src="../../images/triangle.png" mode="widthFix"></image>
-      </view>
+    <image class="banner" src="{{img}}banner.jpg" mode="widthFix"></image>
+    <view class="labelWrapper">
+        <view class="li {{item.active}}" bindtap="checkList" data-index="{{index}}" wx:for="{{listArray}}" wx:key="index">
+          <view class="liWrapper">
+            <image class="icon" src="../../images/{{item.icon}}{{item.active ? '-active' : ''}}.png" mode="widthFix"></image>
+            <view class="text">{{item.title}}</view>
+            <image class="triangle" src="../../images/triangle.png" mode="widthFix"></image>
+          </view>
+        </view>
     </view>
-  </view>
+    <view class="contentContainer">
+        <view class="mainContent" hidden="{{textContainer}}">
+        	<view class="content">
+                <template is="wxParse" data="{{wxParseData:article.nodes}}" />
+            </view>
+        </view>
+        <view class="mainContent" hidden="{{introImgUnclicked}}">
+        	<image style="display: {{listArray[1].active ? 'block' : 'none'}};" class="introImg" wx:for="{{introImg}}" wx:key="index" src="{{item}}" mode="widthFix"></image>
+            <video style="display: {{listArray[2].active ? 'block' : 'none'}};" objectFit="cover" src="{{video}}" controls></video>
+        </view>
+    </view>
 </view>

@@ -100,12 +100,12 @@ page {
 /*  课程部分*/
 .courses {
 	padding: 10rpx 25rpx 40rpx 25rpx;
-	display: flex;
-	display: -webkit-flex;
-	flex-flow: wrap;
-	-webkit-flex-flow: wrap;
-	justify-content: space-between;
-	-webkit-justify-content: space-between;
+}
+
+.courses .courseWrapper {
+	display: inline-block;
+	width: 25%;
+	margin-bottom: 10rpx;
 }
 
 .courses .course {
@@ -118,15 +118,16 @@ page {
 	border-radius: 10rpx;
 	margin-bottom: 10rpx;
 	text-align: center;
+	margin: 0 auto;
 	display: flex;
 	display: -webkit-flex;
-	flex-direction: column;
-	-webkit-flex-direction: column;
+	flex-flow: column;
+	-webkit-flex-flow: column;
 	justify-content: center;
 	-webkit-justify-content: center;
 }
 
-.courses .course image {
+.courses .course .statusIcon {
 	width: 60%;
 	position: absolute;
 	left: -2px;
@@ -175,6 +176,8 @@ page {
 	text-align: center;
 	color: #fff;
 	background-color: #12898a;
+	border-top-left-radius: 15rpx;
+	border-top-right-radius: 15rpx;
 }
 
 .lightbox .box .boxTitle .remove {

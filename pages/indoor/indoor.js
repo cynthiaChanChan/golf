@@ -1,8 +1,13 @@
 const util = require("../../utils/util");
 const {Tabbar} = require("../../dist/tabbar/index");
+const request = require('../../dist/request/request');
+const WxParse = require('../../dist/wxParse/wxParse.js');
 Page({
     data: {
         img: util.data.img,
+        introImg: [],
+        textContainer: false,
+        introImgUnclicked: true,
         listActiveIdx: 0,
         listArray: [{
             title: "文字介绍",
@@ -19,11 +24,36 @@ Page({
     },
     onLoad() {
         new Tabbar();
+        this.fetchGolfIntroData();
+    },
+    fetchGolfIntroData() {
+        const that = this;
+        const introImg = [];
+        let video = ""
+        request.GetGolfIntroList().then((res) => {
+            const golfIntroData = res[0]
+            if (golfIntroData.imagejson) {
+                const imagesArray = JSON.parse(golfIntroData.imagejson);
+                for (let imageObj of imagesArray) {
+                    introImg.push(util.addHost(imageObj.silderImg));
+                }
+            }
+            if (golfIntroData.videojson) {
+                const videosArray = golfIntroData.videojson.split(",");
+                video = util.addHost(videosArray[0]);
+            }
+            const article = util.url2abs(golfIntroData.content);
+            WxParse.wxParse('article', 'html', article, that, 5);
+            that.setData({introImg, video});
+        });
     },
     checkList(e) {
         const index = e.currentTarget.dataset.index;
         const listArray = this.data.listArray;
     	let listActiveIdx = this.data.listActiveIdx;
-        this.setData(util.checkList(index, listArray, listActiveIdx));
+        const dataObj = util.checkList(index, listArray, listActiveIdx);
+        dataObj.textContainer = index != 0 ? true : false;
+        dataObj.introImgUnclicked = !dataObj.textContainer;
+        this.setData(dataObj);
     }
 })

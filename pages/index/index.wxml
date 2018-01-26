@@ -4,19 +4,19 @@
   <view class="ul">
     <view class="li">
       <view class="liWrapper">
-        <image class="icon" src="../../images/indoor.png" mode="widthFix"></image>
+        <image class="icon" src="../../images/indoor.png" mode="widthFix" bindtap="goIndoor"></image>
         <view class="subtitle">室内高尔夫</view>
       </view>
     </view>
     <view class="li">
       <view class="liWrapper">
-        <image class="icon" src="../../images/book.png" mode="widthFix"></image>
+        <image class="icon" src="../../images/book.png" mode="widthFix" bindtap="goBooking"></image>
         <view class="subtitle">训练预约</view>
       </view>
     </view>
     <view class="li">
       <view class="liWrapper">
-        <image class="icon" src="../../images/event.png" mode="widthFix"></image>
+        <image class="icon" src="../../images/event.png" mode="widthFix" bindtap="goEventslist"></image>
         <view class="subtitle">赛事时间</view>
       </view>
     </view>

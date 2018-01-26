@@ -54,6 +54,36 @@ function GetBaikeFQAInfo(id) {
 	});
 }
 
+function GetGolfIntroList() {
+	return util.get('/GolfApi/GetGolfIntroList');
+}
+
+function GetGolfMatchByDate() {
+	return util.get('/GolfApi/GetGolfMatchByDate', {
+		match_date, typename
+	});
+}
+
+function GetLatelyMatchByTypeName(typename) {
+	return util.get('/GolfApi/GetLatelyMatchByTypeName', {typename});
+}
+
+function GetRestDateList(yearmonth) {
+	//2018-01
+	return util.get('/KorjoApi/GetRestDateList', {yearmonth});
+	//rest_value:2 //2法定休息//1周末休
+}
+
+function GetGolfCurriculumInfo(id) {
+	//https://www.korjo.cn/Admin/GolfCurriculum/Index
+	return util.get('/GolfApi/GetGolfCurriculumInfo', {id});
+}
+
+function GetGolfCurriculumByDate(date) {
+	//2018-1-25
+	return util.get('/GolfApi/GetGolfCurriculumByDate', {date});
+}
+
 module.exports = {
     GetSessionKey,
     saveUserInfo,
@@ -61,5 +91,9 @@ module.exports = {
 	GetBaikeTypeList,
 	GetBaikeTypeByParentID,
 	GetBaikeFQAList,
-	GetBaikeFQAInfo
+	GetBaikeFQAInfo,
+	GetGolfIntroList,
+	GetGolfMatchByDate,
+	GetLatelyMatchByTypeName,
+	GetRestDateList
 }

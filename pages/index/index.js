@@ -6,7 +6,7 @@ Page({
     },
     onLoad() {
         wx.navigateTo({
-          url: "../cms/cms"
+          url: "../list/list?typename=男子职业比赛"
         })
         authorize.useUserInfo({
           success: () => {
@@ -29,6 +29,21 @@ Page({
     goBaike() {
         wx.navigateTo({
           url: "../baike/baike"
+        })
+    },
+    goBooking() {
+        wx.navigateTo({
+          url: "../booking/booking"
+        })
+    },
+    goIndoor() {
+        wx.navigateTo({
+          url: "../indoor/indoor"
+        })
+    },
+    goEventslist() {
+        wx.navigateTo({
+          url: "../eventslist/eventslist"
         })
     },
     goTeacherlogin() {

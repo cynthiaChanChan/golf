@@ -41,7 +41,7 @@ page {
 	height: 80rpx;
 	margin-top: 40rpx;
 	margin-left: 150rpx;
-	background-color: #5b7b88;
+	background-color: #12898a;
 	color: #fff;
 	border-radius: 0;
 	font-size: 32rpx;

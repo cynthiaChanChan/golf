@@ -1,6 +1,8 @@
-<import src='/dist/tabbar/index.wxml' />
-<template is="tabbar" data="{{..._tabbar_}}" />
 <view class="container">
+    <view class="header">
+        <view class="left">HI！刘教练</view>
+        <view class="right" bindtap="logout">退出</view>
+    </view>
     <view id="calender-wrapper">
         <view id="calender-title" class="clearfix">
             <view id="date" class="item">
@@ -16,31 +18,41 @@
             </view>
         </view>
         <view class="courses">
-            <view class="course" wx:for="{{coursesList}}" wx:key="{{index}}" bindtap="book">
-                <image src="../../images/available.png" mode="widthFix"></image>
-                <view class="clock">09:00</view>
-                <view class="teacher">李教练</view>
+            <view class="courseWrapper" wx:for="{{coursesList}}" wx:key="{{index}}">
+                <view class="course" bindtap="book">
+                    <image class="statusIcon" src="../../images/unfull.png" mode="widthFix"></image>
+                    <view class="clock">09:00</view>
+                    <image class="avatar" src="https://wx.qlogo.cn/mmopen/vi_32/NmM5sLoagCjBibgKg1GRwiawY9jXdCiaVoTGIC4HcajJRF7RbXswyEhwCNhMSNkFbKgd4NKMGibD5bs8zicDmFUdXFQ/0"></image>
+                    <image class="avatar" src="https://wx.qlogo.cn/mmopen/vi_32/NmM5sLoagCjBibgKg1GRwiawY9jXdCiaVoTGIC4HcajJRF7RbXswyEhwCNhMSNkFbKgd4NKMGibD5bs8zicDmFUdXFQ/0"></image>
+                </view>
             </view>
         </view>
         <view class="clearfooter"></view>
     </view>
 </view>
-<view class="hint"><text>温馨提示：请提前一天预约，至少提前2小时取消预约\n灰色表示预约已满，深绿色表示可以预约，请选择时间进行预约操作</text></view>
+<view class="hint"><text>灰色表示预约已满，深绿色表示未满，请选择时间查看学员详情</text></view>
 <view class="lightbox" hidden="{{isHintHidden}}">
     <view class="box">
-        <view class="boxTitle">预约
-            <image class="remove" src="../../images/remove.png" mode="widthFix" bindtap="remove"></image>
-        </view>
-        <view class="courseDate"><text space="nbsp">2018年1月4日  星期四 08：00</text></view>
+        <view class="boxTitle">预约详情</view>
+        <view class="courseDate"><text space="nbsp">2018年1月4日  星期四 08：00\n上课内容：推杆切杆  上课方式：1vs</text></view>
         <view class="content">
-            <view class="item">上课内容：推杆切杆</view>
-            <view class="item">上课内容：推杆切杆</view>
-            <view class="item">上课内容：推杆切杆</view>
-            <view class="item">上课内容：推杆切杆</view>
+            <view class="list">
+                <view class="name li">姓名</view>
+                <view class="phone li">联系电话</view>
+            </view>
+            <view class="list">
+                <view class="name li">Ann（女）</view>
+                <view class="phone li">15011111111</view>
+                <view class="call" bindtap="call">拨号</view>
+            </view>
         </view>
-        <view class="buttons clearfix">
-            <view class="button" bindtap="remove">取消</view>
-            <view class="button">确认并支付</view>
+        <view class="callBox" hidden="{{iscallBoxHidden}}">
+            <view class="phoneNumber"><text space="nbsp">150 1111 1111</text></view>
+            <view class="choices">
+                <view class="choice" bindtap="cancelPhoneCall">取消</view>
+                <view class="choice" bindtap="makePhoneCall">呼叫</view>
+            </view>
         </view>
+        <view class="button" bindtap="remove">已了解</view>
     </view>
 </view>

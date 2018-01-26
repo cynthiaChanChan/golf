@@ -83,7 +83,6 @@
 	text-align: center;
 	width: 14.28%;
 	display: inline-block;
-	vertical-align: top;
 }
 
 #calender-wrapper #month .day:nth-of-type(7n+7) {
@@ -92,44 +91,38 @@
 
 #calender-wrapper #month .day .num {
 	height: 80rpx;
-	padding: 10rpx 0;
 	position: relative;
 }
 
 #calender-wrapper #month .day .num .numText{
-	line-height: 70rpx;
+	line-height: 65rpx;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	-webkit-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
-	width: 70rpx;
-	height: 70rpx;
+	width: 65rpx;
+	height: 65rpx;
 	text-align: center;
 	display: inline-block;
 	border-radius: 50%;
+	-webkit-transition: all .2s;
+     transition: all .2s;
 }
 
-#calender-wrapper #month .day .num.theDay .numText{
+#calender-wrapper #month .day .num.marked .numText{
+	width: 69rpx;
+	height: 69rpx;
+	color: #12898a;
+	border: 2rpx solid #12898a;
+}
+
+#calender-wrapper #month .day .num.chosen .numText{
+	width: 65rpx;
+	height: 65rpx;
 	color: #fff;
 	background-color: #12898a;
-}
-
-#calender-wrapper #month .day .num.choosen .numText{
-	color: #fff;
-	background-color: rgba(0,0,0,.3);
-}
-
-#calender-wrapper #month .day .num .marked {
-	position: absolute;
-	bottom: 10rpx;
-	left: 50%;
-	-webkit-transform: translateX(-50%);
-	transform: translateX(-50%);
-    background-color: #12898a;
-    width: 20rpx;
-    height: 20rpx;
-    border-radius: 50%;
+	border: none;
 }
 
 .event_desc {
@@ -145,15 +138,15 @@
 
 .info {
 	padding: 30rpx;
-	text-align: center;
 	color: #101a27;
-	font-size: 24rpx;
+	font-size: 26rpx;
 }
 
 .info .circle {
 	display: inline-block;
 	vertical-align: middle;
 	border: 1px solid #12898a;
+	background-color: #12898a;
 	border-radius: 50%;
 	width: 23rpx;
 	height: 23rpx;
@@ -161,30 +154,7 @@
 }
 
 .info .subtitle {
+	font-size: 32rpx;
 	display: inline-block;
 	vertical-align: middle;
-}
-
-.info .gameInfo {
-	line-height: 1.5;
-	width: 67%;
-	margin: 0 auto;
-}
-
-.info .gameInfo .icon {
-	display: inline-block;
-	vertical-align: middle;
-	width: 19rpx;
-}
-
-.info .gameInfo text {
-	vertical-align: middle;
-}
-
-.info .gameInfo .item:nth-of-type(odd) {
-	float: left;
-}
-
-.info .gameInfo .item:nth-of-type(even) {
-	float: right;
 }

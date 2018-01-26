@@ -1,7 +1,8 @@
 const util = require('../../utils/util.js');
-const app = getApp();
 const listUrl = "https://www.korjo.cn/KorjoApi/GetAssembleList";
 const {Tabbar} = require("../../dist/tabbar/index");
+const {authorize} = require('../../dist/authorize/authorize');
+const request = require("../../dist/request/request");
 Page({
     data: {
         isLightboxHidden: true,
@@ -12,84 +13,95 @@ Page({
         _tabbar_: {}
     },
     onLoad: function(options) {
+        const that = this;
         new Tabbar();
         //默认日期
         var year = new Date().getFullYear();
         var month = new Date().getMonth() + 1;
         this.month = month;
         this.year = year;
+        this.typename = options.typename;
         this.setData({
             time: year + "年" + (month < 10 ? "0" + month : month) + "月"
         })
         this.getData(month, year);
-        app.getUser(this.requestGatherData);
-    },
-    requestGatherData: function() {
-        const that = this;
-        app.loading();
-        util.getRequest(listUrl, {userid: wx.getStorageSync('gatheringUser')}, function(response) {
-            wx.hideToast();
-            const resultList = response.data;
-            const listArray = [];
-            const allDataArray = [];
-            if (resultList.length > 0) {
-                for (let list of resultList) {
-                    const gatheringData = JSON.parse(list.assemblejson);
-                    const obj = {
-                        day: gatheringData.day,
-                        id: list.id,
-                        time: gatheringData.time,
-                        title: gatheringData.title
-                    }
-                    //按照月份保存数据,月份相同放一起
-                    if (allDataArray.length > 0) {
-                        const matchedObj = allDataArray.find(function(oneDataObj) {
-                            return oneDataObj.yearMonth == gatheringData.yearMonth
-                        })
-                        if (matchedObj) {
-                            matchedObj.infoArray.push(obj)
-                        } else {
-                            allDataArray.push({
-                                yearMonth: gatheringData.yearMonth,
-                                infoArray: [obj]
-                            })
-                        }
-                    } else {
-                        allDataArray.push({
-                            yearMonth: gatheringData.yearMonth,
-                            infoArray: [obj]
-                        })
-                    }
-                }
-            }
-            that.allDataArray = allDataArray;
-            if (allDataArray.length > 0) {
-                that.markDays(allDataArray);
-            }
-            //今日是否有集合点
-            that.getTodayData();
+        authorize.useUserInfo({
+          success: () => {
+              that.requestLateLyMatchData();
+          },
+          fail: () => {
+              console.log("Fail to useUserInfo");
+          }
         })
     },
-    markDays: function(array) {
+    requestLateLyMatchData: function() {
         const that = this;
-        const allDays = that.data.allDays;
-        //标记上有集合点的天
-        const thisYearMonthData = array.find(that.findYearMonth);
-        if (thisYearMonthData) {
-            for (let i of thisYearMonthData.infoArray){
-                for (let ii of allDays) {
-                    if (i.day == ii.id) {
-                        ii.marked = true;
-                    }
+        const allDataArray = [];
+        request.GetLatelyMatchByTypeName(that.typename).then((res)=> {
+            if (res.length == 0) {
+                return;
+            }
+            for (let value of res) {
+                const date = util.formatDate(value.match_date);
+                const obj = {
+                    day: date.getDate(),
+                    data: [{
+                        stage: value.stage,
+                        time: `${date.getMonth() + 1}月${date.getDate()}`,
+                        name: value.name,
+                        address: value.address,
+                        number: value.number
+                    }]
+                }
+                // 同一天数据放在一起
+                const matchedObj = allDataArray.find(function(oneDataObj) {
+                    return oneDataObj.day == obj.day
+                })
+                if (matchedObj) {
+                    matchedObj.data.push(obj.data[0]);
+                } else {
+                    allDataArray.push(obj);
                 }
             }
-            that.setData({
-                allDays: allDays
-            })
-        }
+            console.log("allDataArray: ", allDataArray);
+            that.markDays(that.chooseTheLatest(allDataArray));
+        })
     },
-    findYearMonth: function(gather) {
-        return gather.yearMonth == this.data.time;
+    chooseTheLatest: function(allDataArray) {
+        //默认显示最近一天比赛
+        const daysArray = [];
+        for (let one of allDataArray) {
+            daysArray.push(one.day);
+        }
+        daysArray.sort((a, b) => {
+            return a -b;
+        })
+        for (let item of allDataArray) {
+            if (item.day == daysArray[0]) {
+                item.chosen = "chosen";
+            }
+        }
+        return allDataArray;
+    },
+    markDays: function(allDataArray) {
+        const that = this;
+        const allDays = that.data.allDays;
+        let matchData = "";
+        //标记上有赛事的天
+        for (let i of allDataArray){
+            for (let ii of allDays) {
+                if (i.day == ii.id) {
+                    ii.marked = "marked";
+                    ii.data = i.data;
+                    ii.chosen = i.chosen;
+                }
+                if (ii.chosen) {
+                    matchData = ii.data;
+                }
+            }
+        }
+
+        that.setData({allDays, matchData})
     },
     goResult: function(e) {
         wx.redirectTo({
@@ -99,28 +111,6 @@ Page({
     goTimeline: function(e) {
         wx.redirectTo({
             url: "../timeline/timeline"
-        })
-    },
-    getTodayData: function() {
-        const listArray = [];
-        let isHintHidden = false;
-        const that = this;
-        const matchedYearMonth = this.allDataArray.find(function(oneDataObj) {
-            return oneDataObj.yearMonth == that.data.time;
-        });
-        if (matchedYearMonth) {
-            for (let ii of matchedYearMonth.infoArray) {
-                if (ii.day == that.today) {
-                    listArray.push(ii);
-                }
-            }
-        }
-        if (listArray.length > 0) {
-            isHintHidden = true;
-        }
-        this.setData({
-            isHintHidden: isHintHidden,
-            listArray: listArray
         })
     },
     goList: function(e) {
@@ -133,28 +123,15 @@ Page({
             return;
         }
         for (let one of allDays) {
-            if (one.choosen) {
-                one.choosen = "";
+            if (one.chosen) {
+                one.chosen = "";
             }
         }
-        allDays[dataset.index].choosen = "choosen";
-        const matchedYearMonth = this.allDataArray.find(function(oneDataObj) {
-            return oneDataObj.yearMonth == that.data.time;
-        });
-        if (matchedYearMonth) {
-            for (let ii of matchedYearMonth.infoArray) {
-                if (ii.day == allDays[dataset.index].id) {
-                    listArray.push(ii);
-                }
-            }
-        }
-        if (listArray.length > 0) {
-            isHintHidden = true;
-        }
+        allDays[dataset.index].chosen = "chosen";
         this.setData({
             isHintHidden: isHintHidden,
             allDays: allDays,
-            listArray: listArray
+            matchData: allDays[dataset.index].data
         })
     },
     getData: function(mm, yyyy){
@@ -165,7 +142,7 @@ Page({
         for (var i = 0; i < daysOfMonth; i +=1) {
             allDays[i] = {
                id: i + 1,
-               gatherings: []
+               data: []
             }
         }
         //highlight today

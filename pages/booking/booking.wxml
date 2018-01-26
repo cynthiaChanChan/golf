@@ -10,16 +10,18 @@
             </view>
         </view>
         <view class="week">
-            <view class="list" wx:for="{{weekList}}" wx:key="{{index}}">
+            <view class="list" wx:for="{{weekList}}" wx:key="{{index}}" bindtap="checkCourses">
                 <view class="weekday">{{item.title}}</view>
                 <view class="num {{item.mark}} {{item.num ? 'border' : ''}}">{{item.num}}</view>
             </view>
         </view>
         <view class="courses">
-            <view class="course" wx:for="{{coursesList}}" wx:key="{{index}}" bindtap="book">
-                <image src="../../images/available.png" mode="widthFix"></image>
-                <view class="clock">09:00</view>
-                <view class="teacher">李教练</view>
+            <view class="courseWrapper" wx:for="{{coursesList}}" wx:key="{{index}}">
+                <view class="course" bindtap="book">
+                    <image class="statusIcon" src="../../images/available.png" mode="widthFix"></image>
+                    <view class="clock">09:00</view>
+                    <view class="teacher">李教练</view>
+                </view>
             </view>
         </view>
         <view class="clearfooter"></view>

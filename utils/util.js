@@ -213,6 +213,14 @@ function extend(target, options) {
 	return target
 }
 
+function addHost(url) {
+	if (url.indexOf("http") > -1) {
+		return url;
+	} else {
+		return data.host + url;
+	}
+}
+
 module.exports = {
 	navigateBack,
   	data,
@@ -233,5 +241,6 @@ module.exports = {
 	each,
 	url2abs,
 	getText,
-	extend
+	extend,
+	addHost
 }

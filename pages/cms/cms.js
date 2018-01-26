@@ -4,10 +4,10 @@ Page({
     data: {
         img: util.data.img,
         _tabbar_: {},
-        isHintHidden: true
+        isHintHidden: true,
+        iscallBoxHidden: true
     },
     onLoad() {
-        new Tabbar();
         const today = new Date();
         this.year = today.getFullYear();
         this.theYear = this.year;
@@ -31,7 +31,7 @@ Page({
         console.log("This week: ", weekObj);
         this.setThisWeek(weekObj);
         this.setData({
-            coursesList: [{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]
+            coursesList: [{},{},{},{},{},{},{},{},{},{}]
         })
     },
     setWholeMonth: function() {
@@ -145,6 +145,27 @@ Page({
     book(e) {
         this.setData({
             isHintHidden: false
+        })
+    },
+    logout() {
+        wx.removeStorageSync("golfLogin");
+        wx.redirectTo({
+            url: "../index/index"
+        })
+    },
+    call() {
+        this.setData({
+            iscallBoxHidden: false
+        })
+    },
+    cancelPhoneCall() {
+        this.setData({
+            iscallBoxHidden: true
+        })
+    },
+    makePhoneCall() {
+        wx.makePhoneCall({
+            phoneNumber: '15013320137'
         })
     },
     remove() {
