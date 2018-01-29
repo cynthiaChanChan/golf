@@ -1,5 +1,7 @@
 const util = require("../../utils/util");
 const {Tabbar} = require("../../dist/tabbar/index");
+const {authorize} = require('../../dist/authorize/authorize');
+const request = require("../../dist/request/request");
 Page({
     data: {
         img: util.data.img,
@@ -30,9 +32,14 @@ Page({
         }
         console.log("This week: ", weekObj);
         this.setThisWeek(weekObj);
-        this.setData({
-            coursesList: [{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]
-        })
+        this.GetGolfCurriculumByDate(`${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(this.day)}`);
+    },
+    GetGolfCurriculumByDate: function(date) {
+        request.GetGolfCurriculumByDate(date).then((res) => {
+            this.setData({
+                coursesList: res
+            })
+        });
     },
     setWholeMonth: function() {
         const chineseWeekday = ["一","二","三","四","五","六", "日"];
@@ -143,9 +150,29 @@ Page({
         return isLeftHidden;
     },
     book(e) {
+        const coursesList = this.data.coursesList;
+        const dataset = e.currentTarget.dataset;
         this.setData({
+            course: coursesList[dataset.index],
             isHintHidden: false
         })
+    },
+    pay(e) {
+        const id = e.currentTarget.dataset.id;
+        request.PayCommon(util.data.appid, wx.getStorageSync(util.data.openIdStorage), 1).then((res) => {
+
+        });
+       //  wx.requestPayment({
+       //     'timeStamp': '',
+       //     'nonceStr': '',
+       //     'package': '',
+       //     'signType': 'MD5',
+       //     'paySign': '',
+       //     'success':function(res){
+       //     },
+       //     'fail':function(res){
+       //     }
+       // })
     },
     remove() {
         this.setData({

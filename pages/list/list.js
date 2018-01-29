@@ -3,6 +3,7 @@ const listUrl = "https://www.korjo.cn/KorjoApi/GetAssembleList";
 const {Tabbar} = require("../../dist/tabbar/index");
 const {authorize} = require('../../dist/authorize/authorize');
 const request = require("../../dist/request/request");
+const calendar = require('../../calendar/calendar');
 Page({
     data: {
         isLightboxHidden: true,
@@ -14,94 +15,89 @@ Page({
     },
     onLoad: function(options) {
         const that = this;
+        this.typename = options.typename;
         new Tabbar();
-        //默认日期
-        var year = new Date().getFullYear();
-        var month = new Date().getMonth() + 1;
+        // 获取最近月份的比赛
+        this.requestLateLyMatchData();
+
+    },
+    createDays: function(year, month) {
         this.month = month;
         this.year = year;
-        this.typename = options.typename;
+        let dirs = {
+            isLeftHidden: false,
+            isRightHidden: false
+        }
+        //赛事日历限制为当年--
+        dirs = calendar.restrictDate(this.year, this.month, dirs);
         this.setData({
-            time: year + "年" + (month < 10 ? "0" + month : month) + "月"
+            isLeftHidden: dirs.isLeftHidden,
+            isRightHidden: dirs.isRightHidden,
+            time: year + "年" + month + "月",
+            typename: this.typename
         })
         this.getData(month, year);
-        authorize.useUserInfo({
-          success: () => {
-              that.requestLateLyMatchData();
-          },
-          fail: () => {
-              console.log("Fail to useUserInfo");
-          }
-        })
     },
     requestLateLyMatchData: function() {
         const that = this;
-        const allDataArray = [];
         request.GetLatelyMatchByTypeName(that.typename).then((res)=> {
-            if (res.length == 0) {
-                return;
-            }
-            for (let value of res) {
-                const date = util.formatDate(value.match_date);
-                const obj = {
-                    day: date.getDate(),
-                    data: [{
-                        stage: value.stage,
-                        time: `${date.getMonth() + 1}月${date.getDate()}`,
-                        name: value.name,
-                        address: value.address,
-                        number: value.number
-                    }]
-                }
-                // 同一天数据放在一起
-                const matchedObj = allDataArray.find(function(oneDataObj) {
-                    return oneDataObj.day == obj.day
-                })
-                if (matchedObj) {
-                    matchedObj.data.push(obj.data[0]);
-                } else {
-                    allDataArray.push(obj);
-                }
-            }
-            console.log("allDataArray: ", allDataArray);
-            that.markDays(that.chooseTheLatest(allDataArray));
+            that.getResponse(res);
         })
     },
-    chooseTheLatest: function(allDataArray) {
-        //默认显示最近一天比赛
-        const daysArray = [];
-        for (let one of allDataArray) {
-            daysArray.push(one.day);
-        }
-        daysArray.sort((a, b) => {
-            return a -b;
+    GetGolfMatchByDate: function(match_date) {
+        const that = this;
+        request.GetGolfMatchByDate(match_date, that.typename).then((res)=> {
+            that.getResponse(res);
         })
-        for (let item of allDataArray) {
-            if (item.day == daysArray[0]) {
-                item.chosen = "chosen";
+    },
+    getResponse: function(res) {
+        if (res.length == 0) {
+            this.setData({
+                matchData: []
+            })
+            this.createDays(this.year, this.month);
+            return;
+        } else if (res.length > 0) {
+            const currentYearMonth = util.formatDate(res[0].match_date);
+            console.log("currentYearMonth: ", currentYearMonth);
+            var year = currentYearMonth.getFullYear();
+            var month = currentYearMonth.getMonth() + 1;
+            this.populateData(res, year, month);
+        }
+    },
+    populateData: function(res, year, month) {
+        const allDataArray = [];
+        this.createDays(year, month);
+        for (let value of res) {
+            const date = util.formatDate(value.match_date);
+            const obj = {
+                day: date.getDate(),
+                data: [{
+                    stage: value.stage,
+                    time: `${date.getMonth() + 1}月${date.getDate()}日`,
+                    name: value.name,
+                    address: value.address,
+                    number: value.number
+                }]
+            }
+            // 同一天数据放在一起
+            const matchedObj = allDataArray.find(function(oneDataObj) {
+                return oneDataObj.day == obj.day
+            })
+            if (matchedObj) {
+                matchedObj.data.push(obj.data[0]);
+            } else {
+                allDataArray.push(obj);
             }
         }
-        return allDataArray;
+        console.log("allDataArray: ", allDataArray);
+        //显示离当前最近的比赛日期，再根据选中当月标记赛事
+        this.markDays(calendar.chooseTheLatest(this.year, this.month, allDataArray));
     },
     markDays: function(allDataArray) {
-        const that = this;
-        const allDays = that.data.allDays;
-        let matchData = "";
-        //标记上有赛事的天
-        for (let i of allDataArray){
-            for (let ii of allDays) {
-                if (i.day == ii.id) {
-                    ii.marked = "marked";
-                    ii.data = i.data;
-                    ii.chosen = i.chosen;
-                }
-                if (ii.chosen) {
-                    matchData = ii.data;
-                }
-            }
-        }
-
-        that.setData({allDays, matchData})
+        const allDays = this.data.allDays;
+        let matchData = calendar.Markthem(allDays, allDataArray);
+        this.setData({allDays, matchData})
     },
     goResult: function(e) {
         wx.redirectTo({
@@ -139,45 +135,29 @@ Page({
         var allDays = [];
         var daysOfMonth = util.checkDaysOfMonth(mm, yyyy);
         const yearMonth = yyyy + "-" + (mm > 9 ? mm: "0" + mm);
+        request.GetRestDateList(`${yyyy}-${mm}`).then((res) => {})
         for (var i = 0; i < daysOfMonth; i +=1) {
             allDays[i] = {
                id: i + 1,
                data: []
             }
         }
-        //highlight today
-        if (yyyy === new Date().getFullYear() && mm === new Date().getMonth() + 1) {
-            allDays[new Date().getDate() - 1].theDay = "theDay";
-            that.today = new Date().getDate();
-        }
         const weekDay = new Date(yyyy, mm - 1, 1).getDay();
         for (var v = 0; v < weekDay; v += 1) {
             allDays.unshift({});
         }
         var totalSpots = daysOfMonth + weekDay;
-        allDays = that.getMoreSpots(totalSpots, allDays);
+        allDays = calendar.getMoreSpots(totalSpots, allDays);
         this.setData({
            allDays: allDays
         })
     },
-    getMoreSpots: function(totalSpots, allDays) {
-        if (totalSpots > 28 && totalSpots <= 35) {
-            var moreContainerNum = 35 - totalSpots;
-            for (var ii = 0; ii < moreContainerNum; ii += 1) {
-              allDays.push({});
-            }
-        } else if (totalSpots > 35) {
-            var moreContainerNum = 42 - totalSpots;
-            for (var ii = 0; ii < moreContainerNum; ii += 1) {
-              allDays.push({});
-            }
-        }
-        return allDays;
-    },
     chooseDate: function(e) {
         var dir = e.currentTarget.dataset.dir;
-        var isLeftHidden = false;
-        var isRightHidden = false;
+        let dirs = {
+            isLeftHidden: false,
+            isRightHidden: false
+        }
         //往左减少日期，vice versa
         if (dir == "left") {
           if (this.month === 1) {
@@ -194,24 +174,15 @@ Page({
             this.month += 1;
           }
         }
-        //日历限制为2017年--2018年
-        if (this.year === 2017 && this.month === 1) {
-          isLeftHidden = true;
-        }
-        if (this.year === 2018 && this.month === 12) {
-          isRightHidden = true;
-        }
-        this.getData(this.month, this.year);
+        //赛事日历限制为当年（2018）--
+        dirs = calendar.restrictDate(this.year, this.month, dirs);
+        this.GetGolfMatchByDate(this.year + "-" + util.formatNumber(this.month));
         this.setData({
           listArray: [],
           isHintHidden: true,
-          isLeftHidden: isLeftHidden,
-          isRightHidden: isRightHidden,
-          time: this.year + "年" + (this.month < 10 ? "0" + this.month : this.month) + "月"
+          isLeftHidden: dirs.isLeftHidden,
+          isRightHidden: dirs.isRightHidden
         })
-        if (this.allDataArray.length > 0) {
-            this.markDays(this.allDataArray);
-        }
     },
     hideLightbox: function(e) {
         this.setData({

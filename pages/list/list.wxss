@@ -1,5 +1,9 @@
 @import "/dist/tabbar/index.wxss";
 
+.page {
+	padding-bottom: 120rpx;
+}
+
 #calender-wrapper {
 	background-color: #fff;
 	position: relative;
@@ -63,6 +67,7 @@
 	font-size: 29rpx;
 	text-align: center;
 	border-bottom: 1px solid #f0f0f0;
+	margin-bottom: 10rpx;
 }
 
 #calender-wrapper #days .weekday {
@@ -83,6 +88,19 @@
 	text-align: center;
 	width: 14.28%;
 	display: inline-block;
+}
+
+#calender-wrapper #month .day .off {
+	background-color: #12898a;
+	color: #fff;
+	height: 30rpx;
+	width: 30rpx;
+	font-size: 20rpx;
+	line-height: 30rpx;
+	border-radius: 50%;
+	position: absolute;
+	top: 5rpx;
+	right: 5rpx;
 }
 
 #calender-wrapper #month .day:nth-of-type(7n+7) {
@@ -126,20 +144,26 @@
 }
 
 .event_desc {
+	position: relative;
 	background-color: #e9f9f9;
 	border-top: 1px solid #9ecfcf;
 	border-bottom: 1px solid #9ecfcf;
+	padding-top: 30rpx;
 }
 
 .event_desc .golfer {
-	width: 85rpx;
-	margin: 20rpx 20rpx 20rpx 5%;
+	position: absolute;
+	bottom: 20rpx;
+	left: 40rpx;
+	width: 87rpx;
 }
 
 .info {
-	padding: 30rpx;
-	color: #101a27;
-	font-size: 26rpx;
+	padding: 0rpx 30rpx 30rpx 150rpx;
+}
+
+.info .titleWrapper {
+	margin-bottom: 10rpx;
 }
 
 .info .circle {
@@ -154,7 +178,19 @@
 }
 
 .info .subtitle {
+	color: #101a27;
 	font-size: 32rpx;
 	display: inline-block;
 	vertical-align: middle;
+}
+
+.info .item {
+	color: #626262;
+	font-size: 26rpx;
+}
+
+.noMatch {
+	text-align: center;
+	font-size: 28rpx;
+	color: #626262;
 }

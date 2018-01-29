@@ -97,14 +97,14 @@ function getUserInfoSuccess(userInfo, obj) {
 	// 保存用户信息
 	const data = {
 		wxpublic_id: util.data.appid,
-		openId: wx.getStorageSync(util.data.openIdStorage),
-		nickName: userInfo.nickName,
-		avatarUrl: userInfo.avatarUrl,
+		openid: wx.getStorageSync(util.data.openIdStorage),
+		wxname: userInfo.nickName,
+		photo: userInfo.avatarUrl
 	}
 	// 获取userid
-	 request.saveUserInfo(data).then(res => {
+	 request.SaveUserInfoCommon(data).then(res => {
 		 wx.setStorageSync(util.data.userIdStorage, res.data)
-		 wx.removeStorageSync(util.data.openIdStorage);
+		 // wx.removeStorageSync(util.data.openIdStorage);
 		 wx.removeStorageSync('userInfoRefused')
 		 obj.success();
 	})

@@ -5,8 +5,11 @@ Page({
         img: util.data.img
     },
     onLoad() {
+        // wx.navigateTo({
+        //   url: "../list/list?typename=男子职业比赛"
+        // })
         wx.navigateTo({
-          url: "../list/list?typename=男子职业比赛"
+          url: "../booking/booking"
         })
         authorize.useUserInfo({
           success: () => {

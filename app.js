@@ -3,7 +3,7 @@ App({
   data: {
 		img: 'https://www.korjo.cn/xcx/golfImg/',
 		host: 'https://www.korjo.cn',
-		appid: 22,
+		appid: 38,
         openIdStorage: 'golfUserOpenId',
         userIdStorage: 'golfUserId'
 	}

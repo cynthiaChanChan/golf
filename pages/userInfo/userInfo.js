@@ -22,8 +22,8 @@ Page({
 		})
 	},
 	setInfo() {
-		const userid = wx.getStorageSync('userid')
-		request.GetTimeUser(userid).then(res => {
+		const userid = wx.getStorageSync(util.data.userIdStorage)
+		request.GetUserInfoCommon(userid).then(res => {
 			let { sex, date } = this.data
 			sex.value = res.sex || sex.value
 			date = res.birthday || date
@@ -56,7 +56,7 @@ Page({
 			success: res => {
 				const tempFilePaths = res.tempFilePaths
 				// 上传
-				request.Upload(tempFilePaths[0]).then(res => {
+				request.upload(tempFilePaths[0]).then(res => {
 					this.setData({ 'info.photo': util.data.host + res.data })
 				})
 			}
@@ -75,7 +75,6 @@ Page({
 		const { sex, date, info } = this.data
 		const data = {
 			id: info.id,
-			userid: wx.getStorageSync('userid'),
 			photo: info.photo,
 			wxname: info.wxname,
 			sex: sex.value,
@@ -84,8 +83,9 @@ Page({
 			phone,
 			email,
 			weixin_id: wx_id,
+			wxpublic_id: util.data.appid
 		}
-		request.SaveTimeUser(data).then(res => {
+		request.SaveUserInfoCommon(data).then(res => {
 			this.showTip()
 		})
 	},

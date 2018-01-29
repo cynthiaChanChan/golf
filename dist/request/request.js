@@ -4,10 +4,6 @@ function GetSessionKey(dataObj) {
 	return util.get('/KorjoApi/GetSessionKey', dataObj)
 }
 
-function saveUserInfo(dataObj) {
-	return util.post('/KorjoApi/SaveUserInfo', {jsonData: JSON.stringify(dataObj)})
-}
-
 //上传图片
 function upload(filePath) {
 	// util.loading();
@@ -58,7 +54,7 @@ function GetGolfIntroList() {
 	return util.get('/GolfApi/GetGolfIntroList');
 }
 
-function GetGolfMatchByDate() {
+function GetGolfMatchByDate(match_date, typename) {
 	return util.get('/GolfApi/GetGolfMatchByDate', {
 		match_date, typename
 	});
@@ -84,9 +80,20 @@ function GetGolfCurriculumByDate(date) {
 	return util.get('/GolfApi/GetGolfCurriculumByDate', {date});
 }
 
+function SaveUserInfoCommon(data) {
+	return util.post('/GolfApi/SaveUserInfoCommon',{dataJson: JSON.stringify(data)});
+}
+
+function GetUserInfoCommon(id) {
+	return util.get('/GolfApi/GetUserInfoCommon', {id});
+}
+
+function PayCommon(id, openid, total_fee) {
+	return util.post('/GspaceApi/PayCommon', {id, openid, total_fee});
+}
+
 module.exports = {
     GetSessionKey,
-    saveUserInfo,
 	upload,
 	GetBaikeTypeList,
 	GetBaikeTypeByParentID,
@@ -95,5 +102,10 @@ module.exports = {
 	GetGolfIntroList,
 	GetGolfMatchByDate,
 	GetLatelyMatchByTypeName,
-	GetRestDateList
+	GetRestDateList,
+	GetGolfCurriculumInfo,
+	GetGolfCurriculumByDate,
+	SaveUserInfoCommon,
+	GetUserInfoCommon,
+	PayCommon
 }

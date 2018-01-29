@@ -1,43 +1,47 @@
 <import src='/dist/tabbar/index.wxml' />
-<template is="tabbar" data="{{..._tabbar_}}" />
-<view id="calender-wrapper">
-	<view id="calender-title" class="clearfix">
-	    <view class="eventTitle">男子职业比赛</view>
-		<view id="date">
-			<view class="arrow left" hidden="{{isLeftHidden}}" data-dir="left" bindtap="chooseDate"><image src="../../images/pre.png" mode="widthFix"></image></view>
-			<view class="time">2018年1月</view>
-			<view class="arrow right" hidden="{{isRightHidden}}" data-dir="right" bindtap="chooseDate"><image src="../../images/next.png" mode="widthFix"></image></view>
+<view class="page">
+	<template is="tabbar" data="{{..._tabbar_}}" />
+	<view id="calender-wrapper">
+		<view id="calender-title" class="clearfix">
+		    <view class="eventTitle">{{typename}}</view>
+			<view id="date">
+				<view class="arrow left" hidden="{{isLeftHidden}}" data-dir="left" bindtap="chooseDate"><image src="../../images/pre.png" mode="widthFix"></image></view>
+				<view class="time">{{time}}</view>
+				<view class="arrow right" hidden="{{isRightHidden}}" data-dir="right" bindtap="chooseDate"><image src="../../images/next.png" mode="widthFix"></image></view>
+			</view>
 		</view>
-	</view>
-	<view id="days">
-		<view class="weekday">日</view>
-		<view class="weekday">一</view>
-		<view class="weekday">二</view>
-		<view class="weekday">三</view>
-		<view class="weekday">四</view>
-		<view class="weekday">五</view>
-		<view class="weekday">六</view>
-	</view>
-	<view id="calender-content">
-		<view id="month">
-			<view class="day" wx:for="{{allDays}}" wx:key="id">
-				<view class="num {{item.marked}} {{item.chosen}}">
-					<view class="numText" data-index="{{index}}" bindtap="goList">{{item.id}}</view>
+		<view id="days">
+			<view class="weekday">日</view>
+			<view class="weekday">一</view>
+			<view class="weekday">二</view>
+			<view class="weekday">三</view>
+			<view class="weekday">四</view>
+			<view class="weekday">五</view>
+			<view class="weekday">六</view>
+		</view>
+		<view id="calender-content">
+			<view id="month">
+				<view class="day" wx:for="{{allDays}}" wx:key="id">
+					<view class="num {{item.marked}} {{item.chosen}}">
+						<view class="numText" data-index="{{index}}" bindtap="goList">{{item.id}}</view>
+					</view>
+					<view wx:if="{{item.off}}" class="off">休</view>
 				</view>
 			</view>
 		</view>
 	</view>
-</view>
-<view class="event_desc">
-	<view class="info" wx:for="{{matchData}}" wx:key="{{index}}">
-		<view class="titleWrapper">
-			<view class="circle"></view>
-			<view class="subtitle">{{item.name}}</view>
+	<view class="event_desc" wx:if="{{matchData.length > 0 ? true : false}}">
+		<view class="info" wx:for="{{matchData}}" wx:key="{{index}}">
+			<view class="titleWrapper">
+				<view class="circle"></view>
+				<view class="subtitle">{{item.name}}</view>
+			</view>
+			<view class="item" wx:if="{{item.stage}}">比赛阶段：{{item.stage}}</view>
+			<view class="item" wx:if="{{item.time}}">比赛时间：{{item.time}}</view>
+			<view class="item" wx:if="{{item.address}}">比赛地点：{{item.address}}</view>
+			<view class="item" wx:if="{{item.number}}">运动员数：{{item.number}}人</view>
 		</view>
-		<view class="item" wx:if="{{item.stage}}">比赛阶段：{{item.stage}}</view>
-		<view class="item" wx:if="{{item.time}}">比赛时间：{{item.time}}</view>
-		<view class="item" wx:if="{{item.address}}">比赛地点：{{item.address}}</view>
-		<view class="item" wx:if="{{item.number}}">运动员数：{{item.number}}人</view>
+		<image class="golfer" src="../../images/icon_golfer.png" mode="widthFix"></image>
 	</view>
-	<image class="golfer" src="../../images/icon_golfer.png" mode="widthFix"></image>
 </view>
+<view class="noMatch" wx:if="{{matchData.length == 0 ? true : false}}">该月无{{typename}}</view>
