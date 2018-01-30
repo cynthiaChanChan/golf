@@ -33,14 +33,16 @@ Page({
 	},
 	submit({ username, phone, content }) {
 		const data = {
-			userid: wx.getStorageSync('userid'),
 			people: username,
 			phone,
 			content,
+			wxpublic_id: util.data.appid
 		}
-		request.SaveTimeShopFeedback(data).then(res => {
+		request.SaveLeaveMessageCommon(data).then(res => {
 			util.toast('提交成功', () => {
-				this.setData({ val: '' })
+				wx.redirectTo({
+					url: "../personal/personal"
+				})
 			})
 		})
 	},

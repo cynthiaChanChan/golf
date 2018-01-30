@@ -1,10 +1,10 @@
 <view class='page'>
     <form bindsubmit="formSubmit">
         <view class='list'>
-            <view class='li'>
+            <view class='li' bindtap="selectImg">
                 <view class='li-l'>头像</view>
                 <view class='li-r'>
-                    <image src='{{info.photo}}' bindtap="selectImg"></image>
+                    <image src='{{info.photo}}'></image>
                     <view class='arrow-right'></view>
                 </view>
             </view>

@@ -1,4 +1,5 @@
-
+const request = require("../dist/request/request");
+const util = require('../utils/util.js');
 function restrictDate(year, month, dirs) {
     const thisYear = new Date().getFullYear();
     if (year === thisYear && month === 1) {
@@ -73,10 +74,51 @@ function chooseTheLatest (theYear, theMonth, allDataArray) {
     }
     return allDataArray;
 }
+//获取休息日
+function GetRestDays(mm, yyyy) {
+    return request.GetRestDateList(`${yyyy}-${mm}`).then((res) => {
+    //rest_value:2 //2法定休息//1周末休
+      const offDays = [];
+      for (let value of res) {
+        let offDay = util.formatDate(value.rest_date).getDate();
+        offDays.push(offDay);
+      }
+      console.log("offDays: ", offDays);
+      return offDays;
+    })
+}
+
+function createMonthData(WholeMonth, mm, yyyy) {
+    //确认每月天数DaysOfMonth
+    let DaysOfMonth = util.checkDaysOfMonth(mm, yyyy);
+    const firstOfMonth = new Date(yyyy, mm - 1, 1);
+    let firstWeekday = firstOfMonth.getDay() === 0 ? 7 : firstOfMonth.getDay();
+    console.log('first week is from: ', firstWeekday);
+    for (let iii = 0; iii < DaysOfMonth; iii += 1) {
+        //第一周占据几天
+        let firstWeekAllDays = 7 - firstWeekday + 1;
+        if (iii < firstWeekAllDays) {
+            WholeMonth[0].weekdays[firstWeekday + iii - 1].num = iii + 1;
+        } else if (iii < firstWeekAllDays + 7 * 1 && iii >= firstWeekAllDays) {
+            WholeMonth[1].weekdays[iii - firstWeekAllDays].num = iii + 1;
+        } else if (iii < firstWeekAllDays + 7 * 2 && iii >= firstWeekAllDays + 7 * 1) {
+            WholeMonth[2].weekdays[iii - firstWeekAllDays - 7 * 1].num = iii + 1;
+        } else if (iii < firstWeekAllDays + 7 * 3 && iii >= firstWeekAllDays + 7 * 2) {
+            WholeMonth[3].weekdays[iii - firstWeekAllDays - 7 * 2].num = iii + 1;
+        } else if (iii < firstWeekAllDays + 7 * 4 && iii >= firstWeekAllDays + 7 * 3) {
+            WholeMonth[4].weekdays[iii - firstWeekAllDays - 7 * 3].num = iii + 1;
+        } else if (iii < firstWeekAllDays + 7 * 5 && iii >= firstWeekAllDays + 7 * 4) {
+            WholeMonth[5].weekdays[iii - firstWeekAllDays - 7 * 4].num = iii + 1;
+        }
+    }
+    return WholeMonth
+}
 
 module.exports = {
     restrictDate,
     getMoreSpots,
     Markthem,
-    chooseTheLatest
+    chooseTheLatest,
+    GetRestDays,
+    createMonthData
 }

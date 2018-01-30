@@ -8,6 +8,7 @@ Page({
 		date: util.getYyMmDd(new Date()),
 	},
 	onLoad(options) {
+		this.from = options.from;
 		this.init()
 	},
 	init() {
@@ -44,8 +45,9 @@ Page({
 		})
 	},
 	dateChange(e) {
+		const date = e.detail.value.split("-");
 		this.setData({
-			date: e.detail.value
+			date: `${date[0]}年${date[1]}月${date[2]}日`
 		})
 	},
 	selectImg(e) {
@@ -90,13 +92,14 @@ Page({
 		})
 	},
 	showTip() {
+		let url = "../personal/personal";
+		if (this.from == "book") {
+			// 上一页是预订页
+			url = "../booking/booking";
+		}
 		util.toast('修改成功', () => {
 			setTimeout(() => {
-				const pages = getCurrentPages()
-				const prePage = pages[pages.length - 2]
-				wx.reLaunch({
-					url: `/util{prePage.route}util{prePage.options.id ? '?id=' + prePage.options.id : ''}`
-				})
+				wx.redirectTo({url})
 			}, 1500)
 		})
 	},

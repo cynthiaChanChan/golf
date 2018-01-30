@@ -1,7 +1,7 @@
 const util = require("../../utils/util");
 const {authorize} = require('../../dist/authorize/authorize');
 const request = require('../../dist/request/request');
-Page(Object.assign({}, {
+Page({
 	data: {
 		img: util.data.img,
 		_tabbar_: {},
@@ -25,7 +25,7 @@ Page(Object.assign({}, {
 		})
 	},
 	init() {
-		const userid = wx.getStorageSync('userid')
+		const userid = wx.getStorageSync(util.data.userIdStorage)
 		const list = [];
         for (let i = 0; i < 3; i += 1) {
             list.push({
@@ -44,7 +44,7 @@ Page(Object.assign({}, {
 			content: `确认要util{status == 0 ? '取消' : '删除'}该订单吗？`,
 			showCancel: true,
 		}).then(() => {
-			return request.UpdateOrderStatus(data)
+			// return request.UpdateOrderStatus(data)
 		}).then(res => {
 			const list = this.data.list
 			let idx = -1
@@ -63,4 +63,4 @@ Page(Object.assign({}, {
 			isHintHidden: true
 		})
 	}
-}))
+})

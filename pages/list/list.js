@@ -21,7 +21,7 @@ Page({
         this.requestLateLyMatchData();
 
     },
-    createDays: function(year, month) {
+    createDays: function(year, month, callback) {
         this.month = month;
         this.year = year;
         let dirs = {
@@ -36,7 +36,7 @@ Page({
             time: year + "年" + month + "月",
             typename: this.typename
         })
-        this.getData(month, year);
+        this.getData(month, year, callback);
     },
     requestLateLyMatchData: function() {
         const that = this;
@@ -52,22 +52,25 @@ Page({
     },
     getResponse: function(res) {
         if (res.length == 0) {
+            this.isMatchAvailable = false;
             this.setData({
                 matchData: []
             })
             this.createDays(this.year, this.month);
             return;
         } else if (res.length > 0) {
+            this.isMatchAvailable = true;
             const currentYearMonth = util.formatDate(res[0].match_date);
             console.log("currentYearMonth: ", currentYearMonth);
             var year = currentYearMonth.getFullYear();
             var month = currentYearMonth.getMonth() + 1;
-            this.populateData(res, year, month);
+            this.createDays(year, month, () => {
+                this.populateData(res, year, month);
+            });
         }
     },
     populateData: function(res, year, month) {
         const allDataArray = [];
-        this.createDays(year, month);
         for (let value of res) {
             const date = util.formatDate(value.match_date);
             const obj = {
@@ -114,6 +117,8 @@ Page({
         const allDays = this.data.allDays;
         const dataset = e.currentTarget.dataset;
         const listArray = [];
+        //该月是否有赛事
+        const isMatchAvailable = this.isMatchAvailable;
         let isHintHidden = false;
         if (!allDays[dataset.index].id) {
             return;
@@ -125,32 +130,38 @@ Page({
         }
         allDays[dataset.index].chosen = "chosen";
         this.setData({
-            isHintHidden: isHintHidden,
-            allDays: allDays,
+            isHintHidden,
+            allDays,
+            isMatchAvailable,
             matchData: allDays[dataset.index].data
         })
     },
-    getData: function(mm, yyyy){
+    getData: function(mm, yyyy, callback){
         const that = this;
         var allDays = [];
         var daysOfMonth = util.checkDaysOfMonth(mm, yyyy);
         const yearMonth = yyyy + "-" + (mm > 9 ? mm: "0" + mm);
-        request.GetRestDateList(`${yyyy}-${mm}`).then((res) => {})
-        for (var i = 0; i < daysOfMonth; i +=1) {
-            allDays[i] = {
-               id: i + 1,
-               data: []
+        calendar.GetRestDays(mm, yyyy).then((offDays) => {
+            for (var i = 0; i < daysOfMonth; i +=1) {
+                allDays[i] = {
+                   id: i + 1,
+                   data: []
+                }
+                for (let day of offDays) {
+                    if (i + 1 == day) {
+                        allDays[i].off = true;
+                    }
+                }
             }
-        }
-        const weekDay = new Date(yyyy, mm - 1, 1).getDay();
-        for (var v = 0; v < weekDay; v += 1) {
-            allDays.unshift({});
-        }
-        var totalSpots = daysOfMonth + weekDay;
-        allDays = calendar.getMoreSpots(totalSpots, allDays);
-        this.setData({
-           allDays: allDays
-        })
+            const weekDay = new Date(yyyy, mm - 1, 1).getDay();
+            for (var v = 0; v < weekDay; v += 1) {
+                allDays.unshift({});
+            }
+            var totalSpots = daysOfMonth + weekDay;
+            allDays = calendar.getMoreSpots(totalSpots, allDays);
+            this.setData({allDays});
+            callback && callback();
+        });
     },
     chooseDate: function(e) {
         var dir = e.currentTarget.dataset.dir;

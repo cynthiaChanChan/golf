@@ -33,15 +33,13 @@ Page({
     },
     setInfo() {
         const userid = wx.getStorageSync(util.data.userIdStorage);
-        const res = {
-            username: "outlierjiang",
-            headImgUrl: "https://wx.qlogo.cn/mmopen/vi_32/NmM5sLoagCjBibgKg1GRwiawY9jXdCiaVoTGIC4HcajJRF7RbXswyEhwCNhMSNkFbKgd4NKMGibD5bs8zicDmFUdXFQ/0"
-        }
-        if (res.username) {
-			res.wxname = res.username
-			res.photo = res.headImgUrl
-		}
-		this.setData({ info: res })
+        request.GetUserInfoCommon(userid).then((res) => {
+            if (res.username) {
+    			res.wxname = res.username
+    			res.photo = res.headImgUrl
+    		}
+    		this.setData({ info: res })
+        });
     },
     turnOnMessage(e) {
         this.setData({

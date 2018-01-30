@@ -59,6 +59,7 @@
   width: 100%;
   margin: 0 auto 20rpx;
   display: block;
+  height: 400rpx;
 }
 
 .mainContent {

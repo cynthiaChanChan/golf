@@ -2,13 +2,16 @@ const util = require("../../utils/util");
 const {Tabbar} = require("../../dist/tabbar/index");
 const {authorize} = require('../../dist/authorize/authorize');
 const request = require("../../dist/request/request");
+const {makeAPayment} = require("../../utils/payment");
+const calendar = require('../../calendar/calendar');
 Page({
     data: {
         img: util.data.img,
         _tabbar_: {},
-        isHintHidden: true
+        isHintHidden: true,
+        chosenIdx: ""
     },
-    onLoad() {
+    onLoad(options) {
         new Tabbar();
         const today = new Date();
         this.year = today.getFullYear();
@@ -58,36 +61,13 @@ Page({
                 weekdays
             })
         }
-        this.WholeMonth = this.createMonthData(WholeMonth);
+        this.WholeMonth = calendar.createMonthData(WholeMonth, this.month, this.year);
         console.log(this.WholeMonth);
-    },
-    createMonthData(WholeMonth) {
-        //确认每月天数DaysOfMonth
-        let DaysOfMonth = util.checkDaysOfMonth(this.month, this.year);
-        const firstOfMonth = new Date(this.year, this.month - 1, 1);
-        let firstWeekday = firstOfMonth.getDay() === 0 ? 7 : firstOfMonth.getDay();
-        console.log('first week is from: ', firstWeekday);
-        for (let iii = 0; iii < DaysOfMonth; iii += 1) {
-            //第一周占据几天
-            let firstWeekAllDays = 7 - firstWeekday + 1;
-            if (iii < firstWeekAllDays) {
-                WholeMonth[0].weekdays[firstWeekday + iii - 1].num = iii + 1;
-            } else if (iii < firstWeekAllDays + 7 * 1 && iii >= firstWeekAllDays) {
-                WholeMonth[1].weekdays[iii - firstWeekAllDays].num = iii + 1;
-            } else if (iii < firstWeekAllDays + 7 * 2 && iii >= firstWeekAllDays + 7 * 1) {
-                WholeMonth[2].weekdays[iii - firstWeekAllDays - 7 * 1].num = iii + 1;
-            } else if (iii < firstWeekAllDays + 7 * 3 && iii >= firstWeekAllDays + 7 * 2) {
-                WholeMonth[3].weekdays[iii - firstWeekAllDays - 7 * 2].num = iii + 1;
-            } else if (iii < firstWeekAllDays + 7 * 4 && iii >= firstWeekAllDays + 7 * 3) {
-                WholeMonth[4].weekdays[iii - firstWeekAllDays - 7 * 3].num = iii + 1;
-            } else if (iii < firstWeekAllDays + 7 * 5 && iii >= firstWeekAllDays + 7 * 4) {
-                WholeMonth[5].weekdays[iii - firstWeekAllDays - 7 * 4].num = iii + 1;
-            }
-        }
-        return WholeMonth
     },
     setThisWeek: function(weekObj) {
         let weekList = util.templateList();
+        let chosenIdx = "";
+        let firstDay = "";
         console.log('thisDay', this.day);
         console.log('weekObj', weekObj);
         console.log('weekList', weekList);
@@ -97,12 +77,24 @@ Page({
                 //标记今天
                 weekList[i].mark = "today";
                 weekList[i].title = '今天';
+                weekList[i].chosen = 'active';
+                chosenIdx = i;
             }
         }
         let date = `${this.year}年${this.month}月 第${weekObj.weekNum}周`;
         let isLeftHidden = this.hideLeft(weekList);
-        this.setData({weekList, date, isLeftHidden});
         console.log("weekList", weekList)
+        firstDay = weekList.find((elem) => {
+            return elem.num
+        })
+        if (!chosenIdx) {
+            firstDay.chosen = 'active';
+            chosenIdx = weekList.findIndex((elem) => {
+                return elem.num
+            })
+        }
+        this.setData({weekList, date, isLeftHidden, chosenIdx});
+        return firstDay;
     },
     chooseDate(e) {
         const dir = e.currentTarget.dataset.dir;
@@ -136,7 +128,8 @@ Page({
                 this.setWholeMonth();
             }
         }
-        this.setThisWeek(this.WholeMonth[this.weekIdx]);
+        let firstDay = this.setThisWeek(this.WholeMonth[this.weekIdx]);
+        this.GetGolfCurriculumByDate(`${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(firstDay.num)}`);
     },
     hideLeft(weekList) {
         let isLeftHidden = false;
@@ -150,29 +143,71 @@ Page({
         return isLeftHidden;
     },
     book(e) {
+        const that = this;
         const coursesList = this.data.coursesList;
-        const dataset = e.currentTarget.dataset;
-        this.setData({
-            course: coursesList[dataset.index],
-            isHintHidden: false
-        })
+        const index = e.currentTarget.dataset.index;
+        // 授权
+		authorize.useUserInfo({
+			success: () => {
+				that.GetUserInfoCommon(index);
+			},
+			fail: () => {
+				util.alert('授权失败！')
+			}
+		})
+    },
+    GetUserInfoCommon(index) {
+        const that = this;
+        const coursesList = this.data.coursesList;
+        const weekList = this.data.weekList;
+        const chosenIdx = this.data.chosenIdx;
+        const date = this.data.date;
+        const userid = wx.getStorageSync(util.data.userIdStorage)
+		request.GetUserInfoCommon(userid).then(res => {
+            //如果联系人信息里没有电话，则让用户提交个人信息（教练管理平台用到电话）
+            if (!res.phone) {
+                util.alert('请先添加您的个人信息', () => {
+                    wx.redirectTo({
+                        url: "../userInfo/userInfo?from=book"
+                    })
+                });
+            } else {
+                let course = coursesList[index];
+                course.weekday = weekList[chosenIdx].title;
+                if (course.weekday != '今天') {
+                    course.weekday = `星期${course.weekday}`;
+                }
+                course.date = date.split(" ")[0] + weekList[chosenIdx].num + "日";
+                that.setData({
+                    course,
+                    isHintHidden: false
+                })
+            }
+		})
     },
     pay(e) {
         const id = e.currentTarget.dataset.id;
         request.PayCommon(util.data.appid, wx.getStorageSync(util.data.openIdStorage), 1).then((res) => {
-
+            const payData = JSON.parse(res.data);
+            return makeAPayment(payData);
+        }).then((res) => {
+            console.log("支付成功：", res)
+        }).catch((error) => {
+            console.log("支付失败：", error)
         });
-       //  wx.requestPayment({
-       //     'timeStamp': '',
-       //     'nonceStr': '',
-       //     'package': '',
-       //     'signType': 'MD5',
-       //     'paySign': '',
-       //     'success':function(res){
-       //     },
-       //     'fail':function(res){
-       //     }
-       // })
+    },
+    checkCourses(e) {
+        const index = e.currentTarget.dataset.index;
+        const weekList = this.data.weekList;
+        let chosenIdx = this.data.chosenIdx;
+        if (!weekList[index].num) {
+            return;
+        }
+        weekList[chosenIdx].chosen = "";
+        weekList[index].chosen = "active";
+        chosenIdx = index;
+        this.setData({weekList, chosenIdx});
+        this.GetGolfCurriculumByDate(`${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(weekList[index].num)}`);
     },
     remove() {
         this.setData({

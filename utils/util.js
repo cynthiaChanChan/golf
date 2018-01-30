@@ -38,7 +38,6 @@ function alert(content, callback) {
 function formatDate(time) {
     var arr = time.split(/[-T:\/\s]/);
     var date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
-	console.log("formatDate", date);
     return date;
 }
 
@@ -56,7 +55,7 @@ function getYyMmDd(date) {
 	const year = date.getFullYear();
 	const month = date.getMonth() + 1;
 	const day = date.getDate();
-	return `${year}-${month}-${day}`;
+	return `${year}年${month}月${day}日`;
 }
 
 const formatNumber = n => {
@@ -221,6 +220,17 @@ function addHost(url) {
 	}
 }
 
+function toast(title, callback) {
+	wx.showToast({
+		title,
+		icon: 'success',
+		mask: true,
+		success() {
+			callback && callback()
+		}
+	})
+}
+
 module.exports = {
 	navigateBack,
   	data,
@@ -242,5 +252,6 @@ module.exports = {
 	url2abs,
 	getText,
 	extend,
-	addHost
+	addHost,
+	toast
 }

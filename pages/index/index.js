@@ -11,18 +11,6 @@ Page({
         wx.navigateTo({
           url: "../booking/booking"
         })
-        authorize.useUserInfo({
-          success: () => {
-            this.init();
-          },
-          fail: () => {
-            console.log("Fail to useUserInfo");
-          }
-        })
-    },
-    init() {
-        const userId = wx.getStorageSync("golfUserInfo");
-        console.log("success to useUserInfo", userId);
     },
     goIntro() {
         wx.navigateTo({

@@ -89,7 +89,11 @@ function GetUserInfoCommon(id) {
 }
 
 function PayCommon(id, openid, total_fee) {
-	return util.post('/GspaceApi/PayCommon', {id, openid, total_fee});
+	return util.post('/PayApi/PayCommon', {id, openid, total_fee});
+}
+
+function SaveLeaveMessageCommon(data) {
+	return util.post('/GolfApi/SaveLeaveMessageCommon', {dataJson: JSON.stringify(data)});
 }
 
 module.exports = {
@@ -107,5 +111,6 @@ module.exports = {
 	GetGolfCurriculumByDate,
 	SaveUserInfoCommon,
 	GetUserInfoCommon,
-	PayCommon
+	PayCommon,
+	SaveLeaveMessageCommon
 }
