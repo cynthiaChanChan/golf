@@ -245,3 +245,21 @@ page {
 	background-color: #12898a;
 	color: #fff;
 }
+
+/*预约单*/
+.lightbox .bookingForm .subtitle {
+	font-size: 28rpx;
+	padding: 20rpx 0;
+	text-align: center;
+	color: #40425d;
+}
+.lightbox .bookingForm .footnote {
+	font-size: 25rpx;
+	margin-left: 13%;
+	padding: 30rpx 0 100rpx;
+	color: #12898a;
+}
+
+.lightbox .bookingForm .content .item {
+	margin-top: 25rpx;
+}

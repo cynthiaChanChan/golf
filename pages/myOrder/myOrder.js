@@ -1,6 +1,7 @@
 const util = require("../../utils/util");
 const {authorize} = require('../../dist/authorize/authorize');
 const request = require('../../dist/request/request');
+const notification = require("../../utils/notification");
 Page({
 	data: {
 		img: util.data.img,
@@ -26,13 +27,15 @@ Page({
 	},
 	init() {
 		const userid = wx.getStorageSync(util.data.userIdStorage)
-		const list = [];
-        for (let i = 0; i < 3; i += 1) {
-            list.push({
+		request.GetMyGolfMakeAppointment(userid).then((res) => {
+			const list = [];
+	        for (let i = 0; i < 3; i += 1) {
+	            list.push({
 
-            })
-        }
-        this.setData({list});
+	            })
+	        }
+	        this.setData({list});
+		})
 	},
 	processOrder(e) {
 		const { id, status } = e.currentTarget.dataset
@@ -56,6 +59,19 @@ Page({
 			this.setData({ list })
 		}).catch(()=>{
 			util.log('cancel')
+		})
+	},
+	send(e) {
+		const formId = e.detail.formId;
+		const data = e.currentTarget.dataset;
+		let param = {};
+		const sendtime = new Date(new Date().getTime() + 1000 * 60 * 2);
+		console.log("sendtime: ", sendtime);
+
+	},
+	goBooking() {
+		wx.redirectTo({
+			url: "../booking/booking"
 		})
 	},
 	hideLightBox() {

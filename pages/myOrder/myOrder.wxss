@@ -2,6 +2,21 @@ page {
     background-color: #f3f3f3;
 }
 
+.tip {
+    padding-top: 30rpx;
+    font-size: 32rpx;
+    text-align: center;
+    color: #40425d;
+}
+
+.tipItem {
+    padding-top: 30rpx;
+    font-size: 32rpx;
+    text-align: center;
+    color: #40425d;
+    text-decoration: underline;
+}
+
 .list .li {
     background-color: #fff;
     margin-top: 13rpx;

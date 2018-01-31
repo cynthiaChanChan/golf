@@ -9,6 +9,7 @@ Page({
         img: util.data.img,
         _tabbar_: {},
         isHintHidden: true,
+        isBookingFormHidden: true,
         chosenIdx: ""
     },
     onLoad(options) {
@@ -38,9 +39,22 @@ Page({
         this.GetGolfCurriculumByDate(`${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(this.day)}`);
     },
     GetGolfCurriculumByDate: function(date) {
+        const coursesList = [];
         request.GetGolfCurriculumByDate(date).then((res) => {
+            //过滤课程时间不正确的；已经过去的课
+            if (res.length > 0) {
+                for (let course of res) {
+                    let time = util.formatDate(`${date} ${course.what_time}:00`);
+                    const now = new Date();
+                    console.log('courseTime: ', time);
+                    if (time.toString().indexOf('Invalid') === -1 && now.getTime() < time.getTime()) {
+                        coursesList.push(course);
+                    }
+                }
+            }
             this.setData({
-                coursesList: res
+                coursesList,
+                isHistory: false
             })
         });
     },
@@ -68,9 +82,6 @@ Page({
         let weekList = util.templateList();
         let chosenIdx = "";
         let firstDay = "";
-        console.log('thisDay', this.day);
-        console.log('weekObj', weekObj);
-        console.log('weekList', weekList);
         for (let i = 0; i < 7; i += 1) {
             weekList[i].num = weekObj.weekdays[i].num;
             if (weekObj.weekdays[i].num == this.day && this.theMonth == this.month && this.theYear == this.year) {
@@ -82,7 +93,6 @@ Page({
             }
         }
         let date = `${this.year}年${this.month}月 第${weekObj.weekNum}周`;
-        let isLeftHidden = this.hideLeft(weekList);
         console.log("weekList", weekList)
         firstDay = weekList.find((elem) => {
             return elem.num
@@ -93,6 +103,7 @@ Page({
                 return elem.num
             })
         }
+        let isLeftHidden = this.hideLeft(firstDay);
         this.setData({weekList, date, isLeftHidden, chosenIdx});
         return firstDay;
     },
@@ -131,15 +142,14 @@ Page({
         let firstDay = this.setThisWeek(this.WholeMonth[this.weekIdx]);
         this.GetGolfCurriculumByDate(`${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(firstDay.num)}`);
     },
-    hideLeft(weekList) {
+    hideLeft(firstDay) {
         let isLeftHidden = false;
         //无法点击去过去的时间
         const now = new Date().getTime();
-        const calenderTime = util.formatDate(`${this.year}-${this.month}-${weekList[0].num} 00:00:00`);
-        if (now > calenderTime) {
+        const calenderTime = util.formatDate(`${this.year}-${this.month}-${firstDay.num} 00:00:00`);
+        if (now > calenderTime.getTime()) {
           isLeftHidden = true;
         }
-        console.log('isLeftHidden: ', isLeftHidden);
         return isLeftHidden;
     },
     book(e) {
@@ -192,6 +202,9 @@ Page({
             return makeAPayment(payData);
         }).then((res) => {
             console.log("支付成功：", res)
+            this.setData({
+                isBookingFormHidden: false
+            })
         }).catch((error) => {
             console.log("支付失败：", error)
         });
@@ -207,11 +220,26 @@ Page({
         weekList[index].chosen = "active";
         chosenIdx = index;
         this.setData({weekList, chosenIdx});
+        const now = util.formatDate(`${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()} 00:00:00`);
+        //屏蔽往日课程
+        const chosenTime = util.formatDate(`${this.year}-${this.month}-${weekList[index].num} 00:00:00`);
+        if (now.getTime() > chosenTime.getTime()) {
+          this.setData({
+              coursesList: [],
+              isHistory: true
+          })
+          return;
+        } else {
+          this.setData({
+              isHistory: false
+          })
+        }
         this.GetGolfCurriculumByDate(`${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(weekList[index].num)}`);
     },
     remove() {
         this.setData({
-            isHintHidden: true
+            isHintHidden: true,
+            isBookingFormHidden: true
         })
     }
 })

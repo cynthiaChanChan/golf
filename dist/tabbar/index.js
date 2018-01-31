@@ -14,7 +14,8 @@ const _tabbar_ = {
 	contact: {
 		icon: 'i-contact',
 		text: '客服',
-	}
+	},
+    appid: util.data.appid
 }
 
 function goPage(e) {

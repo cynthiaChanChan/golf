@@ -197,12 +197,12 @@ function each(object, callback) {
 function getText(str) {
     // html提取纯文本
     // return str.replace(/<\/?div.*?>|<\/?section.*?>|<\/?p.*?>|<img.*?>|<br.*?\/>|&nbsp;|<\/?span.*?>|<\/?a.*?>|<\/?em.*?>|<\/?strong.*?>|<\/?ul.*?>|<\/?li.*?>|<\/?dl.*?>|<\/?dt.*?>|<\/?dd.*?>|<\/?b.*?>|<\/?h\d.*?>/gi, '').replace(/&#39;/ig, "'")
-    return str.replace(/&#39;/ig, "'").replace(/<\/?[^>]*>|&[^;]*;/ig, '')
+    return str.replace(/<style>.*?<\/style>/gi, "").replace(/&#39;/ig, "'").replace(/<\/?[^>]*>|&[^;]*;/ig, '');
 }
 
 function url2abs(str) {
     // img链接转换为绝对路径
-    return str.replace(/<img.*?src="\//gi, '<img src="https://www.korjo.cn//').replace(/&#39;/gi, "'").replace(/<video.*?src="\//gi, '<video src="https://www.korjo.cn//').replace(/<source.*?<\/video>/, "</video>");
+    return str.replace(/<img.*?src="\//gi, '<img src="https://www.korjo.cn//').replace(/&#39;/gi, "'").replace(/<video.*?src="\//gi, '<video src="https://www.korjo.cn//').replace(/<source.*?<\/video>/gi, "</video>").replace(/<style>.*?<\/style>/gi, "");
 }
 
 function extend(target, options) {

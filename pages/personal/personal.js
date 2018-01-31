@@ -2,6 +2,7 @@ const util = require("../../utils/util");
 const {Tabbar} = require("../../dist/tabbar/index");
 const {authorize} = require('../../dist/authorize/authorize');
 const request = require('../../dist/request/request');
+const notification = require("../../utils/notification");
 Page({
     data: {
         img: util.data.img,
@@ -42,8 +43,11 @@ Page({
         });
     },
     turnOnMessage(e) {
+        let unionid = ""
+        //const isUserFollowed = notification.isUserFollowed(unionid);
         this.setData({
             isTurnOn: e.detail.value
         })
+
     }
 })

@@ -1,4 +1,7 @@
-<view class='tip' wx:if='{{list.length == 0}}'>您还没有预约！</view>
+<view class='tip' wx:if='{{list.length == 0}}'>
+    <view>您还没有预约！</view>
+    <view class="tipItem" bindtap="goBooking">点击去训练预约</view>
+</view>
 <view class='page'>
     <view class='list'>
         <view class='li' wx:for="{{list}}" wx:key="{{index}}">
@@ -19,7 +22,9 @@
             <view class="code">验证码：2018 0101 0656 003</view>
             <view class="cancelWrapper">
                 <text>*如需取消，请提前两小时进行取消\n费用将在3个工作日内原路返还。</text>
-                <view class="button">取消预约</view>
+                <form bindsubmit="send" report-submit="true">
+                    <button class="button" formType="submit">取消预约</button>
+                </form>
             </view>
         </view>
     </view>

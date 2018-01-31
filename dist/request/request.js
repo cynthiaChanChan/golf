@@ -96,6 +96,14 @@ function SaveLeaveMessageCommon(data) {
 	return util.post('/GolfApi/SaveLeaveMessageCommon', {dataJson: JSON.stringify(data)});
 }
 
+function ValidateUserOpenid(unionid) {
+    return util.get('/KorjoApi/ValidateUserOpenid', {unionid});
+}
+
+function GetMyGolfMakeAppointment(userid) {
+	return util.get('/GolfApi/GetMyGolfMakeAppointment', {userid});
+}
+
 module.exports = {
     GetSessionKey,
 	upload,
@@ -112,5 +120,7 @@ module.exports = {
 	SaveUserInfoCommon,
 	GetUserInfoCommon,
 	PayCommon,
-	SaveLeaveMessageCommon
+	SaveLeaveMessageCommon,
+	ValidateUserOpenid,
+	GetMyGolfMakeAppointment
 }
