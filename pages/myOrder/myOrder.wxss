@@ -96,6 +96,7 @@ page {
 }
 
 .li .cancelWrapper .button {
+    color: #12898a;
     position: absolute;
     top: 50%;
     -webkit-transform: translateY(-50%);
@@ -107,6 +108,8 @@ page {
     padding: 15rpx 0;
     width: 150rpx;
     border: 1px solid #12898a;
+    background-color: #fff;
+    border-radius: 0;
 }
 
 .box {
@@ -151,4 +154,5 @@ page {
     width: 32%;
     border: 1px solid #aaa;
     margin: 50rpx auto 0;
+    background-color: #fff;
 }

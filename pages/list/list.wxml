@@ -21,9 +21,9 @@
 		</view>
 		<view id="calender-content">
 			<view id="month">
-				<view class="day" wx:for="{{allDays}}" wx:key="id">
+				<view class="day" wx:for="{{allDays}}" wx:key="id" data-index="{{index}}" bindtap="goList">
 					<view class="num {{item.marked}} {{item.chosen}}">
-						<view class="numText" data-index="{{index}}" bindtap="goList">{{item.id}}</view>
+						<view class="numText" >{{item.id}}</view>
 					</view>
 					<view wx:if="{{item.off}}" class="off">休</view>
 				</view>
@@ -44,4 +44,4 @@
 		<image class="golfer" src="../../images/icon_golfer.png" mode="widthFix"></image>
 	</view>
 </view>
-<view class="noMatch" wx:if="{{matchData.length == 0 ? true : false}}">该月无{{typename}}</view>
+<view class="noMatch" wx:if="{{matchData.length == 0 ? true : false}}">该{{isWholeMonthNone ? '月' : '日'}}无{{typename}}</view>

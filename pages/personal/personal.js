@@ -7,6 +7,7 @@ Page({
     data: {
         img: util.data.img,
         _tabbar_: {},
+        switchStatus: "on",
         list: [{
             icon: 'i-note-b',
             text: '我的预约',
@@ -43,10 +44,16 @@ Page({
         });
     },
     turnOnMessage(e) {
+        let switchStatus = this.data.switchStatus;
+        if (switchStatus == "on") {
+            switchStatus = "";
+        } else {
+            switchStatus = "on";
+        }
         let unionid = ""
         //const isUserFollowed = notification.isUserFollowed(unionid);
         this.setData({
-            isTurnOn: e.detail.value
+            switchStatus
         })
 
     }

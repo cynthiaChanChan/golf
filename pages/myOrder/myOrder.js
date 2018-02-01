@@ -2,6 +2,7 @@ const util = require("../../utils/util");
 const {authorize} = require('../../dist/authorize/authorize');
 const request = require('../../dist/request/request');
 const notification = require("../../utils/notification");
+
 Page({
 	data: {
 		img: util.data.img,
@@ -62,11 +63,45 @@ Page({
 		})
 	},
 	send(e) {
-		const formId = e.detail.formId;
-		const data = e.currentTarget.dataset;
-		let param = {};
-		const sendtime = new Date(new Date().getTime() + 1000 * 60 * 2);
+		const dataset = e.currentTarget.dataset;
+		const form_id = e.detail.formId;
+		//消息模板id
+		const template_id = "QNEjNoHRsd7mBvydWl4yRlgIaWs7WyFgRK2M5ypAEVM";
+		const touser = wx.getStorageSync(util.data.openIdStorage);//openid
+		const page = "/pages/myOrder/myOrder";
+		const data = {
+			"keyword1": {
+	            "value": "推杆切杆",
+	            "color": "#40425d"
+	        },
+	        "keyword2": {
+	            "value": "300元",
+	            "color": "#12898a"
+	        },
+	        "keyword3": {
+	            "value": '2018-02-01 13：15：26',
+	            "color": "#40425d"
+	        },
+			"keyword4": {
+	            "value": '所交费用将在3个工作日内原路返还',
+	            "color": "#12898a"
+	        }
+		};
+		const sendtime = util.formatTime(new Date(new Date().getTime() + 1000 * 60 * 1));
+		const sendtype = 1;
+		const openid = wx.getStorageSync(util.data.openIdStorage);
 		console.log("sendtime: ", sendtime);
+		const param = {
+			touser,
+			template_id,
+			page,
+			form_id,
+			data
+		}
+		request.SaveSendMsg(sendtime, param, sendtype, openid).then((res) => {
+			console.log(res)
+		})
+
 
 	},
 	goBooking() {

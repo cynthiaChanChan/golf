@@ -197,16 +197,21 @@ Page({
     },
     pay(e) {
         const id = e.currentTarget.dataset.id;
-        request.PayCommon(util.data.appid, wx.getStorageSync(util.data.openIdStorage), 1).then((res) => {
-            const payData = JSON.parse(res.data);
-            return makeAPayment(payData);
-        }).then((res) => {
-            console.log("支付成功：", res)
-            this.setData({
-                isBookingFormHidden: false
-            })
-        }).catch((error) => {
-            console.log("支付失败：", error)
+        request.SaveGolfMakeAppointment(wx.getStorageSync(util.data.userIdStorage), id).then((res) => {
+            if (res.length == 0) {
+                return;
+            }
+            request.PayCommon(util.data.appid, wx.getStorageSync(util.data.openIdStorage), 1).then((res) => {
+                const payData = JSON.parse(res.data);
+                return makeAPayment(payData);
+            }).then((res) => {
+                console.log("支付成功：", res)
+                this.setData({
+                    isBookingFormHidden: false
+                })
+            }).catch((error) => {
+                console.log("支付失败：", error)
+            });
         });
     },
     checkCourses(e) {

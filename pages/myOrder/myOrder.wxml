@@ -23,7 +23,7 @@
             <view class="cancelWrapper">
                 <text>*如需取消，请提前两小时进行取消\n费用将在3个工作日内原路返还。</text>
                 <form bindsubmit="send" report-submit="true">
-                    <button class="button" formType="submit">取消预约</button>
+                    <button class="button" formType="submit" plain="true">取消预约</button>
                 </form>
             </view>
         </view>

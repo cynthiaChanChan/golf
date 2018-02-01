@@ -54,7 +54,8 @@ Page({
         if (res.length == 0) {
             this.isMatchAvailable = false;
             this.setData({
-                matchData: []
+                matchData: [],
+                isWholeMonthNone: true
             })
             this.createDays(this.year, this.month);
             return;

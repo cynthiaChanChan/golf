@@ -104,6 +104,22 @@ function GetMyGolfMakeAppointment(userid) {
 	return util.get('/GolfApi/GetMyGolfMakeAppointment', {userid});
 }
 
+function SaveGolfMakeAppointment(userid, curriculum_id) {
+	return util.post('/GolfApi/SaveGolfMakeAppointment', {userid, curriculum_id});
+}
+
+function SaveSendMsg(sendtime, param, sendtype, openid) {
+	return util.post('/KorjoApi/SaveSendMsg', {
+		jsonData: JSON.stringify({
+			"messagejson": JSON.stringify(param),
+			sendtime,
+			"wxpublic_id": util.data.appid,
+			sendtype,
+			openid
+		})
+	});
+}
+
 module.exports = {
     GetSessionKey,
 	upload,
@@ -122,5 +138,7 @@ module.exports = {
 	PayCommon,
 	SaveLeaveMessageCommon,
 	ValidateUserOpenid,
-	GetMyGolfMakeAppointment
+	GetMyGolfMakeAppointment,
+	SaveGolfMakeAppointment,
+	SaveSendMsg
 }

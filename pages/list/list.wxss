@@ -41,6 +41,7 @@
 }
 
 #calender-wrapper #calender-title #date .arrow {
+	padding: 10rpx 0;
 	width: 20%;
 	position: absolute;
 	top: 50%;

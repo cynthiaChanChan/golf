@@ -19,7 +19,9 @@
                 <view class='p'>
                     <text>提醒开启状态</text>
                 </view>
-                <switch bindchange="turnOnMessage" color="#12898a" checked="true"></switch>
+                <view class="switch {{switchStatus}}" bindtap="turnOnMessage">
+                    <view class="handle"></view>
+                </view>
                 <view class="more">开启提醒后，微信可接收到预约成功，取消预约等消息通知。</view>
             </view>
         </view>

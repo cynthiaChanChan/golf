@@ -96,33 +96,38 @@ page {
     margin-top: 10rpx;
 }
 
-.list .alarm switch {
+.switch {
     position: absolute;
     top: 15rpx;
     right: 30rpx;
+    margin: 0;
+    padding: 0;
+    border: none;
+    height: 46rpx;
+    width: 76rpx;
+    border-radius: 35rpx;
+    color: #6b7381;
+    background: #bdc1c8;
 }
 
-wx-switch .wx-switch-input {
-  width: 94rpx;
-  height: 52rpx;
-  margin-right: 0;
-  border: 2rpx solid #DFDFDF;
-  outline: 0;
-  border-radius: 27rpx;
-}
-wx-switch .wx-switch-input:before {
-  width: 90rpx;
-  height: 46rpx;
-  border-radius: 23rpx;
-}
-wx-switch .wx-switch-input:after {
-  width: 46rpx;
-  height: 46rpx;
-  border-radius: 23rpx;
-  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.4);
+.switch.on {
+    background-color: #12898a;
+    transition: background-color 0.25s;
 }
 
-wx-switch .wx-switch-input.wx-switch-input-checked:after {
-  -webkit-transform: translateX(44rpx);
-          transform: translateX(44rpx);
+.switch .handle {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 2rpx;
+    width: 42rpx;
+    height: 42rpx;
+    border-radius: 50%;
+    background: #fff;
+    transition: left .25s;
+}
+
+.switch.on .handle {
+    left: 32rpx;
+    transition: left .25s;
 }
