@@ -42,7 +42,7 @@
             <view class="item">上课内容：{{course.content}}</view>
             <view class="item">上课方式：{{course.mode}}</view>
             <view class="item">教练：{{course.coach}}</view>
-            <view class="item">费用：{{course.cost}}</view>
+            <view class="item">费用：{{course.cost}}元/时</view>
         </view>
         <view class="buttons clearfix">
             <view class="button" bindtap="remove">取消</view>

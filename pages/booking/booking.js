@@ -197,11 +197,14 @@ Page({
     },
     pay(e) {
         const id = e.currentTarget.dataset.id;
-        request.SaveGolfMakeAppointment(wx.getStorageSync(util.data.userIdStorage), id).then((res) => {
+        const userid = Number(wx.getStorageSync(util.data.userIdStorage));
+        request.SaveGolfMakeAppointment(userid, id, util.data.appid).then((res) => {
+            console.log('保存订单：', res);
             if (res.length == 0) {
                 return;
             }
-            request.PayCommon(util.data.appid, wx.getStorageSync(util.data.openIdStorage), 1).then((res) => {
+            //data第二个数字是支付id
+            request.PayCommon(res.data[1]).then((res) => {
                 const payData = JSON.parse(res.data);
                 return makeAPayment(payData);
             }).then((res) => {

@@ -6,7 +6,7 @@ page {
 }
 
 .content {
-  padding: 0 40rpx;
+  padding: 0 5%;
 }
 
 .content .title {
@@ -24,11 +24,17 @@ page {
 }
 
 .content .detail image{
-  margin: 10rpx 0;
+  margin: 10rpx auto;
   width: 100%;
 }
 
 .content .detail video {
   margin: 40rpx 0;
   width: 100%;
+}
+
+/*  专门针对这个百科的修改*/
+
+.content {
+    padding-bottom: 30rpx;
 }

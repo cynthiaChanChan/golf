@@ -46,9 +46,9 @@ Page({
         const isChildOne = this.data.news_list[data.idx].isone;
         let url = "";
         if (isChildOne && isChildOne != 0) {
-            url = `/pages/article/article?title=${data.title}&id=${isChildOne}`;
+            url = `/pages/article/article?title=${data.title}&id=${isChildOne}&type=${this.data.title}`;
         } else {
-            url = `/pages/news/news?title=${data.title}&id=${data.id}&image=${data.image}`;
+            url = `/pages/news/news?title=${data.title}&id=${data.id}&image=${data.image}&type=${this.data.title}`;
         }
         wx.navigateTo({
             url: url

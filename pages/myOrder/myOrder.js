@@ -2,7 +2,7 @@ const util = require("../../utils/util");
 const {authorize} = require('../../dist/authorize/authorize');
 const request = require('../../dist/request/request');
 const notification = require("../../utils/notification");
-
+const {addSpaces} = require("../../utils/payment");
 Page({
 	data: {
 		img: util.data.img,
@@ -30,11 +30,22 @@ Page({
 		const userid = wx.getStorageSync(util.data.userIdStorage)
 		request.GetMyGolfMakeAppointment(userid).then((res) => {
 			const list = [];
-	        for (let i = 0; i < 3; i += 1) {
-	            list.push({
-
-	            })
-	        }
+			if (res.length > 0) {
+				for (let li of res) {
+                    // 每四个数字加个空格
+					li.identifying_code = addSpaces(li.identifying_code);
+					const addtime = li.addtime;
+					const chineseWeekday = ["一","二","三","四","五","六", "日"];
+					let weekday = util.formatDate(li.schooltime).getDay();
+					if (weekday == 0) {
+						weekday = 7;
+					}
+					li.addtime = addtime.split("T")[0] + ' ' + addtime.split("T")[1];
+					//2018年1月2日 星期二 18:00
+					li.schooltime = li.schooltime.split("T")[0] + ' 星期' + chineseWeekday[weekday] + ' ' + li.what_time;
+					list.push(li);
+				}
+			}
 	        this.setData({list});
 		})
 	},

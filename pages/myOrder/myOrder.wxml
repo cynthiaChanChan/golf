@@ -7,19 +7,19 @@
         <view class='li' wx:for="{{list}}" wx:key="{{index}}">
             <view class="liWrapper">
                 <view class="timeWrapper">
-                    <view class="text">创建时间：2018-01-03 10:00:26</view>
+                    <view class="text">创建时间：{{item.addtime}}</view>
                 </view>
                 <view class="status">已付费</view>
             </view>
             <view class="content">
-                <view class="item">上课时间：2018年1月2日 星期二 18:00</view>
-                <view class="item">上课内容：星期二 18:00</view>
-                <view class="item">上课方式：1vs</view>
-                <view class="item">教练：李教练</view>
-                <view class="item">费用：300元/时</view>
+                <view class="item">上课时间：{{item.schooltime}}</view>
+                <view class="item">上课内容：{{item.content}}</view>
+                <view class="item">上课方式：{{item.mode}}</view>
+                <view class="item">教练：{{item.coach}}</view>
+                <view class="item">费用：{{item.cost}}元/时</view>
             </view>
             <view class="hint">请现场出示验证码给工作人员</view>
-            <view class="code">验证码：2018 0101 0656 003</view>
+            <view class="code">验证码：{{item.identifying_code}}</view>
             <view class="cancelWrapper">
                 <text>*如需取消，请提前两小时进行取消\n费用将在3个工作日内原路返还。</text>
                 <form bindsubmit="send" report-submit="true">

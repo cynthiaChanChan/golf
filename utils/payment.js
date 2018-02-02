@@ -17,6 +17,11 @@ function makeAPayment (payData) {
     })
 }
 
+function addSpaces(string) {
+    return string.replace(/(\w{4})(\w{4})(\w{4})/, "$1 $2 $3 ");
+}
+
 module.exports = {
-    makeAPayment
+    makeAPayment,
+    addSpaces
 }

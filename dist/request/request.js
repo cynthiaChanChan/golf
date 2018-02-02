@@ -88,8 +88,8 @@ function GetUserInfoCommon(id) {
 	return util.get('/GolfApi/GetUserInfoCommon', {id});
 }
 
-function PayCommon(id, openid, total_fee) {
-	return util.post('/PayApi/PayCommon', {id, openid, total_fee});
+function PayCommon(order_pay_id) {
+	return util.post('/PayApi/PayCommon', {order_pay_id});
 }
 
 function SaveLeaveMessageCommon(data) {
@@ -104,8 +104,10 @@ function GetMyGolfMakeAppointment(userid) {
 	return util.get('/GolfApi/GetMyGolfMakeAppointment', {userid});
 }
 
-function SaveGolfMakeAppointment(userid, curriculum_id) {
-	return util.post('/GolfApi/SaveGolfMakeAppointment', {userid, curriculum_id});
+function SaveGolfMakeAppointment(userid, curriculum_id, wxpublic_id) {
+	return util.post('/GolfApi/SaveGolfMakeAppointment', {
+		dataJson: JSON.stringify({userid, curriculum_id, wxpublic_id})
+	});
 }
 
 function SaveSendMsg(sendtime, param, sendtype, openid) {
@@ -118,6 +120,10 @@ function SaveSendMsg(sendtime, param, sendtype, openid) {
 			openid
 		})
 	});
+}
+//粉我吧科技介绍页
+function GetFansIntro(wxpublic_id) {
+	return util.get('/KorjoApi/GetFansIntro', {wxpublic_id});
 }
 
 module.exports = {
@@ -140,5 +146,6 @@ module.exports = {
 	ValidateUserOpenid,
 	GetMyGolfMakeAppointment,
 	SaveGolfMakeAppointment,
-	SaveSendMsg
+	SaveSendMsg,
+	GetFansIntro
 }

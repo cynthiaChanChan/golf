@@ -12,18 +12,26 @@ Page({
         content: ''
     },
     onLoad: function(options) {
-        // 页面初始化 options为页面跳转所带来的参数
         var _this = this;
+        let imagePadding = 10;
+        // 页面初始化 options为页面跳转所带来的参数
         request.GetBaikeFQAInfo(options.id).then((result) => {
             _this.pageTitle = util.getText(result.title);
+            let content = "";
+            // 如果是这两类图片路径不一样
+            if (options.type == "球场大全" || options.type == "球星名人") {
+                content = result.content.replace(/<img.*?src=.*?uploads/gi, '<img src="http://www.golfbaike.com/uploads').replace(/&#39;/gi, "'").replace(/<video.*?src="\//gi, '<video src="https://www.korjo.cn//').replace(/<source.*?<\/video>/gi, "</video>").replace(/<style>.*?<\/style>/gi, "").replace(/style=\"WIDTH: .*?px\"/gi, "");
+            } else {
+                content = util.url2abs(result.content)
+            }
             _this.setData({
                 header: {
                     title: options.title
                 },
                 id: options.id,
-                content: util.url2abs(result.content)
+                content
             })
-            var article = util.url2abs(result.content);
+            var article = content;
             /**
              * WxParse.wxParse(bindName , type, data, target,imagePadding)
              * 1.bindName绑定的数据名(必填)
@@ -32,8 +40,12 @@ Page({
              * 4.target为Page对象,一般为this(必填)
              * 5.imagePadding为当图片自适应是左右的单一padding(默认为0,可选)
              */
-            WxParse.wxParse('article', 'html', article, _this, 5);
-            WxParse.wxParse('title1', 'html', result.title, _this, 5);
+
+             //0.2是因为css的padding设置了5%
+             let imagePadding = wx.getSystemInfoSync().windowWidth * 0.05;
+             console.log("imagePadding ", imagePadding)
+            WxParse.wxParse('article', 'html', article, _this, imagePadding);
+            WxParse.wxParse('title1', 'html', result.title, _this, imagePadding);
         })
 
     },

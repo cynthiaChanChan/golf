@@ -13,7 +13,7 @@ Page({
     },
     goIntro() {
         wx.navigateTo({
-        url: "../intro/intro"
+        url: "../faq/faq"
         })
     },
     userInput(e) {

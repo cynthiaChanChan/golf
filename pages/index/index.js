@@ -9,12 +9,12 @@ Page({
         //   url: "../list/list?typename=男子职业比赛"
         // })
         wx.navigateTo({
-          url: "../myOrder/myOrder"
+          url: "../baike/baike"
         })
     },
     goIntro() {
         wx.navigateTo({
-          url: "../intro/intro"
+          url: "../faq/faq"
         })
     },
     goBaike() {

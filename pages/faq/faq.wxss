@@ -1,0 +1,16 @@
+@import "../../dist/wxParse/wxParse.wxss";
+
+view, input, checkbox, textarea {
+    box-sizing: border-box;
+}
+
+image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.content {
+    padding: 20rpx 4% 60rpx 4%;
+	font-size: 32rpx;
+}

@@ -28,7 +28,7 @@
     </view>
   </view>
   <view class="bottom">
-    <text class="goLogin" bindtap="goTeacherlogin">教练员登录</text>
-    <text class="intro" bindtap="goIntro">粉我吧科技出品</text>
+    <text class="goLogin padding" bindtap="goTeacherlogin">教练员登录</text>
+    <text class="intro padding" bindtap="goIntro">粉我吧科技出品</text>
   </view>
 </view>

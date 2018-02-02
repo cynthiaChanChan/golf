@@ -26,6 +26,7 @@ Page({
                     header: {
                         title: options.title
                     },
+                    type: options.type,
                     height: res.windowHeight,
                     id: options.id
                 })
@@ -87,7 +88,7 @@ Page({
         // 跳到下一页
         var data = e.currentTarget.dataset
         wx.navigateTo({
-            url: `/pages/article/article?title=${this.data.header.title}&id=${data.id}`
+            url: `/pages/article/article?title=${this.data.header.title}&id=${data.id}&type=${this.data.type}`
         })
     },
     goBack: function () {

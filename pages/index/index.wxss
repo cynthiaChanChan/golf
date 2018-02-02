@@ -61,6 +61,10 @@ page {
     text-decoration: underline;
 }
 
+.bottom .padding {
+    padding: 10rpx 0;
+}
+
 .bottom .intro {
     margin-left: 30rpx;
 }
