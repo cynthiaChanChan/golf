@@ -44,4 +44,6 @@
 		<image class="golfer" src="../../images/icon_golfer.png" mode="widthFix"></image>
 	</view>
 </view>
-<view class="noMatch" wx:if="{{matchData.length == 0 ? true : false}}">该{{isWholeMonthNone ? '月' : '日'}}无{{typename}}</view>
+<view class="noMatch" wx:if="{{matchData.length == 0 ? true : false}}">
+  <text>该{{isWholeMonthNone ? '月' : '日'}}无{{typename}}</text>
+</view>

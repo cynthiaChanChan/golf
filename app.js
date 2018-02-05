@@ -5,6 +5,7 @@ App({
 		host: 'https://www.korjo.cn',
 		appid: 38,
         openIdStorage: 'golfUserOpenId',
-        userIdStorage: 'golfUserId'
+        userIdStorage: 'golfUserId',
+        unionIdStorage: 'golfUserUnionId'
 	}
 })

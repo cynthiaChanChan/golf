@@ -34,7 +34,6 @@ Page({
                 }
             }
         }
-        console.log("This week: ", weekObj);
         this.setThisWeek(weekObj);
         this.GetGolfCurriculumByDate(`${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(this.day)}`);
     },
@@ -46,7 +45,6 @@ Page({
                 for (let course of res) {
                     let time = util.formatDate(`${date} ${course.what_time}:00`);
                     const now = new Date();
-                    console.log('courseTime: ', time);
                     if (time.toString().indexOf('Invalid') === -1 && now.getTime() < time.getTime()) {
                         coursesList.push(course);
                     }
@@ -200,11 +198,12 @@ Page({
         const userid = Number(wx.getStorageSync(util.data.userIdStorage));
         request.SaveGolfMakeAppointment(userid, id, util.data.appid).then((res) => {
             console.log('保存订单：', res);
-            if (res.length == 0) {
+            if (res.status != 200) {
+                util.alert('确认订单失败，请重新确认！');
                 return;
             }
             //data第二个数字是支付id
-            request.PayCommon(res.data[1]).then((res) => {
+            request.PayCommon(res.data.split(",")[1]).then((res) => {
                 const payData = JSON.parse(res.data);
                 return makeAPayment(payData);
             }).then((res) => {
@@ -213,6 +212,7 @@ Page({
                     isBookingFormHidden: false
                 })
             }).catch((error) => {
+                util.alert('订单支付失败，请重新确认并支付！');
                 console.log("支付失败：", error)
             });
         });

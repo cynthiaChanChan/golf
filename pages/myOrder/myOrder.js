@@ -13,7 +13,8 @@ Page({
 			'2': { text: '已完成', showBtn: true, btn: '删除订单' },
 			'3': { text: '已取消', showBtn: false },
 		},
-		isHintHidden: true
+		isHintHidden: true,
+		isBookingFormHidden: true
 	},
 	onLoad(options) {
 		// 授权
@@ -43,38 +44,24 @@ Page({
 					li.addtime = addtime.split("T")[0] + ' ' + addtime.split("T")[1];
 					//2018年1月2日 星期二 18:00
 					li.schooltime = li.schooltime.split("T")[0] + ' 星期' + chineseWeekday[weekday] + ' ' + li.what_time;
+					const statusArray = ["已退费", "已付费", "退款中"];
+					li.orderStatus = statusArray[li.status - 1];
 					list.push(li);
 				}
 			}
 	        this.setData({list});
 		})
 	},
-	processOrder(e) {
-		const { id, status } = e.currentTarget.dataset
-		const data = {
-			id,
-			status: status == 0 ? 3 : -1
-		}
-		this.showZanDialog({
-			content: `确认要util{status == 0 ? '取消' : '删除'}该订单吗？`,
-			showCancel: true,
-		}).then(() => {
-			// return request.UpdateOrderStatus(data)
-		}).then(res => {
-			const list = this.data.list
-			let idx = -1
-			util.each(list, (i, v) => {
-				v.id == data.id && (v.status = data.status)
-				v.status == -1 && (idx = i)
-			})
-			idx > -1 && list.remove(idx)
-			this.setData({ list })
-		}).catch(()=>{
-			util.log('cancel')
+	cancelOrder(e) {
+		const dataset = e.currentTarget.dataset;
+		this.setData({
+			isBookingFormHidden: false,
+			course: this.data.list[dataset.idx]
 		})
 	},
 	send(e) {
-		const dataset = e.currentTarget.dataset;
+		const that = this;
+		const dataset = e.detail.target.dataset;
 		const form_id = e.detail.formId;
 		//消息模板id
 		const template_id = "QNEjNoHRsd7mBvydWl4yRlgIaWs7WyFgRK2M5ypAEVM";
@@ -110,10 +97,17 @@ Page({
 			data
 		}
 		request.SaveSendMsg(sendtime, param, sendtype, openid).then((res) => {
-			console.log(res)
+			console.log(res);
+			//status为3， 是表示取消订单，待退款成功
+			that.cancel(dataset.payid, 3);
 		})
+	},
+	cancel(order_pay_id, status) {
+		request.UpdateOrderPayStatus(order_pay_id, status).then(() => {
+			request.RunCommon(order_pay_id).then(() => {
 
-
+			})
+		})
 	},
 	goBooking() {
 		wx.redirectTo({
@@ -124,5 +118,11 @@ Page({
 		this.setData({
 			isHintHidden: true
 		})
-	}
+	},
+	remove() {
+        this.setData({
+            isHintHidden: true,
+            isBookingFormHidden: true
+        })
+    }
 })

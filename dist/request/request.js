@@ -126,6 +126,14 @@ function GetFansIntro(wxpublic_id) {
 	return util.get('/KorjoApi/GetFansIntro', {wxpublic_id});
 }
 
+function UpdateOrderPayStatus(id, status) {
+	return util.post('/GolfApi/UpdateOrderPayStatus', {id, status});
+}
+
+function RunCommon(order_pay_id) {
+	return util.post('/PayApi/RunCommon', {order_pay_id});
+}
+
 module.exports = {
     GetSessionKey,
 	upload,
@@ -147,5 +155,7 @@ module.exports = {
 	GetMyGolfMakeAppointment,
 	SaveGolfMakeAppointment,
 	SaveSendMsg,
-	GetFansIntro
+	GetFansIntro,
+	UpdateOrderPayStatus,
+	RunCommon
 }

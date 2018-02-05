@@ -38,7 +38,9 @@ function getOpenId(obj) {
       return request.GetSessionKey(data);
    }).then(res => {
       const openId = JSON.parse(res).openid;
+      const unionId = JSON.parse(res).unionid;
       wx.setStorageSync(util.data.openIdStorage, openId);
+      wx.setStorageSync(util.data.unionIdStorage, unionId);
       // 获取用户信息
 		  checkUserInfo(obj);
    })
@@ -84,9 +86,9 @@ function checkUserInfo(obj) {
 }
 
 function useUserInfo(obj) {
-  if (wx.getStorageSync(util.data.userIdStorage)) {
+  if (wx.getStorageSync(util.data.userIdStorage) && wx.getStorageSync(util.data.unionIdStorage)) {
     obj.success();
-  } else if (wx.getStorageSync(util.data.openIdStorage)){
+} else if (wx.getStorageSync(util.data.openIdStorage) && wx.getStorageSync(util.data.unionIdStorage)){
     checkUserInfo(obj);
   } else {
     getOpenId(obj);

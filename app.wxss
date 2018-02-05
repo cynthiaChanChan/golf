@@ -31,7 +31,7 @@ view[hidden] {
     display: none !important;
 }
 
-.lightbox{
+.lightbox, .dialogue{
     overflow: hidden;
   	background: rgba(0,0,0,.4);
   	position: fixed;
