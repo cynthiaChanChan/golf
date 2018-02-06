@@ -44,7 +44,7 @@ Page({
 					li.addtime = addtime.split("T")[0] + ' ' + addtime.split("T")[1];
 					//2018年1月2日 星期二 18:00
 					li.schooltime = li.schooltime.split("T")[0] + ' 星期' + chineseWeekday[weekday] + ' ' + li.what_time;
-					const statusArray = ["已退费", "已付费", "退款中"];
+					const statusArray = ["已付费", "已退费", "退款中"];
 					li.orderStatus = statusArray[li.status - 1];
 					list.push(li);
 				}
@@ -103,9 +103,16 @@ Page({
 		})
 	},
 	cancel(order_pay_id, status) {
+		const that = this;
 		request.UpdateOrderPayStatus(order_pay_id, status).then(() => {
-			request.RunCommon(order_pay_id).then(() => {
-
+			request.RunCommon(order_pay_id).then((res) => {
+				if(res.status == 200) {
+					that.setData({
+						isHintHidden: false
+					})
+				} else {
+					util.alert('如退款失败，请联系商家！')
+				}
 			})
 		})
 	},

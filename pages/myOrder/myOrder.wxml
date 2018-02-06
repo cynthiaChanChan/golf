@@ -23,7 +23,7 @@
             <view class="cancelWrapper">
                 <text>*如需取消，请提前两小时进行取消\n费用将在3个工作日内原路返还。</text>
                 <button class="button" data-idx="{{index}}" plain="true" bindtap="cancelOrder" wx:if="{{item.status == 1}}">取消预约</button>
-                <view class="button cancelled" plain="true" wx:if="{{item.status == 3}}">已取消预约</view>
+                <view class="button cancelled" plain="true" wx:if="{{item.status == 3 || item.status == 2}}">已取消预约</view>
             </view>
         </view>
     </view>

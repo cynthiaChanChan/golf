@@ -119,7 +119,6 @@ page {
 	position: relative;
 	width: 161rpx;
 	height: 163rpx;
-	/* border: 1px solid #f9f8f8; */
 	background-color: #fff;
 	border: 1px solid #cacaca;
 	border-radius: 10rpx;
@@ -132,6 +131,11 @@ page {
 	-webkit-flex-flow: column;
 	justify-content: center;
 	-webkit-justify-content: center;
+}
+
+.courses .course.full {
+	background-color: #f9f8f8;
+	border-color: #f9f8f8;
 }
 
 .courses .course .statusIcon {
@@ -179,6 +183,7 @@ page {
 .lightbox .box {
 	background-color: #fff;
 	border-radius: 15rpx;
+	position: relative;
 }
 
 .lightbox .box .boxTitle {
@@ -257,10 +262,27 @@ page {
 .lightbox .bookingForm .footnote {
 	font-size: 25rpx;
 	margin-left: 13%;
-	padding: 30rpx 0 100rpx;
+	padding: 30rpx 0 120rpx;
 	color: #12898a;
 }
 
 .lightbox .bookingForm .content .item {
 	margin-top: 25rpx;
+}
+
+.lightbox button.followButton  {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	bottom: 20rpx;
+	text-align: center;
+	background-color: #12898a;
+	line-height: 1;
+	padding: 20rpx 0;
+	width: 70%;
+	border-radius: 10rpx;
+    font-size: 30rpx;
+	color: #fff;
+
 }

@@ -1,4 +1,5 @@
 const util = require("../../utils/util");
+const notification = require("../../utils/notification");
 const {Tabbar} = require("../../dist/tabbar/index");
 const {authorize} = require('../../dist/authorize/authorize');
 const request = require("../../dist/request/request");
@@ -9,7 +10,7 @@ Page({
         img: util.data.img,
         _tabbar_: {},
         isHintHidden: true,
-        isBookingFormHidden: true,
+        isBookingFormHidden: false,
         chosenIdx: ""
     },
     onLoad(options) {
@@ -74,7 +75,6 @@ Page({
             })
         }
         this.WholeMonth = calendar.createMonthData(WholeMonth, this.month, this.year);
-        console.log(this.WholeMonth);
     },
     setThisWeek: function(weekObj) {
         let weekList = util.templateList();
@@ -91,7 +91,6 @@ Page({
             }
         }
         let date = `${this.year}年${this.month}月 第${weekObj.weekNum}周`;
-        console.log("weekList", weekList)
         firstDay = weekList.find((elem) => {
             return elem.num
         })
@@ -154,6 +153,10 @@ Page({
         const that = this;
         const coursesList = this.data.coursesList;
         const index = e.currentTarget.dataset.index;
+        if (coursesList[index].status == 2) {
+            //预约人数已满
+            return;
+        }
         // 授权
 		authorize.useUserInfo({
 			success: () => {
@@ -170,7 +173,9 @@ Page({
         const weekList = this.data.weekList;
         const chosenIdx = this.data.chosenIdx;
         const date = this.data.date;
-        const userid = wx.getStorageSync(util.data.userIdStorage)
+        const userid = wx.getStorageSync(util.data.userIdStorage);
+        const openid = wx.getStorageSync(util.data.openIdStorage);
+        let isfollowButtonHidden = true;
 		request.GetUserInfoCommon(userid).then(res => {
             //如果联系人信息里没有电话，则让用户提交个人信息（教练管理平台用到电话）
             if (!res.phone) {
@@ -186,28 +191,90 @@ Page({
                     course.weekday = `星期${course.weekday}`;
                 }
                 course.date = date.split(" ")[0] + weekList[chosenIdx].num + "日";
+                // 提前两个小时通知上课，如没关注公众号，在预约单里关注
+                const sendtime = course.schooltime.split("T")[0] + " " + course.what_time + ":00";
+                const sendtype = notification.conformSendType(sendtime, openid, wx.getStorageSync(util.data.unionIdStorage));
+                if (sendtype == 1) {
+                  that.setData({
+                      isHintHidden: false,
+                      identity: wx.getStorageSync(util.data.openIdStorage),
+                      followHint: "我们将会在开课前两小时微信通知您。\n"
+                  })
+                } else {
+                    request.ValidateUserOpenid(wx.getStorageSync(util.data.unionIdStorage)).then((response) => {
+                        if (response == 0) {
+                            isfollowButtonHidden = false;
+                            that.setData({
+                                isHintHidden: false,
+                                isfollowButtonHidden,
+                                identity:  wx.getStorageSync(util.data.unionIdStorage),
+                                followHint: "关注公众号，我们将会在开课前两小时微信通知您。\n"
+                            })
+                        } else {
+                            that.setData({
+                                isHintHidden: false,
+                                identity:  wx.getStorageSync(util.data.unionIdStorage),
+                                followHint: "我们将会在开课前两小时微信通知您。\n"
+                            })
+                        }
+                    })
+
+                }
                 that.setData({
+                    sendtype,
                     course,
-                    isHintHidden: false
+                    sendtime
                 })
             }
 		})
     },
+    follow(e) {
+    },
     pay(e) {
         const id = e.currentTarget.dataset.id;
         const userid = Number(wx.getStorageSync(util.data.userIdStorage));
+        const openid = wx.getStorageSync(util.data.openIdStorage);
+        const sendtype = this.data.sendtype;
+        const identity = this.data.identity;
+        const weekList = this.data.weekList;
+        const chosenIdx = this.data.chosenIdx;
+        const requestDate = `${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(weekList[chosenIdx].num)}`;
+        let param = "";
         request.SaveGolfMakeAppointment(userid, id, util.data.appid).then((res) => {
             console.log('保存订单：', res);
             if (res.status != 200) {
-                util.alert('确认订单失败，请重新确认！');
+                const failHint = res.status == 201 ? '预约人数已满，请选其他时间！' : '确认订单失败，请重新确认！';
+                util.alert(failHint);
+                if (res.status == 201) {
+                    this.GetGolfCurriculumByDate(requestDate);
+                    this.setData({
+                        isHintHidden: true
+                    })
+                }
                 return;
             }
             //data第二个数字是支付id
             request.PayCommon(res.data.split(",")[1]).then((res) => {
                 const payData = JSON.parse(res.data);
+                const prepay_id = payData.package.split("=")[1];
                 return makeAPayment(payData);
             }).then((res) => {
                 console.log("支付成功：", res)
+                const course = this.data.course;
+                if (sendtype == 2) {
+                    //上课通知--公众号
+                    param = notification.sendMessageUsingPlatform(course);
+                } else {
+                    //上课通知--小程序
+                    param = notification.CourseStartMessage(course, prepay_id, openid);
+                }
+                request.SaveSendMsg(this.data.sendtime, param, sendtype, identity).then((res) => {
+                    console.log("保存上课通知消息", res)
+                });
+                const paramForBooking = notification.bookedMessage(course, prepay_id, openid);
+                request.SaveSendMsg(util.formatTime(new Date(new Date().getTime() + 1000 * 60 * 1)), paramForBooking, 1, wx.getStorageSync(util.data.openIdStorage)).then((res) => {
+                    console.log("保存预约成功消息", res)
+                });
                 this.setData({
                     isBookingFormHidden: false
                 })

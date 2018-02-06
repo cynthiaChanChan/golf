@@ -133,6 +133,12 @@ function UpdateOrderPayStatus(id, status) {
 function RunCommon(order_pay_id) {
 	return util.post('/PayApi/RunCommon', {order_pay_id});
 }
+// 保存公众号关注链接
+function SaveDataJsonCommon(wxpublic_id, data) {
+	return util.post('/KorjoApi/SaveDataJsonCommon', {
+		dataJson: JSON.stringify({wxpublic_id, datajson: JSON.stringify(data)})
+	});
+}
 
 module.exports = {
     GetSessionKey,
@@ -157,5 +163,6 @@ module.exports = {
 	SaveSendMsg,
 	GetFansIntro,
 	UpdateOrderPayStatus,
-	RunCommon
+	RunCommon,
+	SaveDataJsonCommon
 }

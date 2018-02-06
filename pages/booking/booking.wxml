@@ -17,8 +17,8 @@
         </view>
         <view class="courses">
             <view class="courseWrapper" wx:for="{{coursesList}}" wx:key="{{index}}">
-                <view class="course" bindtap="book" data-index="{{index}}">
-                    <image class="statusIcon" src="../../images/available.png" mode="widthFix"></image>
+                <view class="course {{item.status == 2 ? 'full' : ''}}" bindtap="book" data-index="{{index}}">
+                    <image class="statusIcon" src="../../images/{{item.status == 1 ? 'available' : 'full'}}.png" mode="widthFix"></image>
                     <view class="clock">{{item.what_time}}</view>
                     <view class="teacher">{{item.coach}}</view>
                 </view>
@@ -64,7 +64,8 @@
             <view class="item">费用：{{course.cost}}</view>
         </view>
         <view class="footnote">
-            <text>*请您提前到现场做入场准备，以便准时上课。\n*到现场后请到“我的-我的预约”找到订单并\n出示验证码给工作人员。\n*如需取消，请到“我的-我的预约”提前两小\n时进行取消，费用将在3个工作日内原路返还。</text>
+            <text>*{{followHint}}*请您提前到现场做入场准备，以便准时上课。\n*到现场后请到“我的-我的预约”找到订单并\n出示验证码给工作人员。\n*如需取消，请到“我的-我的预约”提前两小\n时进行取消，费用将在3个工作日内原路返还。</text>
+            <button hidden="" class="followButton" bindtap="follow" open-type="contact" data-id="{{course.id}}" session-from="38">关注公众号，接收上课通知</button>
         </view>
     </view>
 </view>
