@@ -32,7 +32,7 @@
     <view class="box">
         <image class="icon" src="{{img}}i-tick.png" mode="widthFix"></image>
         <view class="success">预约取消成功</view>
-        <view class="remains">本月您还有<text>2次</text>取消预约机会！</view>
+        <view class="remains">本月您还有<text>{{remainCount}}次</text>取消预约机会！</view>
         <view class="more">*所交费用将在3个工作日内原路返还</view>
         <view class="button" bindtap="hideLightBox">好的</view>
     </view>

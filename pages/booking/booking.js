@@ -5,17 +5,19 @@ const {authorize} = require('../../dist/authorize/authorize');
 const request = require("../../dist/request/request");
 const {makeAPayment} = require("../../utils/payment");
 const calendar = require('../../calendar/calendar');
+const {addSpaces} = require("../../utils/payment");
 Page({
     data: {
         img: util.data.img,
         _tabbar_: {},
         isHintHidden: true,
-        isBookingFormHidden: false,
+        isBookingFormHidden: true,
         chosenIdx: ""
     },
     onLoad(options) {
         new Tabbar();
         const today = new Date();
+        const that = this;
         this.year = today.getFullYear();
         this.theYear = this.year;
         this.month = today.getMonth() + 1;
@@ -36,11 +38,20 @@ Page({
             }
         }
         this.setThisWeek(weekObj);
-        this.GetGolfCurriculumByDate(`${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(this.day)}`);
+        // 授权
+		authorize.useUserInfo({
+			success: () => {
+                const userid = wx.getStorageSync(util.data.userIdStorage);
+				that.GetGolfCurriculumByDate(userid, `${that.year}-${util.formatNumber(that.month)}-${util.formatNumber(that.day)}`);
+			},
+			fail: () => {
+				util.alert('授权失败！')
+			}
+		})
     },
-    GetGolfCurriculumByDate: function(date) {
+    GetGolfCurriculumByDate: function(userid, date) {
         const coursesList = [];
-        request.GetGolfCurriculumByDate(date).then((res) => {
+        request.GetGolfCurriculumByDate(userid, date).then((res) => {
             //过滤课程时间不正确的；已经过去的课
             if (res.length > 0) {
                 for (let course of res) {
@@ -137,7 +148,8 @@ Page({
             }
         }
         let firstDay = this.setThisWeek(this.WholeMonth[this.weekIdx]);
-        this.GetGolfCurriculumByDate(`${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(firstDay.num)}`);
+        const userid = wx.getStorageSync(util.data.userIdStorage);
+        this.GetGolfCurriculumByDate(userid, `${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(firstDay.num)}`);
     },
     hideLeft(firstDay) {
         let isLeftHidden = false;
@@ -246,17 +258,20 @@ Page({
                 const failHint = res.status == 201 ? '预约人数已满，请选其他时间！' : '确认订单失败，请重新确认！';
                 util.alert(failHint);
                 if (res.status == 201) {
-                    this.GetGolfCurriculumByDate(requestDate);
+                    this.GetGolfCurriculumByDate(userid, requestDate);
                     this.setData({
                         isHintHidden: true
                     })
                 }
                 return;
             }
-            //data第二个数字是支付id
+            //data第二个数字是支付id//第一个是预约id
+            const appointmentId = res.data.split(",")[0];
             request.PayCommon(res.data.split(",")[1]).then((res) => {
                 const payData = JSON.parse(res.data);
-                const prepay_id = payData.package.split("=")[1];
+                console.log(payData)
+                this.prepay_id = payData.package.split("=")[1];
+                console.log('prepay_id: ', prepay_id);
                 return makeAPayment(payData);
             }).then((res) => {
                 console.log("支付成功：", res)
@@ -266,27 +281,31 @@ Page({
                     param = notification.sendMessageUsingPlatform(course);
                 } else {
                     //上课通知--小程序
-                    param = notification.CourseStartMessage(course, prepay_id, openid);
+                    param = notification.CourseStartMessage(course, this.prepay_id, openid);
                 }
                 request.SaveSendMsg(this.data.sendtime, param, sendtype, identity).then((res) => {
                     console.log("保存上课通知消息", res)
                 });
-                const paramForBooking = notification.bookedMessage(course, prepay_id, openid);
+                const paramForBooking = notification.bookedMessage(course, this.prepay_id, openid);
                 request.SaveSendMsg(util.formatTime(new Date(new Date().getTime() + 1000 * 60 * 1)), paramForBooking, 1, wx.getStorageSync(util.data.openIdStorage)).then((res) => {
                     console.log("保存预约成功消息", res)
                 });
-                this.setData({
-                    isBookingFormHidden: false
+                request.GetGolfMakeAppointment(appointmentId).then((res) => {
+                    this.setData({
+                        isBookingFormHidden: false,
+                        code: addSpaces(res.identifying_code)
+                    })
                 })
-            }).catch((error) => {
+            }, (error) => {
                 util.alert('订单支付失败，请重新确认并支付！');
-                console.log("支付失败：", error)
+                console.log("支付失败：", error);
             });
         });
     },
     checkCourses(e) {
         const index = e.currentTarget.dataset.index;
         const weekList = this.data.weekList;
+        const userid = Number(wx.getStorageSync(util.data.userIdStorage));
         let chosenIdx = this.data.chosenIdx;
         if (!weekList[index].num) {
             return;
@@ -309,7 +328,7 @@ Page({
               isHistory: false
           })
         }
-        this.GetGolfCurriculumByDate(`${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(weekList[index].num)}`);
+        this.GetGolfCurriculumByDate(userid, `${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(weekList[index].num)}`);
     },
     remove() {
         this.setData({

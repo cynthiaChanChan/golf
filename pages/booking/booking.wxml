@@ -56,7 +56,7 @@
             <image class="remove" src="../../images/remove.png" mode="widthFix" bindtap="remove"></image>
         </view>
         <view class="subtitle">您已成功预约，请现场出示验证码给工作人员</view>
-        <view class="courseDate"><text space="nbsp">验证码：2018 0104 0800 001</text></view>
+        <view class="courseDate"><text space="nbsp">验证码：{{code}}</text></view>
         <view class="content">
             <view class="item">上课内容：{{course.content}}</view>
             <view class="item">上课方式：{{course.mode}}</view>

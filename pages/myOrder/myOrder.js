@@ -63,21 +63,22 @@ Page({
 		const that = this;
 		const dataset = e.detail.target.dataset;
 		const form_id = e.detail.formId;
+		const course = this.data.course;
 		//消息模板id
 		const template_id = "QNEjNoHRsd7mBvydWl4yRlgIaWs7WyFgRK2M5ypAEVM";
 		const touser = wx.getStorageSync(util.data.openIdStorage);//openid
 		const page = "/pages/myOrder/myOrder";
 		const data = {
 			"keyword1": {
-	            "value": "推杆切杆",
+	            "value": course.content,
 	            "color": "#40425d"
 	        },
 	        "keyword2": {
-	            "value": "300元",
+	            "value": `${course.cost}元/时`,
 	            "color": "#12898a"
 	        },
 	        "keyword3": {
-	            "value": '2018-02-01 13：15：26',
+	            "value": course.schooltime,
 	            "color": "#40425d"
 	        },
 			"keyword4": {
@@ -85,10 +86,10 @@ Page({
 	            "color": "#12898a"
 	        }
 		};
-		const sendtime = util.formatTime(new Date(new Date().getTime() + 1000 * 60 * 1));
-		const sendtype = 1;
-		const openid = wx.getStorageSync(util.data.openIdStorage);
-		console.log("sendtime: ", sendtime);
+		// const sendtime = util.formatTime(new Date(new Date().getTime() + 1000 * 60 * 1));
+		// const sendtype = 1;
+		// const openid = wx.getStorageSync(util.data.openIdStorage);
+		// console.log("sendtime: ", sendtime);
 		const param = {
 			touser,
 			template_id,
@@ -96,7 +97,7 @@ Page({
 			form_id,
 			data
 		}
-		request.SaveSendMsg(sendtime, param, sendtype, openid).then((res) => {
+		request.WxMessageSend(param).then((res) => {
 			console.log(res);
 			//status为3， 是表示取消订单，待退款成功
 			that.cancel(dataset.payid, 3);
@@ -104,12 +105,18 @@ Page({
 	},
 	cancel(order_pay_id, status) {
 		const that = this;
+		const openid = wx.getStorageSync(util.data.openIdStorage);//openid
 		request.UpdateOrderPayStatus(order_pay_id, status).then(() => {
 			request.RunCommon(order_pay_id).then((res) => {
 				if(res.status == 200) {
-					that.setData({
-						isHintHidden: false
-					})
+					request.GetMakeAppointmentCount(openid, new Date().getYear() + util.formatNumber(new Date().getMonth() + 1)).then((res) => {
+						that.setData({
+							isBookingFormHidden: true,
+							remainCount: "",
+							isHintHidden: false
+						});
+						that.init();
+					});
 				} else {
 					util.alert('如退款失败，请联系商家！')
 				}

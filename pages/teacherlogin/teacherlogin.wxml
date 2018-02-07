@@ -1,7 +1,7 @@
 <view class="page">
   <image class="logo" src="../../images/logo.png" mode="widthFix"></image>
   <view class="title"><text space="ensp">学员预约 随时管理</text></view>
-  <view class="button">点击登录</view>
+  <view class="button" bindtap="openLoginBox">点击登录</view>
   <view class="intro" bindtap="goIntro">粉我吧科技出品</view>
 </view>
 <view class="lightbox" hidden="{{isHintHidden}}">

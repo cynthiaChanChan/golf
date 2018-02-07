@@ -75,9 +75,9 @@ function GetGolfCurriculumInfo(id) {
 	return util.get('/GolfApi/GetGolfCurriculumInfo', {id});
 }
 
-function GetGolfCurriculumByDate(date) {
+function GetGolfCurriculumByDate(userid, date) {
 	//2018-1-25
-	return util.get('/GolfApi/GetGolfCurriculumByDate', {date});
+	return util.get('/GolfApi/GetGolfCurriculumByDate', {userid, date});
 }
 
 function SaveUserInfoCommon(data) {
@@ -97,7 +97,7 @@ function SaveLeaveMessageCommon(data) {
 }
 
 function ValidateUserOpenid(unionid) {
-    return util.get('/KorjoApi/ValidateUserOpenid', {unionid});
+    return util.get('/KorjoApi/ValidateUserOpenid', {unionid, wxpublic_id: util.data.appid});
 }
 
 function GetMyGolfMakeAppointment(userid) {
@@ -110,17 +110,24 @@ function SaveGolfMakeAppointment(userid, curriculum_id, wxpublic_id) {
 	});
 }
 
+//定时消息推送
 function SaveSendMsg(sendtime, param, sendtype, openid) {
-	return util.post('/KorjoApi/SaveSendMsg', {
-		jsonData: JSON.stringify({
-			"messagejson": JSON.stringify(param),
-			sendtime,
-			"wxpublic_id": util.data.appid,
-			sendtype,
-			openid
-		})
+	const jsonData = JSON.stringify({
+		messagejson: JSON.stringify(param),
+		sendtime,
+		wxpublic_id: util.data.appid,
+		sendtype,
+		openid
 	});
+	console.log("SaveSendMsg: ", jsonData);
+	return util.post('/KorjoApi/SaveSendMsg', {jsonData});
 }
+
+//实时消息推送
+function WxMessageSend(param) {
+	return util.post('/KorjoApi/WxMessageSend', {id: util.data.appid, param: JSON.stringify(param)});
+}
+
 //粉我吧科技介绍页
 function GetFansIntro(wxpublic_id) {
 	return util.get('/KorjoApi/GetFansIntro', {wxpublic_id});
@@ -138,6 +145,23 @@ function SaveDataJsonCommon(wxpublic_id, data) {
 	return util.post('/KorjoApi/SaveDataJsonCommon', {
 		dataJson: JSON.stringify({wxpublic_id, datajson: JSON.stringify(data)})
 	});
+}
+
+function GetGolfMakeAppointment(id) {
+	return util.get('/GolfApi/GetGolfMakeAppointment', {id});
+}
+
+function GetMakeAppointmentCount(openid, year_month) {
+	return util.get('/GolfApi/GetMakeAppointmentCount', {openid, year_month});
+}
+
+function GetAdminCoach(username, password) {
+	return util.get('/GolfApi/GetAdminCoach', {username, password});
+}
+
+function GetGolfCurriculumByCoachID(coach_id, date) {
+	//coach_id=759&date=2018-02-07
+	return util.get('/GolfApi/GetGolfCurriculumByCoachID', {coach_id, date});
 }
 
 module.exports = {
@@ -164,5 +188,10 @@ module.exports = {
 	GetFansIntro,
 	UpdateOrderPayStatus,
 	RunCommon,
-	SaveDataJsonCommon
+	SaveDataJsonCommon,
+	WxMessageSend,
+	GetGolfMakeAppointment,
+	GetMakeAppointmentCount,
+	GetAdminCoach,
+	GetGolfCurriculumByCoachID
 }

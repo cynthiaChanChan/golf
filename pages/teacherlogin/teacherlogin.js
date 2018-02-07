@@ -1,9 +1,11 @@
 const util = require("../../utils/util");
+const request = require('../../dist/request/request');
 Page({
     data: {
         img: util.data.img,
         userInput: "",
-        passwordInput: ""
+        passwordInput: "",
+        isHintHidden: true
     },
     onLoad() {
 
@@ -14,6 +16,11 @@ Page({
     goIntro() {
         wx.navigateTo({
         url: "../faq/faq"
+        })
+    },
+    openLoginBox() {
+        this.setData({
+            isHintHidden: false
         })
     },
     userInput(e) {
@@ -33,6 +40,9 @@ Page({
             return;
         }
         // 缓存登录数据
+        request.GetAdminCoach(name, password).then((res) => {
+
+        })
         wx.setStorageSync('golfLogin', {name, password});
         wx.redirectTo({
             url: "../cms/cms"
