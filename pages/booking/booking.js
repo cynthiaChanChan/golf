@@ -204,7 +204,8 @@ Page({
                 }
                 course.date = date.split(" ")[0] + weekList[chosenIdx].num + "日";
                 // 提前两个小时通知上课，如没关注公众号，在预约单里关注
-                const sendtime = course.schooltime.split("T")[0] + " " + course.what_time + ":00";
+                const sendmillis = util.formatDate(course.schooltime.split("T")[0] + " " + course.what_time + ":00").getTime() - 120 * 60 * 1000;
+                const sendtime = util.formatTime(new Date(sendmillis));
                 const sendtype = notification.conformSendType(sendtime, openid, wx.getStorageSync(util.data.unionIdStorage));
                 if (sendtype == 1) {
                   that.setData({
@@ -220,7 +221,7 @@ Page({
                                 isHintHidden: false,
                                 isfollowButtonHidden,
                                 identity:  wx.getStorageSync(util.data.unionIdStorage),
-                                followHint: "关注公众号，我们将会在开课前两小时微信通知您。\n"
+                                followHint: "关注粉我吧科技公众号，我们将会在开课前两小时微信通知您。\n"
                             })
                         } else {
                             that.setData({
@@ -271,7 +272,6 @@ Page({
                 const payData = JSON.parse(res.data);
                 console.log(payData)
                 this.prepay_id = payData.package.split("=")[1];
-                console.log('prepay_id: ', prepay_id);
                 return makeAPayment(payData);
             }).then((res) => {
                 console.log("支付成功：", res)
@@ -287,7 +287,7 @@ Page({
                     console.log("保存上课通知消息", res)
                 });
                 const paramForBooking = notification.bookedMessage(course, this.prepay_id, openid);
-                request.SaveSendMsg(util.formatTime(new Date(new Date().getTime() + 1000 * 60 * 1)), paramForBooking, 1, wx.getStorageSync(util.data.openIdStorage)).then((res) => {
+                request.WxMessageSend(paramForBooking).then((res) => {
                     console.log("保存预约成功消息", res)
                 });
                 request.GetGolfMakeAppointment(appointmentId).then((res) => {

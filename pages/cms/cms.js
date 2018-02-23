@@ -1,5 +1,7 @@
 const util = require("../../utils/util");
 const {Tabbar} = require("../../dist/tabbar/index");
+const {authorize} = require('../../dist/authorize/authorize');
+const request = require("../../dist/request/request");
 Page({
     data: {
         img: util.data.img,
@@ -30,9 +32,30 @@ Page({
         }
         console.log("This week: ", weekObj);
         this.setThisWeek(weekObj);
-        this.setData({
-            coursesList: [{},{},{},{},{},{},{},{},{},{}]
-        })
+        const coach_id = wx.getStorageSync("golfLogin").id;
+        const coach = wx.getStorageSync("golfLogin").name;
+		this.GetGolfCurriculumByCoachID(coach, coach_id, `${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(this.day)}`);
+
+    },
+    GetGolfCurriculumByCoachID: function(coach, coach_id, date) {
+        const coursesList = [];
+        request.GetGolfCurriculumByCoachID(coach_id, date).then((res) => {
+            //过滤课程时间不正确的；已经过去的课
+            if (res.length > 0) {
+                for (let course of res) {
+                    let time = util.formatDate(`${date} ${course.what_time}:00`);
+                    const now = new Date();
+                    if (time.toString().indexOf('Invalid') === -1 && now.getTime() < time.getTime()) {
+                        coursesList.push(course);
+                    }
+                }
+            }
+            this.setData({
+                coach,
+                coursesList,
+                isHistory: false
+            })
+        });
     },
     setWholeMonth: function() {
         const chineseWeekday = ["一","二","三","四","五","六", "日"];
@@ -81,9 +104,6 @@ Page({
     },
     setThisWeek: function(weekObj) {
         let weekList = util.templateList();
-        console.log('thisDay', this.day);
-        console.log('weekObj', weekObj);
-        console.log('weekList', weekList);
         for (let i = 0; i < 7; i += 1) {
             weekList[i].num = weekObj.weekdays[i].num;
             if (weekObj.weekdays[i].num == this.day && this.theMonth == this.month && this.theYear == this.year) {

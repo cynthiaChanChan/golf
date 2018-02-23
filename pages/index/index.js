@@ -9,7 +9,7 @@ Page({
         //   url: "../list/list?typename=男子职业比赛"
         // })
         wx.navigateTo({
-          url: "../booking/booking"
+          url: "../cms/cms"
         })
     },
     goIntro() {

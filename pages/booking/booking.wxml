@@ -20,7 +20,7 @@
                 <view class="course {{item.status == 2 ? 'full' : ''}}" bindtap="book" data-index="{{index}}">
                     <image class="statusIcon" src="../../images/{{item.status == 1 ? 'available' : 'full'}}.png" mode="widthFix"></image>
                     <view class="clock">{{item.what_time}}</view>
-                    <view class="teacher">{{item.coach}}</view>
+                    <view class="teacher">{{item.coach_name}}</view>
                 </view>
             </view>
             <view class="noCourse" wx:if="{{coursesList.length == 0 ? true : false}}">
@@ -41,7 +41,7 @@
         <view class="content">
             <view class="item">上课内容：{{course.content}}</view>
             <view class="item">上课方式：{{course.mode}}</view>
-            <view class="item">教练：{{course.coach}}</view>
+            <view class="item">教练：{{course.coach_name}}</view>
             <view class="item">费用：{{course.cost}}元/时</view>
         </view>
         <view class="buttons clearfix">
@@ -60,12 +60,11 @@
         <view class="content">
             <view class="item">上课内容：{{course.content}}</view>
             <view class="item">上课方式：{{course.mode}}</view>
-            <view class="item">教练：{{course.coach}}</view>
-            <view class="item">费用：{{course.cost}}</view>
+            <view class="item">教练：{{course.coach_name}}</view>
+            <view class="item">费用：{{course.cost}}元/时（已付款）</view>
         </view>
         <view class="footnote">
             <text>*{{followHint}}*请您提前到现场做入场准备，以便准时上课。\n*到现场后请到“我的-我的预约”找到订单并\n出示验证码给工作人员。\n*如需取消，请到“我的-我的预约”提前两小\n时进行取消，费用将在3个工作日内原路返还。</text>
-            <button hidden="" class="followButton" bindtap="follow" open-type="contact" data-id="{{course.id}}" session-from="38">关注公众号，接收上课通知</button>
         </view>
     </view>
 </view>

@@ -41,11 +41,10 @@ Page({
         }
         // 缓存登录数据
         request.GetAdminCoach(name, password).then((res) => {
-
-        })
-        wx.setStorageSync('golfLogin', {name, password});
-        wx.redirectTo({
-            url: "../cms/cms"
+            wx.setStorageSync('golfLogin', {name, password, id: res.data});
+            wx.redirectTo({
+                url: "../cms/cms"
+            })
         })
     },
     checkEmpty(name, password) {

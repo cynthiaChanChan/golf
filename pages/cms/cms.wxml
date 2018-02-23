@@ -1,6 +1,6 @@
 <view class="container">
     <view class="header">
-        <view class="left">HI！刘教练</view>
+        <view class="left">HI！{{coach}}</view>
         <view class="right" bindtap="logout">退出</view>
     </view>
     <view id="calender-wrapper">

@@ -86,10 +86,6 @@ Page({
 	            "color": "#12898a"
 	        }
 		};
-		// const sendtime = util.formatTime(new Date(new Date().getTime() + 1000 * 60 * 1));
-		// const sendtype = 1;
-		// const openid = wx.getStorageSync(util.data.openIdStorage);
-		// console.log("sendtime: ", sendtime);
 		const param = {
 			touser,
 			template_id,

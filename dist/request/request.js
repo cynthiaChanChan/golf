@@ -15,7 +15,7 @@ function upload(filePath) {
 			filePath,
 			success: (res) => {
 				util.hideLoading();
-				resolve(res);
+				resolve(res.data);
 			},
 			fail: (error) => {
 				reject(error);
