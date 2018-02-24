@@ -7,6 +7,11 @@ page {
 	margin-bottom: -100rpx;
 }
 
+.courses .courseWrapper {
+	display: block;
+	float: left;
+}
+
 .container .courseWrapper .course {
 	text-align: center;
 	display: block;
@@ -73,8 +78,11 @@ page {
 }
 
 .lightbox .box .content {
+	height: 50%;
+    overflow: auto;
 	margin-left: 0;
 	font-size: 30rpx;
+	margin-bottom: 20rpx;
 }
 
 .lightbox .box .content .list {
@@ -88,6 +96,9 @@ page {
 	display: inline-block;
 	width: 30%;
 	text-align: center;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .lightbox .box .content .list .call {
@@ -140,11 +151,6 @@ page {
 }
 
 .box .button {
-	position: absolute;
-	left: 50%;
-	-webkit-transform: translateX(-50%);
-	transform: translateX(-50%);
-	bottom: 50rpx;
 	font-size: 32rpx;
 	padding: 22rpx 0;
 	border-radius: 15rpx;

@@ -149,7 +149,9 @@ Page({
         }
         let firstDay = this.setThisWeek(this.WholeMonth[this.weekIdx]);
         const userid = wx.getStorageSync(util.data.userIdStorage);
-        this.GetGolfCurriculumByDate(userid, `${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(firstDay.num)}`);
+        const weekList = this.data.weekList;
+        const chosenIdx = this.data.chosenIdx;
+        this.GetGolfCurriculumByDate(userid, `${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(weekList[chosenIdx].num)}`);
     },
     hideLeft(firstDay) {
         let isLeftHidden = false;
@@ -276,26 +278,38 @@ Page({
             }).then((res) => {
                 console.log("支付成功：", res)
                 const course = this.data.course;
-                if (sendtype == 2) {
-                    //上课通知--公众号
-                    param = notification.sendMessageUsingPlatform(course);
-                } else {
-                    //上课通知--小程序
-                    param = notification.CourseStartMessage(course, this.prepay_id, openid);
-                }
-                request.SaveSendMsg(this.data.sendtime, param, sendtype, identity).then((res) => {
-                    console.log("保存上课通知消息", res)
-                });
-                const paramForBooking = notification.bookedMessage(course, this.prepay_id, openid);
-                request.WxMessageSend(paramForBooking).then((res) => {
-                    console.log("保存预约成功消息", res)
-                });
-                request.GetGolfMakeAppointment(appointmentId).then((res) => {
-                    this.setData({
-                        isBookingFormHidden: false,
-                        code: addSpaces(res.identifying_code)
+        		if (wx.getStorageSync("deniedGolfMessages")) {
+                    //如果用户不接受推送
+                    request.GetGolfMakeAppointment(appointmentId).then((res) => {
+                        this.setData({
+                            isBookingFormHidden: false,
+                            code: addSpaces(res.identifying_code)
+                        })
                     })
-                })
+
+        		} else {
+            		//接受推送
+                    if (sendtype == 2) {
+                        //上课通知--公众号
+                        param = notification.sendMessageUsingPlatform(course);
+                    } else {
+                        //上课通知--小程序
+                        param = notification.CourseStartMessage(course, this.prepay_id, openid);
+                    }
+                    request.SaveSendMsg(this.data.sendtime, param, sendtype, identity).then((res) => {
+                        console.log("保存上课通知消息", res)
+                    });
+                    const paramForBooking = notification.bookedMessage(course, this.prepay_id, openid);
+                    request.WxMessageSend(paramForBooking).then((res) => {
+                        console.log("保存预约成功消息", res)
+                    });
+                    request.GetGolfMakeAppointment(appointmentId).then((res) => {
+                        this.setData({
+                            isBookingFormHidden: false,
+                            code: addSpaces(res.identifying_code)
+                        })
+                    })
+                }
             }, (error) => {
                 util.alert('订单支付失败，请重新确认并支付！');
                 console.log("支付失败：", error);
@@ -330,10 +344,30 @@ Page({
         }
         this.GetGolfCurriculumByDate(userid, `${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(weekList[index].num)}`);
     },
-    remove() {
+    remove(e) {
+        const type = e.currentTarget.dataset.type;
+        const userid = Number(wx.getStorageSync(util.data.userIdStorage));
+        const chosenIdx = this.data.chosenIdx;
+        const weekList = this.data.weekList;
+        if (type == 2) {
+            //支付成功，关闭预约单，则重新获取课程
+            this.GetGolfCurriculumByDate(userid, `${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(weekList[chosenIdx].num)}`);
+        }
         this.setData({
             isHintHidden: true,
             isBookingFormHidden: true
         })
+    },
+    onShareAppMessage: function(res) {
+        return {
+            title: "室内高尔夫训练预约",
+            path: "/pages/booking/booking",
+			imageUrl: "../../images/share.jpg",
+            success: function(res) {
+            },
+            fail: function(res) {
+            // 转发失败
+            }
+        }
     }
 })

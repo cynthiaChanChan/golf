@@ -50,8 +50,8 @@ Page({
         } else {
             switchStatus = "on";
         }
-        let unionid = ""
-        //const isUserFollowed = notification.isUserFollowed(unionid);
+        //用户是否接受推送的接口---保存到本地
+        wx.setStorageSync("deniedGolfMessages", switchStatus == "on" ? "" : true);
         this.setData({
             switchStatus
         })

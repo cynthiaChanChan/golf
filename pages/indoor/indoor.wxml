@@ -20,7 +20,7 @@
         </view>
         <view class="mainContent" hidden="{{introImgUnclicked}}">
         	<image style="display: {{listArray[1].active ? 'block' : 'none'}};" class="introImg" wx:for="{{introImg}}" wx:key="index" src="{{item}}" mode="widthFix"></image>
-            <video style="display: {{listArray[2].active ? 'block' : 'none'}};" objectFit="cover" src="{{video}}" controls></video>
+            <video id="myVideo" style="display: {{listArray[2].active ? 'block' : 'none'}};" objectFit="cover" src="{{video}}" autoplay="true" controls></video>
         </view>
     </view>
 </view>

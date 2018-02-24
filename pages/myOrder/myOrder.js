@@ -54,14 +54,28 @@ Page({
 	},
 	cancelOrder(e) {
 		const dataset = e.currentTarget.dataset;
-		this.setData({
-			isBookingFormHidden: false,
-			course: this.data.list[dataset.idx]
-		})
+		const openid = wx.getStorageSync(util.data.openIdStorage);
+		request.GetMakeAppointmentCount(openid, new Date().getFullYear() + "-" + util.formatNumber(new Date().getMonth() + 1)).then((res) => {
+			//如已满取消次数，则不让取消
+			if (Number(res.data) <= 0) {
+				util.alert("本月取消次数已满，无法再取消");
+				return;
+			}
+			this.setData({
+				isBookingFormHidden: false,
+				course: this.data.list[dataset.idx]
+			})
+		});
 	},
 	send(e) {
 		const that = this;
 		const dataset = e.detail.target.dataset;
+		//如果用户不接受推送
+		if (wx.getStorageSync("deniedGolfMessages")) {
+			that.cancel(dataset.payid, 3);
+			return;
+		}
+		//接受推送
 		const form_id = e.detail.formId;
 		const course = this.data.course;
 		//消息模板id
@@ -105,7 +119,7 @@ Page({
 		request.UpdateOrderPayStatus(order_pay_id, status).then(() => {
 			request.RunCommon(order_pay_id).then((res) => {
 				if(res.status == 200) {
-					request.GetMakeAppointmentCount(openid, new Date().getYear() + util.formatNumber(new Date().getMonth() + 1)).then((res) => {
+					request.GetMakeAppointmentCount(openid, new Date().getFullYear() + "-" + util.formatNumber(new Date().getMonth() + 1)).then((res) => {
 						that.setData({
 							isBookingFormHidden: true,
 							remainCount: "",

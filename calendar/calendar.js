@@ -93,7 +93,6 @@ function createMonthData(WholeMonth, mm, yyyy) {
     let DaysOfMonth = util.checkDaysOfMonth(mm, yyyy);
     const firstOfMonth = new Date(yyyy, mm - 1, 1);
     let firstWeekday = firstOfMonth.getDay() === 0 ? 7 : firstOfMonth.getDay();
-    console.log('first week is from: ', firstWeekday);
     for (let iii = 0; iii < DaysOfMonth; iii += 1) {
         //第一周占据几天
         let firstWeekAllDays = 7 - firstWeekday + 1;

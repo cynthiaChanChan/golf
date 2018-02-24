@@ -5,6 +5,7 @@ Page({
     data: {
         img: util.data.img,
         _tabbar_: {},
+        year: new Date().getFullYear(),
         listArray: [{
             title: "男子职业比赛"
         },{
@@ -22,5 +23,18 @@ Page({
         wx.navigateTo({
             url: `../list/list?typename=${listArray[index].title}`
         })
+    },
+    onShareAppMessage: function(res) {
+        const year = this.data.year;
+        return {
+            title: `${year}年中国高尔夫球比赛时间表`,
+            path: "/pages/eventslist/eventslist",
+			imageUrl: "../../images/share.jpg",
+            success: function(res) {
+            },
+            fail: function(res) {
+            // 转发失败
+            }
+        }
     }
 })

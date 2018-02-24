@@ -7,7 +7,8 @@ Page({
         img: util.data.img,
         _tabbar_: {},
         isHintHidden: true,
-        iscallBoxHidden: true
+        iscallBoxHidden: true,
+        chosenIdx: ""
     },
     onLoad() {
         const today = new Date();
@@ -30,28 +31,26 @@ Page({
                 }
             }
         }
-        console.log("This week: ", weekObj);
         this.setThisWeek(weekObj);
         const coach_id = wx.getStorageSync("golfLogin").id;
         const coach = wx.getStorageSync("golfLogin").name;
-		this.GetGolfCurriculumByCoachID(coach, coach_id, `${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(this.day)}`);
+        this.setData({coach});
+		this.GetGolfCurriculumByCoachID(coach_id, `${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(this.day)}`);
 
     },
-    GetGolfCurriculumByCoachID: function(coach, coach_id, date) {
+    GetGolfCurriculumByCoachID: function(coach_id, date) {
         const coursesList = [];
         request.GetGolfCurriculumByCoachID(coach_id, date).then((res) => {
-            //过滤课程时间不正确的；已经过去的课
+            //过滤课程时间不正确的课
             if (res.length > 0) {
                 for (let course of res) {
                     let time = util.formatDate(`${date} ${course.what_time}:00`);
-                    const now = new Date();
-                    if (time.toString().indexOf('Invalid') === -1 && now.getTime() < time.getTime()) {
+                    if (time.toString().indexOf('Invalid') === -1) {
                         coursesList.push(course);
                     }
                 }
             }
             this.setData({
-                coach,
                 coursesList,
                 isHistory: false
             })
@@ -104,18 +103,31 @@ Page({
     },
     setThisWeek: function(weekObj) {
         let weekList = util.templateList();
+        let chosenIdx = "";
+        let firstDay = "";
         for (let i = 0; i < 7; i += 1) {
             weekList[i].num = weekObj.weekdays[i].num;
             if (weekObj.weekdays[i].num == this.day && this.theMonth == this.month && this.theYear == this.year) {
                 //标记今天
                 weekList[i].mark = "today";
                 weekList[i].title = '今天';
+                weekList[i].chosen = 'active';
+                chosenIdx = i;
             }
         }
         let date = `${this.year}年${this.month}月 第${weekObj.weekNum}周`;
-        let isLeftHidden = this.hideLeft(weekList);
-        this.setData({weekList, date, isLeftHidden});
-        console.log("weekList", weekList)
+        firstDay = weekList.find((elem) => {
+            return elem.num
+        })
+        if (!chosenIdx) {
+            firstDay.chosen = 'active';
+            chosenIdx = weekList.findIndex((elem) => {
+                return elem.num
+            })
+        }
+        let isLeftHidden = this.hideLeft(firstDay);
+        this.setData({weekList, date, isLeftHidden, chosenIdx});
+        return firstDay;
     },
     chooseDate(e) {
         const dir = e.currentTarget.dataset.dir;
@@ -149,22 +161,54 @@ Page({
                 this.setWholeMonth();
             }
         }
-        this.setThisWeek(this.WholeMonth[this.weekIdx]);
+        let firstDay = this.setThisWeek(this.WholeMonth[this.weekIdx]);
+        const coach_id = wx.getStorageSync('golfLogin').id;
+        const weekList = this.data.weekList;
+        const chosenIdx = this.data.chosenIdx;
+        this.GetGolfCurriculumByCoachID(coach_id, `${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(weekList[chosenIdx].num)}`);
     },
-    hideLeft(weekList) {
+    hideLeft(firstDay) {
         let isLeftHidden = false;
-        //无法点击去过去的时间
-        const now = new Date().getTime();
-        const calenderTime = util.formatDate(`${this.year}-${this.month}-${weekList[0].num} 00:00:00`);
-        if (now > calenderTime) {
+        //无法点击去2018以前的时间
+        const now = new Date(2018, 0, 1, 0, 1).getTime();
+        const calenderTime = util.formatDate(`${this.year}-${this.month}-${firstDay.num} 00:00:00`);
+        if (now > calenderTime.getTime()) {
           isLeftHidden = true;
         }
-        console.log('isLeftHidden: ', isLeftHidden);
         return isLeftHidden;
     },
+    checkCourses(e) {
+        const index = e.currentTarget.dataset.index;
+        const weekList = this.data.weekList;
+        const coach_id = wx.getStorageSync('golfLogin').id;
+        let chosenIdx = this.data.chosenIdx;
+        if (!weekList[index].num) {
+            return;
+        }
+        weekList[chosenIdx].chosen = "";
+        weekList[index].chosen = "active";
+        chosenIdx = index;
+        this.setData({weekList, chosenIdx});
+        const now = util.formatDate(`${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()} 00:00:00`);
+        //不屏蔽往日课程
+        this.GetGolfCurriculumByCoachID(coach_id, `${this.year}-${util.formatNumber(this.month)}-${util.formatNumber(weekList[index].num)}`);
+    },
     book(e) {
+        const that = this;
+        const coursesList = this.data.coursesList;
+        const index = e.currentTarget.dataset.index;
+        const weekList = this.data.weekList;
+        const chosenIdx = this.data.chosenIdx;
+        const course = coursesList[index];
+        const date = this.data.date;
+        course.weekday = weekList[chosenIdx].title;
+        if (course.weekday != '今天') {
+            course.weekday = `星期${course.weekday}`;
+        }
+        course.date = date.split(" ")[0] + weekList[chosenIdx].num + "日";
         this.setData({
-            isHintHidden: false
+            isHintHidden: false,
+            course
         })
     },
     logout() {
@@ -173,8 +217,13 @@ Page({
             url: "../index/index"
         })
     },
-    call() {
+    call(e) {
+        const that = this;
+        const makeappList = this.data.course.makeappList;
+        const idx = e.currentTarget.dataset.idx;
+        const phoneNumber = makeappList[idx].phone.replace(/(\w{3})(\w{4})(\w{4})/, "$1 $2 $3 ");
         this.setData({
+            phoneNumber,
             iscallBoxHidden: false
         })
     },

@@ -5,12 +5,6 @@ Page({
         img: util.data.img
     },
     onLoad() {
-        // wx.navigateTo({
-        //   url: "../list/list?typename=男子职业比赛"
-        // })
-        wx.navigateTo({
-          url: "../cms/cms"
-        })
     },
     goIntro() {
         wx.navigateTo({

@@ -39,11 +39,12 @@ Page({
 			wxpublic_id: util.data.appid
 		}
 		request.SaveLeaveMessageCommon(data).then(res => {
-			util.toast('提交成功', () => {
+			util.toast('提交成功');
+			setTimeout(() => {
 				wx.redirectTo({
 					url: "../personal/personal"
 				})
-			})
+			}, 1500);
 		})
 	},
 })

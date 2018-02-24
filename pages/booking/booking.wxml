@@ -24,7 +24,7 @@
                 </view>
             </view>
             <view class="noCourse" wx:if="{{coursesList.length == 0 ? true : false}}">
-                <text wx:if="{{!isHistory}}">该日还未安排课程</text>
+                <text wx:if="{{!isHistory}}">该日暂无待预约课程</text>
                 <text wx:if="{{isHistory}}">已过上课时间</text>
             </view>
         </view>
@@ -53,7 +53,7 @@
 <view class="lightbox" hidden="{{isBookingFormHidden}}">
     <view class="box bookingForm">
         <view class="boxTitle">预约单
-            <image class="remove" src="../../images/remove.png" mode="widthFix" bindtap="remove"></image>
+            <image class="remove" src="../../images/remove.png" mode="widthFix" data-type="2" bindtap="remove"></image>
         </view>
         <view class="subtitle">您已成功预约，请现场出示验证码给工作人员</view>
         <view class="courseDate"><text space="nbsp">验证码：{{code}}</text></view>

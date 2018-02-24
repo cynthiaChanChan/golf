@@ -94,7 +94,6 @@ Page({
                 allDataArray.push(obj);
             }
         }
-        console.log("allDataArray: ", allDataArray);
         //显示离当前最近的比赛日期，再根据选中当月标记赛事
         this.markDays(calendar.chooseTheLatest(this.year, this.month, allDataArray));
     },

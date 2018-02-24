@@ -12,19 +12,22 @@
             </view>
         </view>
         <view class="week">
-            <view class="list" wx:for="{{weekList}}" wx:key="{{index}}">
+            <view class="list" wx:for="{{weekList}}" wx:key="{{index}}" bindtap="checkCourses" data-index="{{index}}">
                 <view class="weekday">{{item.title}}</view>
-                <view class="num {{item.mark}} {{item.num ? 'border' : ''}}">{{item.num}}</view>
+                <view class="num {{item.mark}} {{item.num ? 'border' : ''}} {{item.chosen}}">{{item.num}}</view>
             </view>
         </view>
-        <view class="courses">
+        <view class="courses clearfix">
             <view class="courseWrapper" wx:for="{{coursesList}}" wx:key="{{index}}">
-                <view class="course" bindtap="book">
-                    <image class="statusIcon" src="../../images/unfull.png" mode="widthFix"></image>
-                    <view class="clock">09:00</view>
-                    <image class="avatar" src="https://wx.qlogo.cn/mmopen/vi_32/NmM5sLoagCjBibgKg1GRwiawY9jXdCiaVoTGIC4HcajJRF7RbXswyEhwCNhMSNkFbKgd4NKMGibD5bs8zicDmFUdXFQ/0"></image>
-                    <image class="avatar" src="https://wx.qlogo.cn/mmopen/vi_32/NmM5sLoagCjBibgKg1GRwiawY9jXdCiaVoTGIC4HcajJRF7RbXswyEhwCNhMSNkFbKgd4NKMGibD5bs8zicDmFUdXFQ/0"></image>
+                <view class="course {{item.makeappList.length < item.number_people ? '' : 'full'}}" bindtap="book" data-index="{{index}}">
+                    <image class="statusIcon" src="../../images/{{item.makeappList.length < item.number_people ? 'unfull' : 'full'}}.png" mode="widthFix"></image>
+                    <view class="clock">{{item.what_time}}</view>
+                    <image wx:if="{{item.makeappList[0] ? true : false}}" class="avatar" src="{{item.makeappList[0].photo}}"></image>
+                    <image wx:if="{{item.makeappList[1] ? true : false}}" class="avatar" src="{{item.makeappList[1].photo}}"></image>
                 </view>
+            </view>
+            <view class="noCourse" wx:if="{{coursesList.length == 0 ? true : false}}">
+                <text>该日未安排您的课程</text>
             </view>
         </view>
         <view class="clearfooter"></view>
@@ -34,20 +37,23 @@
 <view class="lightbox" hidden="{{isHintHidden}}">
     <view class="box">
         <view class="boxTitle">预约详情</view>
-        <view class="courseDate"><text space="nbsp">2018年1月4日  星期四 08：00\n上课内容：推杆切杆  上课方式：1vs</text></view>
+        <view class="courseDate"><text space="nbsp">{{course.date}}  {{course.weekday}} {{course.what_time}}\n上课内容：{{course.content}}  上课方式：{{course.mode}}</text></view>
         <view class="content">
-            <view class="list">
+            <view class="noCourse" wx:if="{{course.makeappList.length == 0 ? true : false}}">
+                <text>未有学员报名该课程</text>
+            </view>
+            <view class="list" wx:if="{{course.makeappList.length == 0 ? false : true}}">
                 <view class="name li">姓名</view>
                 <view class="phone li">联系电话</view>
             </view>
-            <view class="list">
-                <view class="name li">Ann（女）</view>
-                <view class="phone li">15011111111</view>
-                <view class="call" bindtap="call">拨号</view>
+            <view class="list" wx:for="{{course.makeappList}}" wx:for-index="idx" wx:key="idx">
+                <view class="name li">{{item.contact}}（{{item.sex}}）</view>
+                <view class="phone li">{{item.phone}}</view>
+                <view class="call" bindtap="call" data-idx="{{idx}}">拨号</view>
             </view>
         </view>
         <view class="callBox" hidden="{{iscallBoxHidden}}">
-            <view class="phoneNumber"><text space="nbsp">150 1111 1111</text></view>
+            <view class="phoneNumber"><text space="nbsp">{{phoneNumber}}</text></view>
             <view class="choices">
                 <view class="choice" bindtap="cancelPhoneCall">取消</view>
                 <view class="choice" bindtap="makePhoneCall">呼叫</view>

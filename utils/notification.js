@@ -83,7 +83,7 @@ function bookedMessage(course, form_id, touser) {
             "color": "#12898a"
         },
         "keyword3": {
-            "value": course.coach,
+            "value": course.coach_name,
             "color": "#40425d"
         },
         "keyword4": {

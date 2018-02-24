@@ -54,6 +54,26 @@ Page({
         const dataObj = util.checkList(index, listArray, listActiveIdx);
         dataObj.textContainer = index != 0 ? true : false;
         dataObj.introImgUnclicked = !dataObj.textContainer;
+        this.videoContext = wx.createVideoContext('myVideo');
+        if (index == 2) {
+            //播放视频
+            this.videoContext.play();
+        } else {
+            //关掉视频
+            this.videoContext.pause();
+        }
         this.setData(dataObj);
+    },
+    onShareAppMessage: function(res) {
+        return {
+            title: "室内高尔夫介绍",
+            path: "/pages/indoor/indoor",
+			imageUrl: "../../images/share.jpg",
+            success: function(res) {
+            },
+            fail: function(res) {
+            // 转发失败
+            }
+        }
     }
 })
