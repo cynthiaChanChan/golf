@@ -55,7 +55,15 @@ Page({
 	cancelOrder(e) {
 		const dataset = e.currentTarget.dataset;
 		const openid = wx.getStorageSync(util.data.openIdStorage);
+		const course = this.data.list[dataset.idx];
 		request.GetMakeAppointmentCount(openid, new Date().getFullYear() + "-" + util.formatNumber(new Date().getMonth() + 1)).then((res) => {
+			//如离开课时间不到两个小时，则不让取消
+			const backTwoHours = util.formatDate(course.schooltime.split(" ")[0] + " " + course.what_time + ":00").getTime() - 120 * 60 * 1000;
+			const now = new Date().getTime();
+			if (now > backTwoHours) {
+				util.alert("上课前两个小时后无法取消");
+				return;
+			}
 			//如已满取消次数，则不让取消
 			if (Number(res.data) <= 0) {
 				util.alert("本月取消次数已满，无法再取消");
@@ -63,7 +71,7 @@ Page({
 			}
 			this.setData({
 				isBookingFormHidden: false,
-				course: this.data.list[dataset.idx]
+				course
 			})
 		});
 	},
