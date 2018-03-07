@@ -41,6 +41,11 @@ Page({
         }
         // 缓存登录数据
         request.GetAdminCoach(name, password).then((res) => {
+            if(res.status != 200) {
+                // 登录失败
+                util.alert("用户名或密码错误")
+                return;
+            }
             wx.setStorageSync('golfLogin', {name, password, id: res.data});
             wx.redirectTo({
                 url: "../cms/cms"

@@ -16,6 +16,9 @@ Page({
     onLoad: function(options) {
         const that = this;
         this.typename = options.typename;
+        const date = new Date();
+        this.year = date.getFullYear();
+        this.month = date.getMonth() + 1;
         new Tabbar();
         // 获取最近月份的比赛
         this.requestLateLyMatchData();
